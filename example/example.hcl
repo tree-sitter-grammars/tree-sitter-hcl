@@ -30,9 +30,9 @@ resource_1 "strlit1" "strlit2" {
   tpl3   = "prefix-${func("nested-${var.bar}")}"
 
   tpl4   = <<EOF
-    prefix
-    ${func("foo${ var.bar }")}
-    suffix
+    %{ for a in f(b) ~}
+      ${func("foo${ a }")}
+    %{ endfor ~}
   EOF
 
   func_of_object = func({
