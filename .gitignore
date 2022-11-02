@@ -8,3 +8,4 @@ npm-debug.log
 log.html
 .env
 .DS_Store
+/.build
