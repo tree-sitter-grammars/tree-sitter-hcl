@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.0 - not yet released
+
+feature
+* add dialects so we can have different queries in `nvim-treesitter`
+
 ## 1.0.0 - 2022-12-02
 
 breaking:
