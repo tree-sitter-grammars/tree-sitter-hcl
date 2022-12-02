@@ -16,9 +16,6 @@ const
 module.exports = grammar({
   name: 'hcl',
 
-  conflicts: $ => [
-  ],
-
   externals: $ => [
     $.quoted_template_start,
     $.quoted_template_end,
@@ -269,12 +266,6 @@ module.exports = grammar({
       $.heredoc_template,
     ),
 
-    _template: $ => prec.left(repeat1(choice(
-      $.template_literal,
-      $.template_interpolation,
-      $.template_directive,
-     ))),
-
     quoted_template: $ => prec(PREC.quoted_template, seq(
       $.quoted_template_start,
       optional($._template),
@@ -292,6 +283,12 @@ module.exports = grammar({
 
     strip_marker: $ => '~',
 
+    _template: $ => repeat1(choice(
+      $.template_interpolation,
+      $.template_directive,
+      $.template_literal,
+     )),
+
     template_literal: $ => prec.right(repeat1(
       $._template_literal_chunk,
     )),
@@ -304,7 +301,6 @@ module.exports = grammar({
       $.template_interpolation_end,
     ),
 
-    // TODO
     template_directive: $ => choice(
       $.template_for,
       $.template_if,
@@ -337,13 +333,10 @@ module.exports = grammar({
     ),
 
     template_if: $ => seq(
-      $.template_if_branch,
-      optional($.template_else_branch),
+      $.template_if_intro,
+      optional($._template),
+      optional(seq($.template_else_intro, optional($._template))),
       $.template_if_end,
-    ),
-
-    template_if_branch: $ => seq(
-      $.template_if_intro, $._template
     ),
 
     template_if_intro: $ => seq(
@@ -353,10 +346,6 @@ module.exports = grammar({
       $.expression,
       optional($.strip_marker),
       $.template_directive_end
-    ),
-
-    template_else_branch: $ => seq(
-      $.template_else_intro, $._template
     ),
 
     template_else_intro: $ => seq(

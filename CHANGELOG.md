@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.0 - 2022-12-02
+
+breaking:
+* remove `template_if_branch` and `template_else_branch`
+
+fix:
+* fix precedence in template expressions
+
 ## 0.7.0 - 2022-06-02
 
 housekeeping:

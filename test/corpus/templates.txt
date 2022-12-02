@@ -452,7 +452,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 template if directive in quoted template
 ================================================================================
 
-foo = "%{if cond } foo %{else} bar %{endif}"
+foo = "%{if cond} foo %{else} bar %{endif}"
 
 --------------------------------------------------------------------------------
 
@@ -466,20 +466,304 @@ foo = "%{if cond } foo %{else} bar %{endif}"
             (quoted_template_start)
             (template_directive
               (template_if
-                (template_if_branch
-                  (template_if_intro
-                    (template_directive_start)
-                    (expression
-                      (variable_expr
-                        (identifier)))
-                    (template_directive_end))
-                  (template_literal))
-                (template_else_branch
-                  (template_else_intro
-                    (template_directive_start)
-                    (template_directive_end))
-                  (template_literal))
+                (template_if_intro
+                  (template_directive_start)
+                  (expression
+                    (variable_expr
+                      (identifier)))
+                  (template_directive_end))
+                (template_literal)
+                (template_else_intro
+                  (template_directive_start)
+                  (template_directive_end))
+                (template_literal)
                 (template_if_end
                   (template_directive_start)
                   (template_directive_end))))
             (quoted_template_end)))))))
+
+================================================================================
+template nested for directives with interlaced chunks
+================================================================================
+
+foo = "%{for a in b} x %{for c in a} ${c} %{endfor} %{endfor}"
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (template_expr
+          (quoted_template
+            (quoted_template_start)
+            (template_directive
+              (template_for
+                (template_for_start
+                  (template_directive_start)
+                  (identifier)
+                  (expression
+                    (variable_expr
+                      (identifier)))
+                  (template_directive_end))
+                (template_literal)
+                (template_directive
+                  (template_for
+                    (template_for_start
+                      (template_directive_start)
+                      (identifier)
+                      (expression
+                        (variable_expr
+                          (identifier)))
+                      (template_directive_end))
+                    (template_interpolation
+                      (template_interpolation_start)
+                      (expression
+                        (variable_expr
+                          (identifier)))
+                      (template_interpolation_end))
+                    (template_for_end
+                      (template_directive_start)
+                      (template_directive_end))))
+                (template_for_end
+                  (template_directive_start)
+                  (template_directive_end))))
+            (quoted_template_end)))))))
+
+================================================================================
+template nested if directives with interlaced chunks
+================================================================================
+
+foo = "%{if a} %{if b} y %{else} x %{endif} %{endif}"
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (template_expr
+          (quoted_template
+            (quoted_template_start)
+            (template_directive
+              (template_if
+                (template_if_intro
+                  (template_directive_start)
+                  (expression
+                    (variable_expr
+                      (identifier)))
+                  (template_directive_end))
+                (template_directive
+                  (template_if
+                    (template_if_intro
+                      (template_directive_start)
+                      (expression
+                        (variable_expr
+                          (identifier)))
+                      (template_directive_end))
+                    (template_literal)
+                    (template_else_intro
+                      (template_directive_start)
+                      (template_directive_end))
+                    (template_literal)
+                    (template_if_end
+                      (template_directive_start)
+                      (template_directive_end))))
+                (template_if_end
+                  (template_directive_start)
+                  (template_directive_end))))
+            (quoted_template_end)))))))
+
+================================================================================
+template empty if else statement
+================================================================================
+
+foo = "%{if a} %{else} %{endif}"
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (template_expr
+          (quoted_template
+            (quoted_template_start)
+            (template_directive
+              (template_if
+                (template_if_intro
+                  (template_directive_start)
+                  (expression
+                    (variable_expr
+                      (identifier)))
+                  (template_directive_end))
+                (template_else_intro
+                  (template_directive_start)
+                  (template_directive_end))
+                (template_if_end
+                  (template_directive_start)
+                  (template_directive_end))))
+            (quoted_template_end)))))))
+
+================================================================================
+template empty for statement
+================================================================================
+
+foo = "%{for a in b} %{endfor}"
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (template_expr
+          (quoted_template
+            (quoted_template_start)
+            (template_directive
+              (template_for
+                (template_for_start
+                  (template_directive_start)
+                  (identifier)
+                  (expression
+                    (variable_expr
+                      (identifier)))
+                  (template_directive_end))
+                (template_for_end
+                  (template_directive_start)
+                  (template_directive_end))))
+            (quoted_template_end)))))))
+
+================================================================================
+template parenthesis in heredoc for directive with nested if 1
+================================================================================
+
+tpl6 = <<-EOF
+  %{ for a in f(b) ~}
+    ( %{~if a~} "true" %{~else~} "false" %{~endif~} )
+  %{ endfor ~}
+EOF
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (template_expr
+          (heredoc_template
+            (heredoc_start)
+            (heredoc_identifier)
+            (template_directive
+              (template_for
+                (template_for_start
+                  (template_directive_start)
+                  (identifier)
+                  (expression
+                    (function_call
+                      (identifier)
+                      (function_arguments
+                        (expression
+                          (variable_expr
+                            (identifier))))))
+                  (strip_marker)
+                  (template_directive_end))
+                (template_literal)
+                (template_directive
+                  (template_if
+                    (template_if_intro
+                      (template_directive_start)
+                      (strip_marker)
+                      (expression
+                        (variable_expr
+                          (identifier)))
+                      (strip_marker)
+                      (template_directive_end))
+                    (template_literal)
+                    (template_else_intro
+                      (template_directive_start)
+                      (strip_marker)
+                      (strip_marker)
+                      (template_directive_end))
+                    (template_literal)
+                    (template_if_end
+                      (template_directive_start)
+                      (strip_marker)
+                      (strip_marker)
+                      (template_directive_end))))
+                (template_literal)
+                (template_for_end
+                  (template_directive_start)
+                  (strip_marker)
+                  (template_directive_end))))
+            (heredoc_identifier)))))))
+
+================================================================================
+template parenthesis in heredoc for directive with nested if 2
+================================================================================
+
+tpl6 = <<-EOF
+  %{ for a in f(b) ~}
+    ("foo")
+    %{~if a~} "true" %{~else~} "false" %{~endif~}
+  %{ endfor ~}
+EOF
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (template_expr
+          (heredoc_template
+            (heredoc_start)
+            (heredoc_identifier)
+            (template_directive
+              (template_for
+                (template_for_start
+                  (template_directive_start)
+                  (identifier)
+                  (expression
+                    (function_call
+                      (identifier)
+                      (function_arguments
+                        (expression
+                          (variable_expr
+                            (identifier))))))
+                  (strip_marker)
+                  (template_directive_end))
+                (template_literal)
+                (template_directive
+                  (template_if
+                    (template_if_intro
+                      (template_directive_start)
+                      (strip_marker)
+                      (expression
+                        (variable_expr
+                          (identifier)))
+                      (strip_marker)
+                      (template_directive_end))
+                    (template_literal)
+                    (template_else_intro
+                      (template_directive_start)
+                      (strip_marker)
+                      (strip_marker)
+                      (template_directive_end))
+                    (template_literal)
+                    (template_if_end
+                      (template_directive_start)
+                      (strip_marker)
+                      (strip_marker)
+                      (template_directive_end))))
+                (template_for_end
+                  (template_directive_start)
+                  (strip_marker)
+                  (template_directive_end))))
+            (heredoc_identifier)))))))
