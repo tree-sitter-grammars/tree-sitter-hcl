@@ -5,6 +5,9 @@
 feature
 * add dialects so we can have different queries in `nvim-treesitter`
 
+housekeeping:
+* reformat using LSPs, ditch editorconfig
+
 ## 1.0.0 - 2022-12-02
 
 breaking:

@@ -287,7 +287,7 @@ module.exports = function make_grammar(dialect) {
         $.template_interpolation,
         $.template_directive,
         $.template_literal,
-       )),
+      )),
 
       template_literal: $ => prec.right(repeat1(
         $._template_literal_chunk,
