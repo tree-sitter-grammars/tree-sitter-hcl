@@ -20,6 +20,7 @@ enum TokenType {
   TEMPLATE_DIRECTIVE_START,
   TEMPLATE_DIRECTIVE_END,
   HEREDOC_IDENTIFIER,
+  SHIM,
 };
 
 enum ContextType {
@@ -95,6 +96,11 @@ public:
     }
     if (lexer->lookahead == '\0') {
       return false;
+    }
+    if (valid_symbols[SHIM]) {
+      if (lexer->lookahead != '}') {
+        return accept_inplace(lexer, SHIM);
+      }
     }
     // manage quoted context
     if (valid_symbols[QUOTED_TEMPLATE_START] && !in_quoted_context() &&
