@@ -98,6 +98,8 @@ public:
       return false;
     }
     if (valid_symbols[SHIM]) {
+      lexer->mark_end(lexer);
+      while(skip_comment(lexer));
       if (lexer->lookahead != '}') {
         return accept_inplace(lexer, SHIM);
       }
@@ -269,6 +271,20 @@ private:
   bool consume_wxdigit(TSLexer *lexer) {
     advance(lexer);
     return iswxdigit(lexer->lookahead);
+  }
+
+  bool skip_comment(TSLexer* lexer) {
+    while (iswspace(lexer->lookahead)) {
+      skip(lexer);
+    }
+    if (lexer->lookahead != '#') {
+      return false;
+    }
+    skip(lexer);
+    while (lexer->lookahead != '\n') {
+      skip(lexer);
+    }
+    return true;
   }
 
   bool in_context_type(ContextType type) {

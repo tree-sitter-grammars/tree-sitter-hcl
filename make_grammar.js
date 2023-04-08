@@ -37,12 +37,15 @@ module.exports = function make_grammar(dialect) {
       // also allow objects to handle .tfvars in json format
       config_file: $ => optional(choice($.body, $.object)),
 
-      body: $ => seq(
-        optional($._shim),
-        repeat1(
-          choice(
-            $.attribute,
-            $.block,
+      body: $ => choice(
+        $._shim,
+        seq(
+          optional($._shim),
+          repeat1(
+            choice(
+              $.attribute,
+              $.block,
+            ),
           ),
         ),
       ),
