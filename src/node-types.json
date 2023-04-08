@@ -202,10 +202,6 @@
         {
           "type": "body",
           "named": true
-        },
-        {
-          "type": "object",
-          "named": true
         }
       ]
     }
