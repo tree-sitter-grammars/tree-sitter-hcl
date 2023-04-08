@@ -25,6 +25,7 @@ module.exports = function make_grammar(dialect) {
       $.template_directive_start,
       $.template_directive_end,
       $.heredoc_identifier,
+      $._shim,
     ],
 
     extras: $ => [
@@ -36,10 +37,13 @@ module.exports = function make_grammar(dialect) {
       // also allow objects to handle .tfvars in json format
       config_file: $ => optional(choice($.body, $.object)),
 
-      body: $ => repeat1(
-        choice(
-          $.attribute,
-          $.block,
+      body: $ => seq(
+        optional($._shim),
+        repeat1(
+          choice(
+            $.attribute,
+            $.block,
+          ),
         ),
       ),
 
