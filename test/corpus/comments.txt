@@ -1,0 +1,146 @@
+================================================================================
+comment in empty block body
+================================================================================
+
+block {
+  # foo
+}
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (block
+      (identifier)
+      (block_start)
+      (comment)
+      (block_end))))
+
+================================================================================
+multiline comment in empty block body
+================================================================================
+
+block {
+  /*
+    foo
+  */
+}
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (block
+      (identifier)
+      (block_start)
+      (body)
+      (comment)
+      (block_end))))
+
+================================================================================
+multiline comment above attribute in block body
+================================================================================
+
+block {
+  /*
+    foo
+  */
+  foo = bar
+}
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (block
+      (identifier)
+      (block_start)
+      (body
+        (comment)
+        (attribute
+          (identifier)
+          (expression
+            (variable_expr
+              (identifier)))))
+      (block_end))))
+
+================================================================================
+comment above first attribute in block body
+================================================================================
+
+block {
+  # foo
+  foo = bar
+}
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (block
+      (identifier)
+      (block_start)
+      (body
+        (comment)
+        (attribute
+          (identifier)
+          (expression
+            (variable_expr
+              (identifier)))))
+      (block_end))))
+
+================================================================================
+comment after last attribute in block body
+================================================================================
+
+block {
+  foo = bar
+  # foo
+}
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (block
+      (identifier)
+      (block_start)
+      (body
+        (attribute
+          (identifier)
+          (expression
+            (variable_expr
+              (identifier)))))
+      (comment)
+      (block_end))))
+
+================================================================================
+comment between attributes in block body
+================================================================================
+
+block {
+  foo = bar
+  # foo
+  baz = quz
+}
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (block
+      (identifier)
+      (block_start)
+      (body
+        (attribute
+          (identifier)
+          (expression
+            (variable_expr
+              (identifier))))
+        (comment)
+        (attribute
+          (identifier)
+          (expression
+            (variable_expr
+              (identifier)))))
+      (block_end))))
