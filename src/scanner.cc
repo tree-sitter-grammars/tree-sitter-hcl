@@ -283,6 +283,9 @@ private:
     skip(lexer);
     while (lexer->lookahead != '\n') {
       skip(lexer);
+      if (lexer->eof(lexer)) {
+        return false;
+      }
     }
     return true;
   }
