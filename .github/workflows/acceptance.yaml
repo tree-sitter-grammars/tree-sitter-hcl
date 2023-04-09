@@ -6,11 +6,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: nixbuild/nix-quick-install-action@v5
-    - run: nix-shell --run 'tree-sitter test'
+    - uses: cachix/install-nix-action@v14.1
+      with:
+        nix_path: nixpkgs=channel:nixos-unstable
+    - uses: dx-oss/nix-shell-action@v11
+      with:
+        file: shell.nix
+        script: tree-sitter test
   acceptance:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: nixbuild/nix-quick-install-action@v5
-    - run: nix-shell --run 'tree-sitter parse --quiet --stat example/real_world_stuff/*/*'
+    - uses: cachix/install-nix-action@v14.1
+      with:
+        nix_path: nixpkgs=channel:nixos-unstable
+    - uses: dx-oss/nix-shell-action@v11
+      with:
+        file: shell.nix
+        script: tree-sitter parse --quiet --stat example/real_world_stuff/*/*
