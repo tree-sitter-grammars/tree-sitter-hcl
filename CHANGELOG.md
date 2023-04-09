@@ -6,6 +6,9 @@ feature
 * add dialects so we can have different queries in `nvim-treesitter`
 * fix structure of comments in block bodies
 
+fix:
+* fix ci acceptance workflow
+
 housekeeping:
 * reformat using LSPs, ditch editorconfig
 
