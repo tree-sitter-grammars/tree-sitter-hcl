@@ -8,7 +8,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        compiler: [gcc, clang++]
+        compiler: [gcc, clang]
 
     name: compile
     runs-on: ${{ matrix.os }}
@@ -19,4 +19,4 @@ jobs:
         uses: egor-tensin/setup-mingw@v2
 
       - name: build
-        run: ${{ matrix.compiler }} -o scanner.o -I./src -c src/scanner.cc -Werror
+        run: ${{ matrix.compiler }} -o scanner.o -I./src -c src/scanner.c -Werror
