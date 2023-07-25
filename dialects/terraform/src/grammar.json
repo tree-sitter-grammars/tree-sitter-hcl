@@ -5,17 +5,8 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "body"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "object"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "body"
         },
         {
           "type": "BLANK"
@@ -26,41 +17,20 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_shim"
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_shim"
-                },
-                {
-                  "type": "BLANK"
-                }
-              ]
-            },
-            {
-              "type": "REPEAT1",
-              "content": {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "attribute"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "block"
-                  }
-                ]
+          "type": "REPEAT1",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "attribute"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "block"
               }
-            }
-          ]
+            ]
+          }
         }
       ]
     },
@@ -1805,10 +1775,6 @@
     {
       "type": "SYMBOL",
       "name": "heredoc_identifier"
-    },
-    {
-      "type": "SYMBOL",
-      "name": "_shim"
     }
   ],
   "inline": [],

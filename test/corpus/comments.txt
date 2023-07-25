@@ -33,7 +33,6 @@ block {
     (block
       (identifier)
       (block_start)
-      (body)
       (comment)
       (block_end))))
 
@@ -55,8 +54,8 @@ block {
     (block
       (identifier)
       (block_start)
+      (comment)
       (body
-        (comment)
         (attribute
           (identifier)
           (expression
@@ -80,8 +79,8 @@ block {
     (block
       (identifier)
       (block_start)
+      (comment)
       (body
-        (comment)
         (attribute
           (identifier)
           (expression
@@ -153,5 +152,4 @@ comment at end of file
 --------------------------------------------------------------------------------
 
 (config_file
-  (body)
   (comment))

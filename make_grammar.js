@@ -24,20 +24,15 @@ module.exports = function make_grammar(dialect) {
       $.template_directive_start,
       $.template_directive_end,
       $.heredoc_identifier,
-      $._shim,
     ],
 
     extras: ($) => [$.comment, $._whitespace],
 
     rules: {
       // also allow objects to handle .tfvars in json format
-      config_file: ($) => optional($.body),
+      config_file: ($) => optional(choice($.body, $.object)),
 
-      body: ($) =>
-        choice(
-          $._shim,
-          seq(optional($._shim), repeat1(choice($.attribute, $.block)))
-        ),
+      body: ($) => choice(repeat1(choice($.attribute, $.block))),
 
       attribute: ($) => seq($.identifier, "=", $.expression),
 
@@ -47,7 +42,7 @@ module.exports = function make_grammar(dialect) {
           repeat(choice($.string_lit, $.identifier)),
           $.block_start,
           optional($.body),
-          $.block_end
+          $.block_end,
         ),
 
       block_start: ($) => "{",
@@ -57,8 +52,8 @@ module.exports = function make_grammar(dialect) {
         token(
           seq(
             choice(/\p{ID_Start}/, "_"),
-            repeat(choice(/\p{ID_Continue}/, "-"))
-          )
+            repeat(choice(/\p{ID_Continue}/, "-")),
+          ),
         ),
 
       expression: ($) => prec.right(choice($._expr_term, $.conditional)),
@@ -78,7 +73,7 @@ module.exports = function make_grammar(dialect) {
           seq($._expr_term, $.index),
           seq($._expr_term, $.get_attr),
           seq($._expr_term, $.splat),
-          seq("(", $.expression, ")")
+          seq("(", $.expression, ")"),
         ),
 
       literal_value: ($) =>
@@ -97,8 +92,8 @@ module.exports = function make_grammar(dialect) {
           seq(
             $.quoted_template_start,
             optional($.template_literal),
-            $.quoted_template_end
-          )
+            $.quoted_template_end,
+          ),
         ),
 
       collection_value: ($) => choice($.tuple, $.object),
@@ -114,7 +109,7 @@ module.exports = function make_grammar(dialect) {
         seq(
           $.expression,
           repeat(seq($._comma, $.expression)),
-          optional($._comma)
+          optional($._comma),
         ),
 
       object: ($) =>
@@ -127,14 +122,14 @@ module.exports = function make_grammar(dialect) {
         seq(
           $.object_elem,
           repeat(seq(optional($._comma), $.object_elem)),
-          optional($._comma)
+          optional($._comma),
         ),
 
       object_elem: ($) =>
         seq(
           field("key", $.expression),
           choice("=", ":"),
-          field("val", $.expression)
+          field("val", $.expression),
         ),
 
       index: ($) => choice($.new_index, $.legacy_index),
@@ -160,7 +155,7 @@ module.exports = function make_grammar(dialect) {
           $.for_intro,
           $.expression,
           optional($.for_cond),
-          $.tuple_end
+          $.tuple_end,
         ),
 
       for_object_expr: ($) =>
@@ -172,7 +167,7 @@ module.exports = function make_grammar(dialect) {
           $.expression,
           optional($.ellipsis),
           optional($.for_cond),
-          $.object_end
+          $.object_end,
         ),
 
       for_intro: ($) =>
@@ -182,7 +177,7 @@ module.exports = function make_grammar(dialect) {
           optional(seq(",", $.identifier)),
           "in",
           $.expression,
-          ":"
+          ":",
         ),
 
       for_cond: ($) => seq("if", $.expression),
@@ -194,7 +189,7 @@ module.exports = function make_grammar(dialect) {
           $.identifier,
           $._function_call_start,
           optional($.function_arguments),
-          $._function_call_end
+          $._function_call_end,
         ),
 
       _function_call_start: ($) => "(",
@@ -205,8 +200,8 @@ module.exports = function make_grammar(dialect) {
           seq(
             $.expression,
             repeat(seq($._comma, $.expression)),
-            optional(choice($._comma, $.ellipsis))
-          )
+            optional(choice($._comma, $.ellipsis)),
+          ),
         ),
 
       ellipsis: ($) => token("..."),
@@ -231,8 +226,8 @@ module.exports = function make_grammar(dialect) {
 
         return choice(
           ...table.map(([precedence, operator]) =>
-            prec.left(precedence, seq($._expr_term, operator, $._expr_term))
-          )
+            prec.left(precedence, seq($._expr_term, operator, $._expr_term)),
+          ),
         );
       },
 
@@ -244,8 +239,8 @@ module.exports = function make_grammar(dialect) {
           seq(
             $.quoted_template_start,
             optional($._template),
-            $.quoted_template_end
-          )
+            $.quoted_template_end,
+          ),
         ),
 
       heredoc_template: ($) =>
@@ -253,7 +248,7 @@ module.exports = function make_grammar(dialect) {
           $.heredoc_start,
           $.heredoc_identifier,
           optional($._template),
-          $.heredoc_identifier
+          $.heredoc_identifier,
         ),
 
       heredoc_start: ($) => choice("<<", "<<-"),
@@ -265,8 +260,8 @@ module.exports = function make_grammar(dialect) {
           choice(
             $.template_interpolation,
             $.template_directive,
-            $.template_literal
-          )
+            $.template_literal,
+          ),
         ),
 
       template_literal: ($) => prec.right(repeat1($._template_literal_chunk)),
@@ -277,7 +272,7 @@ module.exports = function make_grammar(dialect) {
           optional($.strip_marker),
           optional($.expression),
           optional($.strip_marker),
-          $.template_interpolation_end
+          $.template_interpolation_end,
         ),
 
       template_directive: ($) => choice($.template_for, $.template_if),
@@ -295,7 +290,7 @@ module.exports = function make_grammar(dialect) {
           "in",
           $.expression,
           optional($.strip_marker),
-          $.template_directive_end
+          $.template_directive_end,
         ),
 
       template_for_end: ($) =>
@@ -304,7 +299,7 @@ module.exports = function make_grammar(dialect) {
           optional($.strip_marker),
           "endfor",
           optional($.strip_marker),
-          $.template_directive_end
+          $.template_directive_end,
         ),
 
       template_if: ($) =>
@@ -312,7 +307,7 @@ module.exports = function make_grammar(dialect) {
           $.template_if_intro,
           optional($._template),
           optional(seq($.template_else_intro, optional($._template))),
-          $.template_if_end
+          $.template_if_end,
         ),
 
       template_if_intro: ($) =>
@@ -322,7 +317,7 @@ module.exports = function make_grammar(dialect) {
           "if",
           $.expression,
           optional($.strip_marker),
-          $.template_directive_end
+          $.template_directive_end,
         ),
 
       template_else_intro: ($) =>
@@ -331,7 +326,7 @@ module.exports = function make_grammar(dialect) {
           optional($.strip_marker),
           "else",
           optional($.strip_marker),
-          $.template_directive_end
+          $.template_directive_end,
         ),
 
       template_if_end: ($) =>
@@ -340,7 +335,7 @@ module.exports = function make_grammar(dialect) {
           optional($.strip_marker),
           "endif",
           optional($.strip_marker),
-          $.template_directive_end
+          $.template_directive_end,
         ),
 
       // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890
@@ -349,8 +344,8 @@ module.exports = function make_grammar(dialect) {
           choice(
             seq("#", /.*/),
             seq("//", /.*/),
-            seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "/")
-          )
+            seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "/"),
+          ),
         ),
 
       _whitespace: ($) => token(/\s/),
