@@ -1,10 +1,9 @@
 # Changelog
 
-## 1.1.0 - not yet released
+## 1.1.0 - 2023-07-25
 
 feature
 * add dialects so we can have different queries in `nvim-treesitter`
-* fix structure of comments in block bodies
 
 housekeeping:
 * reformat using LSPs, ditch editorconfig

@@ -139,7 +139,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "attribute",
@@ -201,6 +201,10 @@
       "types": [
         {
           "type": "body",
+          "named": true
+        },
+        {
+          "type": "object",
           "named": true
         }
       ]
