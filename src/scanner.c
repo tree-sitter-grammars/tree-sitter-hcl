@@ -137,20 +137,20 @@ static unsigned serialize(Scanner *scanner, char *buf) {
         return 0;
     }
 
-    buf[size++] = (char)scanner->context_stack.len;
+    memcpy(&buf[size], &scanner->context_stack.len, sizeof(uint32_t));
+    size += sizeof(uint32_t);
     for (int i = 0; i < scanner->context_stack.len; i++) {
         Context *context = &scanner->context_stack.data[i];
-        if (size + 2 + context->heredoc_identifier.len >=
-            TREE_SITTER_SERIALIZATION_BUFFER_SIZE) {
+        if (size + 2 + context->heredoc_identifier.len >= TREE_SITTER_SERIALIZATION_BUFFER_SIZE) {
             return 0;
         }
         if (context->heredoc_identifier.len > CHAR_MAX) {
             return 0;
         }
         buf[size++] = context->type;
-        buf[size++] = (char)context->heredoc_identifier.len;
-        memcpy(&buf[size], context->heredoc_identifier.data,
-               context->heredoc_identifier.len);
+        memcpy(&buf[size], &context->heredoc_identifier.len, sizeof(uint32_t));
+        size += sizeof(uint32_t);
+        memcpy(&buf[size], context->heredoc_identifier.data, context->heredoc_identifier.len);
         size += context->heredoc_identifier.len;
     }
     return size;
@@ -163,16 +163,19 @@ static void deserialize(Scanner *scanner, const char *buffer, unsigned length) {
 
     VEC_CLEAR(scanner->context_stack);
     unsigned size = 0;
-    uint8_t context_stack_size = buffer[size++];
+    uint32_t context_stack_size;
+    memcpy(&context_stack_size, &buffer[size], sizeof(uint32_t));
+    size += sizeof(uint32_t);
     for (uint32_t j = 0; j < context_stack_size; j++) {
         Context ctx = {
             .type = (enum ContextType)buffer[size++],
             .heredoc_identifier = string_new(),
         };
-        uint8_t heredoc_identifier_size = buffer[size++];
+        uint32_t heredoc_identifier_size;
+        memcpy(&heredoc_identifier_size, &buffer[size], sizeof(uint32_t));
+        size += sizeof(uint32_t);
         STRING_GROW(ctx.heredoc_identifier, heredoc_identifier_size);
-        memcpy(ctx.heredoc_identifier.data, buffer + size,
-               heredoc_identifier_size);
+        memcpy(ctx.heredoc_identifier.data, buffer + size, heredoc_identifier_size);
         ctx.heredoc_identifier.len = heredoc_identifier_size;
         size += heredoc_identifier_size;
         VEC_PUSH(scanner->context_stack, ctx);
@@ -219,13 +222,9 @@ static inline bool in_context_type(Scanner *scanner, enum ContextType type) {
     return VEC_BACK(scanner->context_stack).type == type;
 }
 
-static inline bool in_quoted_context(Scanner *scanner) {
-    return in_context_type(scanner, QUOTED_TEMPLATE);
-}
+static inline bool in_quoted_context(Scanner *scanner) { return in_context_type(scanner, QUOTED_TEMPLATE); }
 
-static inline bool in_heredoc_context(Scanner *scanner) {
-    return in_context_type(scanner, HEREDOC_TEMPLATE);
-}
+static inline bool in_heredoc_context(Scanner *scanner) { return in_context_type(scanner, HEREDOC_TEMPLATE); }
 
 static inline bool in_template_context(Scanner *scanner) {
     return in_quoted_context(scanner) || in_heredoc_context(scanner);
@@ -235,9 +234,7 @@ static inline bool in_interpolation_context(Scanner *scanner) {
     return in_context_type(scanner, TEMPLATE_INTERPOLATION);
 }
 
-static inline bool in_directive_context(Scanner *scanner) {
-    return in_context_type(scanner, TEMPLATE_DIRECTIVE);
-}
+static inline bool in_directive_context(Scanner *scanner) { return in_context_type(scanner, TEMPLATE_DIRECTIVE); }
 
 static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
     bool has_leading_whitespace_with_newline = false;
@@ -251,21 +248,18 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
         return false;
     }
     // manage quoted context
-    if (valid_symbols[QUOTED_TEMPLATE_START] && !in_quoted_context(scanner) &&
-        lexer->lookahead == '"') {
+    if (valid_symbols[QUOTED_TEMPLATE_START] && !in_quoted_context(scanner) && lexer->lookahead == '"') {
         Context ctx = context_new(QUOTED_TEMPLATE, "");
         VEC_PUSH(scanner->context_stack, ctx);
         return accept_and_advance(lexer, QUOTED_TEMPLATE_START);
     }
-    if (valid_symbols[QUOTED_TEMPLATE_END] && in_quoted_context(scanner) &&
-        lexer->lookahead == '"') {
+    if (valid_symbols[QUOTED_TEMPLATE_END] && in_quoted_context(scanner) && lexer->lookahead == '"') {
         VEC_POP(scanner->context_stack);
         return accept_and_advance(lexer, QUOTED_TEMPLATE_END);
     }
 
     // manage template interpolations
-    if (valid_symbols[TEMPLATE_INTERPOLATION_START] &&
-        valid_symbols[TEMPLATE_LITERAL_CHUNK] &&
+    if (valid_symbols[TEMPLATE_INTERPOLATION_START] && valid_symbols[TEMPLATE_LITERAL_CHUNK] &&
         !in_interpolation_context(scanner) && lexer->lookahead == '$') {
         advance(lexer);
         if (lexer->lookahead == '{') {
@@ -283,15 +277,13 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
         }
         return accept_inplace(lexer, TEMPLATE_LITERAL_CHUNK);
     }
-    if (valid_symbols[TEMPLATE_INTERPOLATION_END] &&
-        in_interpolation_context(scanner) && lexer->lookahead == '}') {
+    if (valid_symbols[TEMPLATE_INTERPOLATION_END] && in_interpolation_context(scanner) && lexer->lookahead == '}') {
         VEC_POP(scanner->context_stack);
         return accept_and_advance(lexer, TEMPLATE_INTERPOLATION_END);
     }
 
     // manage template directives
-    if (valid_symbols[TEMPLATE_DIRECTIVE_START] &&
-        valid_symbols[TEMPLATE_LITERAL_CHUNK] &&
+    if (valid_symbols[TEMPLATE_DIRECTIVE_START] && valid_symbols[TEMPLATE_LITERAL_CHUNK] &&
         !in_directive_context(scanner) && lexer->lookahead == '%') {
         advance(lexer);
         if (lexer->lookahead == '{') {
@@ -309,8 +301,7 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
         }
         return accept_inplace(lexer, TEMPLATE_LITERAL_CHUNK);
     }
-    if (valid_symbols[TEMPLATE_DIRECTIVE_END] &&
-        in_directive_context(scanner) && lexer->lookahead == '}') {
+    if (valid_symbols[TEMPLATE_DIRECTIVE_END] && in_directive_context(scanner) && lexer->lookahead == '}') {
         VEC_POP(scanner->context_stack);
         return accept_and_advance(lexer, TEMPLATE_DIRECTIVE_END);
     }
@@ -319,8 +310,7 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
     if (valid_symbols[HEREDOC_IDENTIFIER] && !in_heredoc_context(scanner)) {
         String identifier = string_new();
         // TODO: check that this is a valid identifier
-        while (iswalnum(lexer->lookahead) || lexer->lookahead == '_' ||
-               lexer->lookahead == '-') {
+        while (iswalnum(lexer->lookahead) || lexer->lookahead == '_' || lexer->lookahead == '-') {
             STRING_PUSH(identifier, lexer->lookahead);
             advance(lexer);
         }
@@ -328,10 +318,8 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
         VEC_PUSH(scanner->context_stack, ctx);
         return accept_inplace(lexer, HEREDOC_IDENTIFIER);
     }
-    if (valid_symbols[HEREDOC_IDENTIFIER] && in_heredoc_context(scanner) &&
-        has_leading_whitespace_with_newline) {
-        String expected_identifier =
-            VEC_BACK(scanner->context_stack).heredoc_identifier;
+    if (valid_symbols[HEREDOC_IDENTIFIER] && in_heredoc_context(scanner) && has_leading_whitespace_with_newline) {
+        String expected_identifier = VEC_BACK(scanner->context_stack).heredoc_identifier;
 
         for (size_t i = 0; i < expected_identifier.len; i++) {
             if (lexer->lookahead == expected_identifier.data[i]) {
@@ -368,24 +356,21 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
                     case 'r':
                     case 't':
                     case '\\':
-                        return accept_and_advance(lexer,
-                                                  TEMPLATE_LITERAL_CHUNK);
+                        return accept_and_advance(lexer, TEMPLATE_LITERAL_CHUNK);
                     case 'u':
                         for (int i = 0; i < 4; i++) {
                             if (!consume_wxdigit(lexer)) {
                                 return false;
                             }
                         }
-                        return accept_and_advance(lexer,
-                                                  TEMPLATE_LITERAL_CHUNK);
+                        return accept_and_advance(lexer, TEMPLATE_LITERAL_CHUNK);
                     case 'U':
                         for (int i = 0; i < 8; i++) {
                             if (!consume_wxdigit(lexer)) {
                                 return false;
                             }
                         }
-                        return accept_and_advance(lexer,
-                                                  TEMPLATE_LITERAL_CHUNK);
+                        return accept_and_advance(lexer, TEMPLATE_LITERAL_CHUNK);
                     default:
                         return false;
                 }
@@ -407,21 +392,17 @@ void *tree_sitter_hcl_external_scanner_create() {
     return scanner;
 }
 
-unsigned tree_sitter_hcl_external_scanner_serialize(void *payload,
-                                                    char *buffer) {
+unsigned tree_sitter_hcl_external_scanner_serialize(void *payload, char *buffer) {
     Scanner *scanner = (Scanner *)payload;
     return serialize(scanner, buffer);
 }
 
-void tree_sitter_hcl_external_scanner_deserialize(void *payload,
-                                                  const char *buffer,
-                                                  unsigned length) {
+void tree_sitter_hcl_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {
     Scanner *scanner = (Scanner *)payload;
     deserialize(scanner, buffer, length);
 }
 
-bool tree_sitter_hcl_external_scanner_scan(void *payload, TSLexer *lexer,
-                                           const bool *valid_symbols) {
+bool tree_sitter_hcl_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
     Scanner *scanner = (Scanner *)payload;
     return scan(scanner, lexer, valid_symbols);
 }
