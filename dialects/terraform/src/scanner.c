@@ -11,6 +11,7 @@
     void *tmp = realloc((vec).data, (_cap) * sizeof((vec).data[0]));           \
     assert(tmp != NULL);                                                       \
     (vec).data = tmp;                                                          \
+    assert((vec).data != NULL);                                                \
     (vec).cap = (_cap);
 
 #define VEC_PUSH(vec, el)                                                      \
@@ -31,22 +32,23 @@
     {                                                                          \
         if ((vec).data != NULL)                                                \
             free((vec).data);                                                  \
+        (vec).data = NULL;                                                     \
     }
 
 #define VEC_CLEAR(vec)                                                         \
     {                                                                          \
-        for (int i = 0; i < (vec).len; i++) {                                  \
+        for (uint32_t i = 0; i < (vec).len; i++) {                             \
             STRING_FREE((vec).data[i].heredoc_identifier);                     \
         }                                                                      \
         (vec).len = 0;                                                         \
     }
 
 #define STRING_RESIZE(vec, _cap)                                               \
-    void *tmp = realloc((vec).data, (_cap + 1) * sizeof((vec).data[0]));       \
+    void *tmp = realloc((vec).data, ((_cap) + 1) * sizeof((vec).data[0]));     \
     assert(tmp != NULL);                                                       \
     (vec).data = tmp;                                                          \
     memset((vec).data + (vec).len, 0,                                          \
-           ((_cap + 1) - (vec).len) * sizeof((vec).data[0]));                  \
+           (((_cap) + 1) - (vec).len) * sizeof((vec).data[0]));                \
     (vec).cap = (_cap);
 
 #define STRING_GROW(vec, _cap)                                                 \
@@ -61,10 +63,9 @@
     (vec).data[(vec).len++] = (el);
 
 #define STRING_FREE(vec)                                                       \
-    {                                                                          \
-        if ((vec).data != NULL)                                                \
-            free((vec).data);                                                  \
-    }
+    if ((vec).data != NULL)                                                    \
+        free((vec).data);                                                      \
+    (vec).data = NULL;
 
 enum TokenType {
     QUOTED_TEMPLATE_START,
@@ -105,14 +106,10 @@ typedef struct {
     String heredoc_identifier;
 } Context;
 
-Context context_new(enum ContextType type, const char *data) {
+Context context_new(enum ContextType type) {
     Context ctx = {
         .type = type,
-        .heredoc_identifier = string_new(),
     };
-    ctx.heredoc_identifier.len = strlen(data);
-    ctx.heredoc_identifier.cap = strlen(data);
-    memcpy(ctx.heredoc_identifier.data, data, ctx.heredoc_identifier.len);
     return ctx;
 }
 
@@ -160,8 +157,8 @@ static void deserialize(Scanner *scanner, const char *buffer, unsigned length) {
     if (length == 0) {
         return;
     }
-
     VEC_CLEAR(scanner->context_stack);
+
     unsigned size = 0;
     uint32_t context_stack_size;
     memcpy(&context_stack_size, &buffer[size], sizeof(uint32_t));
@@ -249,7 +246,8 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
     }
     // manage quoted context
     if (valid_symbols[QUOTED_TEMPLATE_START] && !in_quoted_context(scanner) && lexer->lookahead == '"') {
-        Context ctx = context_new(QUOTED_TEMPLATE, "");
+        Context ctx = context_new(QUOTED_TEMPLATE);
+        ctx.heredoc_identifier = string_new();
         VEC_PUSH(scanner->context_stack, ctx);
         return accept_and_advance(lexer, QUOTED_TEMPLATE_START);
     }
@@ -263,7 +261,8 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
         !in_interpolation_context(scanner) && lexer->lookahead == '$') {
         advance(lexer);
         if (lexer->lookahead == '{') {
-            Context ctx = context_new(TEMPLATE_INTERPOLATION, "");
+            Context ctx = context_new(TEMPLATE_INTERPOLATION);
+            ctx.heredoc_identifier = string_new();
             VEC_PUSH(scanner->context_stack, ctx);
             return accept_and_advance(lexer, TEMPLATE_INTERPOLATION_START);
         }
@@ -287,7 +286,8 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
         !in_directive_context(scanner) && lexer->lookahead == '%') {
         advance(lexer);
         if (lexer->lookahead == '{') {
-            Context ctx = context_new(TEMPLATE_DIRECTIVE, "");
+            Context ctx = context_new(TEMPLATE_DIRECTIVE);
+            ctx.heredoc_identifier = string_new();
             VEC_PUSH(scanner->context_stack, ctx);
             return accept_and_advance(lexer, TEMPLATE_DIRECTIVE_START);
         }
@@ -314,7 +314,8 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
             STRING_PUSH(identifier, lexer->lookahead);
             advance(lexer);
         }
-        Context ctx = {HEREDOC_TEMPLATE, identifier};
+        Context ctx = context_new(HEREDOC_TEMPLATE);
+        ctx.heredoc_identifier = identifier;
         VEC_PUSH(scanner->context_stack, ctx);
         return accept_inplace(lexer, HEREDOC_IDENTIFIER);
     }
@@ -386,28 +387,28 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
     return false;
 }
 
-void *tree_sitter_hcl_external_scanner_create() {
+void *tree_sitter_terraform_external_scanner_create() {
     Scanner *scanner = calloc(1, sizeof(Scanner));
     scanner->context_stack.data = calloc(1, sizeof(Context));
     return scanner;
 }
 
-unsigned tree_sitter_hcl_external_scanner_serialize(void *payload, char *buffer) {
+unsigned tree_sitter_terraform_external_scanner_serialize(void *payload, char *buffer) {
     Scanner *scanner = (Scanner *)payload;
     return serialize(scanner, buffer);
 }
 
-void tree_sitter_hcl_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {
+void tree_sitter_terraform_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {
     Scanner *scanner = (Scanner *)payload;
     deserialize(scanner, buffer, length);
 }
 
-bool tree_sitter_hcl_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
+bool tree_sitter_terraform_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
     Scanner *scanner = (Scanner *)payload;
     return scan(scanner, lexer, valid_symbols);
 }
 
-void tree_sitter_hcl_external_scanner_destroy(void *payload) {
+void tree_sitter_terraform_external_scanner_destroy(void *payload) {
     Scanner *scanner = (Scanner *)payload;
     for (int i = 0; i < scanner->context_stack.len; i++) {
         STRING_FREE(scanner->context_stack.data[i].heredoc_identifier);
