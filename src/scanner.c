@@ -8,17 +8,21 @@
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 
 #define VEC_RESIZE(vec, _cap)                                                  \
-    void *tmp = realloc((vec).data, (_cap) * sizeof((vec).data[0]));           \
-    assert(tmp != NULL);                                                       \
-    (vec).data = tmp;                                                          \
-    assert((vec).data != NULL);                                                \
-    (vec).cap = (_cap);
+    {                                                                          \
+        void *tmp = realloc((vec).data, (_cap) * sizeof((vec).data[0]));       \
+        assert(tmp != NULL);                                                   \
+        (vec).data = tmp;                                                      \
+        assert((vec).data != NULL);                                            \
+        (vec).cap = (_cap);                                                    \
+    }
 
 #define VEC_PUSH(vec, el)                                                      \
-    if ((vec).cap == (vec).len) {                                              \
-        VEC_RESIZE((vec), MAX(16, (vec).len * 2));                             \
-    }                                                                          \
-    (vec).data[(vec).len++] = (el);
+    {                                                                          \
+        if ((vec).cap == (vec).len) {                                          \
+            VEC_RESIZE((vec), MAX(16, (vec).len * 2));                         \
+        }                                                                      \
+        (vec).data[(vec).len++] = (el);                                        \
+    }
 
 #define VEC_POP(vec)                                                           \
     {                                                                          \
@@ -44,12 +48,14 @@
     }
 
 #define STRING_RESIZE(vec, _cap)                                               \
-    void *tmp = realloc((vec).data, ((_cap) + 1) * sizeof((vec).data[0]));     \
-    assert(tmp != NULL);                                                       \
-    (vec).data = tmp;                                                          \
-    memset((vec).data + (vec).len, 0,                                          \
-           (((_cap) + 1) - (vec).len) * sizeof((vec).data[0]));                \
-    (vec).cap = (_cap);
+    {                                                                          \
+        void *tmp = realloc((vec).data, ((_cap) + 1) * sizeof((vec).data[0])); \
+        assert(tmp != NULL);                                                   \
+        (vec).data = tmp;                                                      \
+        memset((vec).data + (vec).len, 0,                                      \
+               (((_cap) + 1) - (vec).len) * sizeof((vec).data[0]));            \
+        (vec).cap = (_cap);                                                    \
+    }
 
 #define STRING_GROW(vec, _cap)                                                 \
     if ((vec).cap < (_cap)) {                                                  \
@@ -91,13 +97,7 @@ typedef struct {
     char *data;
 } String;
 
-String string_new() {
-    return (String){
-        .cap = 16,
-        .len = 0,
-        .data = calloc(1, sizeof(char) * 17),
-    };
-}
+String string_new() { return (String){.cap = 16, .len = 0, .data = calloc(1, sizeof(char) * 17)}; }
 
 typedef struct {
     enum ContextType type;
@@ -106,12 +106,7 @@ typedef struct {
     String heredoc_identifier;
 } Context;
 
-Context context_new(enum ContextType type) {
-    Context ctx = {
-        .type = type,
-    };
-    return ctx;
-}
+Context context_new() { return (Context){ }; }
 
 typedef struct {
     uint32_t len;
@@ -134,7 +129,7 @@ static unsigned serialize(Scanner *scanner, char *buf) {
         return 0;
     }
 
-    memcpy(&buf[size], &scanner->context_stack.len, sizeof(uint32_t));
+    memcpy(&buf[size], &(scanner->context_stack.len), sizeof(uint32_t));
     size += sizeof(uint32_t);
     for (int i = 0; i < scanner->context_stack.len; i++) {
         Context *context = &scanner->context_stack.data[i];
@@ -145,7 +140,7 @@ static unsigned serialize(Scanner *scanner, char *buf) {
             return 0;
         }
         buf[size++] = context->type;
-        memcpy(&buf[size], &context->heredoc_identifier.len, sizeof(uint32_t));
+        memcpy(&buf[size], &(context->heredoc_identifier.len), sizeof(uint32_t));
         size += sizeof(uint32_t);
         memcpy(&buf[size], context->heredoc_identifier.data, context->heredoc_identifier.len);
         size += context->heredoc_identifier.len;
@@ -154,27 +149,30 @@ static unsigned serialize(Scanner *scanner, char *buf) {
 }
 
 static void deserialize(Scanner *scanner, const char *buffer, unsigned length) {
+    VEC_CLEAR(scanner->context_stack);
+
     if (length == 0) {
         return;
     }
-    VEC_CLEAR(scanner->context_stack);
 
     unsigned size = 0;
     uint32_t context_stack_size;
     memcpy(&context_stack_size, &buffer[size], sizeof(uint32_t));
     size += sizeof(uint32_t);
     for (uint32_t j = 0; j < context_stack_size; j++) {
-        Context ctx = {
-            .type = (enum ContextType)buffer[size++],
-            .heredoc_identifier = string_new(),
-        };
+        Context ctx = context_new();
+        ctx.heredoc_identifier = string_new();
+        ctx.type = (enum ContextType)buffer[size++];
+
         uint32_t heredoc_identifier_size;
         memcpy(&heredoc_identifier_size, &buffer[size], sizeof(uint32_t));
         size += sizeof(uint32_t);
-        STRING_GROW(ctx.heredoc_identifier, heredoc_identifier_size);
-        memcpy(ctx.heredoc_identifier.data, buffer + size, heredoc_identifier_size);
-        ctx.heredoc_identifier.len = heredoc_identifier_size;
-        size += heredoc_identifier_size;
+        if (heredoc_identifier_size > 0) {
+          STRING_GROW(ctx.heredoc_identifier, heredoc_identifier_size);
+          memcpy(ctx.heredoc_identifier.data, buffer + size, heredoc_identifier_size);
+          ctx.heredoc_identifier.len = heredoc_identifier_size;
+          size += heredoc_identifier_size;
+        }
         VEC_PUSH(scanner->context_stack, ctx);
     }
     assert(size == length);
@@ -246,7 +244,8 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
     }
     // manage quoted context
     if (valid_symbols[QUOTED_TEMPLATE_START] && !in_quoted_context(scanner) && lexer->lookahead == '"') {
-        Context ctx = context_new(QUOTED_TEMPLATE);
+        Context ctx = context_new();
+        ctx.type = QUOTED_TEMPLATE;
         ctx.heredoc_identifier = string_new();
         VEC_PUSH(scanner->context_stack, ctx);
         return accept_and_advance(lexer, QUOTED_TEMPLATE_START);
@@ -261,7 +260,8 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
         !in_interpolation_context(scanner) && lexer->lookahead == '$') {
         advance(lexer);
         if (lexer->lookahead == '{') {
-            Context ctx = context_new(TEMPLATE_INTERPOLATION);
+            Context ctx = context_new();
+            ctx.type = TEMPLATE_INTERPOLATION;
             ctx.heredoc_identifier = string_new();
             VEC_PUSH(scanner->context_stack, ctx);
             return accept_and_advance(lexer, TEMPLATE_INTERPOLATION_START);
@@ -286,7 +286,8 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
         !in_directive_context(scanner) && lexer->lookahead == '%') {
         advance(lexer);
         if (lexer->lookahead == '{') {
-            Context ctx = context_new(TEMPLATE_DIRECTIVE);
+            Context ctx = context_new();
+            ctx.type = TEMPLATE_DIRECTIVE;
             ctx.heredoc_identifier = string_new();
             VEC_PUSH(scanner->context_stack, ctx);
             return accept_and_advance(lexer, TEMPLATE_DIRECTIVE_START);
@@ -314,7 +315,8 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
             STRING_PUSH(identifier, lexer->lookahead);
             advance(lexer);
         }
-        Context ctx = context_new(HEREDOC_TEMPLATE);
+        Context ctx = context_new();
+        ctx.type = HEREDOC_TEMPLATE;
         ctx.heredoc_identifier = identifier;
         VEC_PUSH(scanner->context_stack, ctx);
         return accept_inplace(lexer, HEREDOC_IDENTIFIER);
