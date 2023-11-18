@@ -9,6 +9,9 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         compiler: [gcc, clang, zig cc]
+        include:
+          - os: windows-latest
+            compiler: cl.exe
 
     name: compile
     runs-on: ${{ matrix.os }}
@@ -20,8 +23,11 @@ jobs:
         with:
           version: '12.2.0'
 
+      - if: matrix.compiler == 'cl.exe' && matrix.os == 'windows-latest'
+        uses: seanmiddleditch/gha-setup-vsdevenv@master
+
       - if: matrix.compiler == 'zig cc'
         uses: goto-bus-stop/setup-zig@v2
 
       - name: build
-        run: ${{ matrix.compiler }} -o scanner.o -I./src -c src/scanner.c -Werror
+        run: ${{ matrix.compiler }} -o scanner.o -I./src -c src/scanner.c
