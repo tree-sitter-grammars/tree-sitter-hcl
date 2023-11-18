@@ -106,8 +106,6 @@ typedef struct {
     String heredoc_identifier;
 } Context;
 
-Context context_new() { return (Context){ }; }
-
 typedef struct {
     uint32_t len;
     uint32_t cap;
@@ -160,7 +158,7 @@ static void deserialize(Scanner *scanner, const char *buffer, unsigned length) {
     memcpy(&context_stack_size, &buffer[size], sizeof(uint32_t));
     size += sizeof(uint32_t);
     for (uint32_t j = 0; j < context_stack_size; j++) {
-        Context ctx = context_new();
+        Context ctx;
         ctx.heredoc_identifier = string_new();
         ctx.type = (enum ContextType)buffer[size++];
 
@@ -244,7 +242,7 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
     }
     // manage quoted context
     if (valid_symbols[QUOTED_TEMPLATE_START] && !in_quoted_context(scanner) && lexer->lookahead == '"') {
-        Context ctx = context_new();
+        Context ctx;
         ctx.type = QUOTED_TEMPLATE;
         ctx.heredoc_identifier = string_new();
         VEC_PUSH(scanner->context_stack, ctx);
@@ -260,7 +258,7 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
         !in_interpolation_context(scanner) && lexer->lookahead == '$') {
         advance(lexer);
         if (lexer->lookahead == '{') {
-            Context ctx = context_new();
+            Context ctx;
             ctx.type = TEMPLATE_INTERPOLATION;
             ctx.heredoc_identifier = string_new();
             VEC_PUSH(scanner->context_stack, ctx);
@@ -286,7 +284,7 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
         !in_directive_context(scanner) && lexer->lookahead == '%') {
         advance(lexer);
         if (lexer->lookahead == '{') {
-            Context ctx = context_new();
+            Context ctx;
             ctx.type = TEMPLATE_DIRECTIVE;
             ctx.heredoc_identifier = string_new();
             VEC_PUSH(scanner->context_stack, ctx);
@@ -315,7 +313,7 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
             STRING_PUSH(identifier, lexer->lookahead);
             advance(lexer);
         }
-        Context ctx = context_new();
+        Context ctx;
         ctx.type = HEREDOC_TEMPLATE;
         ctx.heredoc_identifier = identifier;
         VEC_PUSH(scanner->context_stack, ctx);
