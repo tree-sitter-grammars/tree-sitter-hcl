@@ -8,7 +8,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        compiler: [gcc, clang]
+        compiler: [gcc, clang, zig cc]
 
     name: compile
     runs-on: ${{ matrix.os }}
@@ -19,6 +19,9 @@ jobs:
         uses: csukuangfj/setup-mingw@v2.2.1
         with:
           version: '12.2.0'
+
+      - if: matrix.compiler == 'zig cc'
+        uses: goto-bus-stop/setup-zig@v2
 
       - name: build
         run: ${{ matrix.compiler }} -o scanner.o -I./src -c src/scanner.c -Werror
