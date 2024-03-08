@@ -4,7 +4,7 @@ tree-sitter grammar for the [HCL](https://github.com/hashicorp/hcl/blob/main/hcl
 
 ## Try It Out
 
-Try the parser in the [playground](https://michahoffmann.github.io/tree-sitter-hcl/)
+Try the parser in the [playground](https://tree-sitter-grammars.github.io/tree-sitter-hcl/)
 
 ## Example
 
