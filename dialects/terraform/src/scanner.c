@@ -2,7 +2,7 @@
 #include <limits.h>
 #include <stdio.h>
 #include <string.h>
-#include <tree_sitter/parser.h>
+#include "tree_sitter/parser.h"
 #include <wctype.h>
 
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
