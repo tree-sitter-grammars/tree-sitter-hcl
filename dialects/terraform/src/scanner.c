@@ -84,12 +84,12 @@ enum TokenType {
     HEREDOC_IDENTIFIER,
 };
 
-enum ContextType {
+typedef enum ContextType {
     TEMPLATE_INTERPOLATION,
     TEMPLATE_DIRECTIVE,
     QUOTED_TEMPLATE,
     HEREDOC_TEMPLATE,
-};
+} ContextType;
 
 typedef struct {
     uint32_t cap;
