@@ -52,7 +52,7 @@ module.exports = function make_grammar(dialect) {
         token(
           seq(
             choice(/\p{ID_Start}/, "_"),
-            repeat(choice(/\p{ID_Continue}/, "-")),
+            repeat(choice(/\p{ID_Continue}/, "-", "::")),
           ),
         ),
 

@@ -96,3 +96,26 @@ foo = bar(
                   (quoted_template_start)
                   (template_literal)
                   (quoted_template_end))))))))))
+
+================================================================================
+namespaced function call
+================================================================================
+
+foo = provider::time::rfc3339_parse("2023-07-25T23:43:16Z")
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (function_call
+          (identifier)
+          (function_arguments
+            (expression
+              (literal_value
+                (string_lit
+                  (quoted_template_start)
+                  (template_literal)
+                  (quoted_template_end))))))))))
