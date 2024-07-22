@@ -1,7 +1,7 @@
 [package]
 name = "tree-sitter-hcl"
 description = "hcl grammar for the tree-sitter parsing library"
-version = "0.0.1"
+version = "0.22.0"
 keywords = ["incremental", "parsing", "hcl"]
 categories = ["parsing", "text-editors"]
 repository = "https://github.com/MichaHoffmann/tree-sitter-hcl"
@@ -15,7 +15,7 @@ include = ["bindings/rust/*", "grammar.js", "queries/*", "src/*"]
 path = "bindings/rust/lib.rs"
 
 [dependencies]
-tree-sitter = "~0.20.10"
+tree-sitter = ">=0.22.0"
 
 [build-dependencies]
 cc = "1.0"
