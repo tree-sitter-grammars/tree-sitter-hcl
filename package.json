@@ -7,16 +7,6 @@
   "license": "ISC",
   "dependencies": {
     "nan": "^2.14.2",
-    "tree-sitter-cli": "^0.20.6"
-  },
-  "tree-sitter": [
-    {
-      "scope": "source.hcl",
-      "file-types": [
-        "hcl",
-        "tf",
-        "tfvars"
-      ]
-    }
-  ]
+    "tree-sitter-cli": "^0.24"
+  }
 }
