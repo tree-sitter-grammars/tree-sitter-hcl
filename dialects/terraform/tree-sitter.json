@@ -18,7 +18,7 @@
     }
   },
   "bindings": {
-    "c": true,
+    "c": false,
     "go": false,
     "node": false,
     "python": false,
