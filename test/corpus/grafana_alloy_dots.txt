@@ -1,0 +1,118 @@
+================================================================================
+basic block with dot
+================================================================================
+
+stage.logfmt {
+}
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (block
+      (identifier_dot
+        (identifier)
+        (identifier))
+      (block_start)
+      (block_end))))
+
+================================================================================
+basic block with multiple dots
+================================================================================
+
+foo.bar.moo.doo {
+}
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (block
+      (identifier_dot
+        (identifier)
+        (identifier)
+        (identifier)
+        (identifier))
+      (block_start)
+      (block_end))))
+
+================================================================================
+block with dot and attribute
+================================================================================
+
+stage.logfmt {
+    attr1 = "val1"
+}
+
+---
+
+(config_file
+  (body
+    (block
+      (identifier_dot
+        (identifier)
+        (identifier))
+      (block_start)
+      (body
+        (attribute
+          (identifier)
+          (expression
+            (literal_value
+              (string_lit
+                (quoted_template_start)
+                (template_literal)
+                (quoted_template_end))))))
+      (block_end))))
+
+================================================================================
+basic block with dot and value
+================================================================================
+
+local.file_match "applogs" {
+}
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (block
+      (identifier_dot
+        (identifier)
+        (identifier))
+      (string_lit
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end))
+      (block_start)
+      (block_end))))
+
+================================================================================
+basic block with dot nested inside other block
+================================================================================
+
+loki.process "add_new_label" {
+    stage.regex {
+    }
+}
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (block
+      (identifier_dot
+        (identifier)
+        (identifier))
+      (string_lit
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end))
+      (block_start)
+      (body
+        (block
+          (identifier_dot
+            (identifier)
+            (identifier))
+          (block_start)
+          (block_end)))
+      (block_end))))

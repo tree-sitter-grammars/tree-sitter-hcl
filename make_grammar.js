@@ -38,7 +38,7 @@ module.exports = function make_grammar(dialect) {
 
       block: ($) =>
         seq(
-          $.identifier,
+          choice($.identifier, $.identifier_dot),
           repeat(choice($.string_lit, $.identifier)),
           $.block_start,
           optional($.body),
@@ -55,6 +55,11 @@ module.exports = function make_grammar(dialect) {
             repeat(choice(/\p{ID_Continue}/, "-", "::")),
           ),
         ),
+
+      // identifier_dot is only used to allow Grafana Alloy style of blocks
+      // e.g: https://grafana.com/docs/alloy/latest/reference/components/local/local.file/
+      identifier_dot: ($) =>
+        prec.right(seq($.identifier, repeat(seq(".", $.identifier)))),
 
       expression: ($) => prec.right(choice($._expr_term, $.conditional)),
 

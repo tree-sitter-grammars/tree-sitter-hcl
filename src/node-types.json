@@ -117,6 +117,10 @@
           "named": true
         },
         {
+          "type": "identifier_dot",
+          "named": true
+        },
+        {
           "type": "string_lit",
           "named": true
         }
@@ -194,6 +198,7 @@
   {
     "type": "config_file",
     "named": true,
+    "root": true,
     "fields": {},
     "children": {
       "multiple": false,
@@ -491,6 +496,21 @@
         },
         {
           "type": "template_literal",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "identifier_dot",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
           "named": true
         }
       ]
