@@ -6,7 +6,15 @@
       "scope": "source.hcl",
       "path": ".",
       "file-types": [
-        "hcl",
+        "hcl"
+      ]
+    },
+    {
+      "name": "terraform",
+      "camelcase": "Terraform",
+      "scope": "source.terraform",
+      "path": "./dialects/terraform/",
+      "file-types": [
         "tf",
         "tfvars"
       ]
