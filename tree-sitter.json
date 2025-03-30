@@ -14,8 +14,8 @@
   ],
   "metadata": {
     "version": "0.2.0-snapshot",
-    "license": "ISC",
-    "description": "",
+    "license": "Apache-2.0",
+    "description": "HCL grammar for tree-sitter",
     "links": {
       "repository": "https://github.com/tree-sitter/tree-sitter-hcl"
     }
@@ -26,6 +26,7 @@
     "node": true,
     "python": false,
     "rust": true,
-    "swift": true
+    "swift": true,
+    "zig": false
   }
 }

@@ -12,6 +12,7 @@ module.exports = function make_grammar(dialect) {
     string_lit: 2,
     quoted_template: 1,
   };
+
   return grammar({
     name: dialect,
 
