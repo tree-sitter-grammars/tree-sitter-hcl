@@ -129,7 +129,7 @@ static unsigned serialize(Scanner *scanner, char *buf) {
 
     memcpy(&buf[size], &(scanner->context_stack.len), sizeof(uint32_t));
     size += sizeof(uint32_t);
-    for (int i = 0; i < scanner->context_stack.len; i++) {
+    for (uint32_t i = 0; i < scanner->context_stack.len; i++) {
         Context *context = &scanner->context_stack.data[i];
         if (size + sizeof(ContextType) + sizeof(uint32_t) + context->heredoc_identifier.len >= TREE_SITTER_SERIALIZATION_BUFFER_SIZE) {
             return 0;
@@ -413,7 +413,7 @@ bool tree_sitter_terraform_external_scanner_scan(void *payload, TSLexer *lexer, 
 
 void tree_sitter_terraform_external_scanner_destroy(void *payload) {
     Scanner *scanner = (Scanner *)payload;
-    for (int i = 0; i < scanner->context_stack.len; i++) {
+    for (uint32_t i = 0; i < scanner->context_stack.len; i++) {
         STRING_FREE(scanner->context_stack.data[i].heredoc_identifier);
     }
     VEC_FREE(scanner->context_stack);

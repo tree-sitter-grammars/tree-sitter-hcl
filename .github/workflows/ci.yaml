@@ -38,18 +38,11 @@ jobs:
         uses: actions/checkout@v4
       - name: Set up tree-sitter
         uses: tree-sitter/setup-action/cli@v1
-      - name: Regenerate with ABI 14
-        # TODO: remove when node & swift support ABI 15
-        run: |-
-          tree-sitter generate --abi=14
-          cd dialects/terraform
-          tree-sitter generate --abi=14
       - name: Run parser and binding tests
         uses: tree-sitter/parser-test-action@v2
         with:
           test-node: true
           test-rust: ${{runner.os == 'Linux'}}
-          test-swift: ${{runner.os == 'macOS'}}
       - name: Parse sample files
         uses: tree-sitter/parse-action@v4
         id: parse-files

@@ -7,8 +7,11 @@ pkgs.mkShell {
     gdb
     valgrind
     nodejs
-    tree-sitter
     emscripten
   ];
+  shellHook = '' 
+    npm install
+    export PATH="$(git rev-parse --show-toplevel)/node_modules/.bin:$PATH"
+  '';
 }
 

@@ -124,7 +124,8 @@
             "members": [
               {
                 "type": "PATTERN",
-                "value": "\\p{ID_Start}"
+                "value": "\\p{ID_Start}",
+                "flags": "u"
               },
               {
                 "type": "STRING",
@@ -139,7 +140,8 @@
               "members": [
                 {
                   "type": "PATTERN",
-                  "value": "\\p{ID_Continue}"
+                  "value": "\\p{ID_Continue}",
+                  "flags": "u"
                 },
                 {
                   "type": "STRING",
@@ -204,43 +206,55 @@
           "name": "operation"
         },
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_expr_term"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "index"
-            }
-          ]
+          "type": "PREC_RIGHT",
+          "value": 8,
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_expr_term"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "index"
+              }
+            ]
+          }
         },
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_expr_term"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "get_attr"
-            }
-          ]
+          "type": "PREC_RIGHT",
+          "value": 8,
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_expr_term"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "get_attr"
+              }
+            ]
+          }
         },
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_expr_term"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "splat"
-            }
-          ]
+          "type": "PREC_RIGHT",
+          "value": 8,
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_expr_term"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "splat"
+              }
+            ]
+          }
         },
         {
           "type": "SEQ",
