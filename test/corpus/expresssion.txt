@@ -1,0 +1,43 @@
+======
+Unary operation on variable with splat expression
+=====
+
+foo = !var.bar
+
+------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (operation
+          (unary_operation
+            (variable_expr
+              (identifier))
+            (get_attr
+              (identifier))))))))
+
+=====
+Attribute as conditional expression
+=====
+
+foo = local.bar == local.baz
+
+-----
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (operation
+          (binary_operation
+            (variable_expr
+              (identifier))
+            (get_attr
+              (identifier))
+            (variable_expr
+              (identifier))
+            (get_attr
+              (identifier))))))))
