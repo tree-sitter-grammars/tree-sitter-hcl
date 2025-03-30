@@ -81,3 +81,48 @@ foo = a != b && c == d
                   (identifier))
                 (variable_expr
                   (identifier))))))))))
+
+================================================================================
+precedence in binary operators 2
+================================================================================
+
+foo = a.foo != "" && b.foo == "" ? 1 : 0
+
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (conditional
+          (expression
+            (operation
+              (binary_operation
+                (operation
+                  (binary_operation
+                    (variable_expr
+                      (identifier))
+                    (get_attr
+                      (identifier))
+                    (literal_value
+                      (string_lit
+                        (quoted_template_start)
+                        (quoted_template_end)))))
+                (operation
+                  (binary_operation
+                    (variable_expr
+                      (identifier))
+                    (get_attr
+                      (identifier))
+                    (literal_value
+                      (string_lit
+                        (quoted_template_start)
+                        (quoted_template_end))))))))
+          (expression
+            (literal_value
+              (numeric_lit)))
+          (expression
+            (literal_value
+              (numeric_lit))))))))
