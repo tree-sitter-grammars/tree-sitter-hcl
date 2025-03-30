@@ -11,10 +11,10 @@
   ],
   "metadata": {
     "version": "0.0.1",
-    "license": "MIT",
+    "license": "Apache-2.0",
     "description": "Terraform grammar for tree-sitter",
     "links": {
-      "repository": "https://github.com/tree-sitter/tree-sitter-terraform"
+      "repository": "https://github.com/tree-sitter/tree-sitter-hcl"
     }
   },
   "bindings": {
@@ -23,6 +23,7 @@
     "node": false,
     "python": false,
     "rust": false,
-    "swift": false
+    "swift": false,
+    "zig": false
   }
 }
