@@ -1141,13 +1141,8 @@
                 "name": "_expr_term"
               },
               {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": "&&"
-                  }
-                ]
+                "type": "STRING",
+                "value": "&&"
               },
               {
                 "type": "SYMBOL",
@@ -1167,13 +1162,8 @@
                 "name": "_expr_term"
               },
               {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": "||"
-                  }
-                ]
+                "type": "STRING",
+                "value": "||"
               },
               {
                 "type": "SYMBOL",
@@ -1792,5 +1782,6 @@
     }
   ],
   "inline": [],
-  "supertypes": []
+  "supertypes": [],
+  "reserved": {}
 }
