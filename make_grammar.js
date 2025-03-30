@@ -220,8 +220,8 @@ module.exports = function make_grammar(dialect) {
           [PREC.binary_add, choice("+", "-")],
           [PREC.binary_ord, choice(">", ">=", "<", "<=")],
           [PREC.binary_comp, choice("==", "!=")],
-          [PREC.binary_and, choice("&&")],
-          [PREC.binary_or, choice("||")],
+          [PREC.binary_and, "&&"],
+          [PREC.binary_or, "||"],
         ];
 
         return choice(
