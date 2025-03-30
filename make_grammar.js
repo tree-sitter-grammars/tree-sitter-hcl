@@ -1,5 +1,7 @@
 module.exports = function make_grammar(dialect) {
   const PREC = {
+    // unary negation should not pull expressions apart
+    expr: 8,
     unary: 7,
     binary_mult: 6,
     binary_add: 5,
@@ -70,9 +72,9 @@ module.exports = function make_grammar(dialect) {
           $.function_call,
           $.for_expr,
           $.operation,
-          seq($._expr_term, $.index),
-          seq($._expr_term, $.get_attr),
-          seq($._expr_term, $.splat),
+          prec.right(PREC.expr, seq($._expr_term, $.index)),
+          prec.right(PREC.expr, seq($._expr_term, $.get_attr)),
+          prec.right(PREC.expr, seq($._expr_term, $.splat)),
           seq("(", $.expression, ")"),
         ),
 
