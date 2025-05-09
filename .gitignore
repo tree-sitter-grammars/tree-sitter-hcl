@@ -47,7 +47,6 @@ zig-out/
 *.zip
 
 # Project misc.
-queries
 npm-debug.log
 log.html
 .env

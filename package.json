@@ -1,10 +1,9 @@
 {
   "name": "@tree-sitter-grammars/tree-sitter-hcl",
-  "version": "0.2.0-snapshot",
+  "version": "1.1.0",
   "description": "HCL and terraform grammar for tree-sitter",
-  "repository": "github:tree-sitter-grammars/tree-sitter-hcl",
+  "repository": "https://github.com/tree-sitter-grammars/tree-sitter-hcl",
   "license": "Apache-2.0",
-  "author": "",
   "main": "bindings/node",
   "types": "bindings/node",
   "keywords": [
@@ -15,11 +14,8 @@
     "terraform"
   ],
   "files": [
-    "dialects/**/grammar.js",
-    "dialects/**/queries/*",
-    "dialects/**/src/**",
-    "dialects/**/*.wasm",
     "grammar.js",
+    "make_grammar.js",
     "tree-sitter.json",
     "binding.gyp",
     "prebuilds/**",
@@ -29,15 +25,15 @@
     "*.wasm"
   ],
   "dependencies": {
-    "node-addon-api": "^8.2.1",
-    "node-gyp-build": "^4.8.2"
+    "node-addon-api": "^8.3.1",
+    "node-gyp-build": "^4.8.4"
   },
   "devDependencies": {
     "prebuildify": "^6.0.1",
-    "tree-sitter-cli": "^0.25"
+    "tree-sitter-cli": "^0.25.3"
   },
   "peerDependencies": {
-    "tree-sitter": "^0.21.1"
+    "tree-sitter": "^0.22.4"
   },
   "peerDependenciesMeta": {
     "tree-sitter": {
@@ -45,12 +41,10 @@
     }
   },
   "scripts": {
+    "build": "tree-sitter generate",
     "install": "node-gyp-build",
     "prestart": "tree-sitter build --wasm",
     "start": "tree-sitter playground",
-    "test": "tree-sitter test",
-    "generate": "npm run generate-hcl && npm run generate-terraform",
-    "generate-hcl": "tree-sitter generate",
-    "generate-terraform": "cd dialects/terraform && tree-sitter generate"
+    "test": "node --test bindings/node/*_test.js"
   }
 }

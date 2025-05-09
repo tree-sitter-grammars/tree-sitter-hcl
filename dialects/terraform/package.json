@@ -1,3 +1,9 @@
 {
-  "main": "../bindings/node"
+  "main": "../../bindings/node",
+  "private": true,
+  "scripts": {
+    "generate": "tree-sitter generate",
+    "prestart": "tree-sitter build --wasm",
+    "start": "tree-sitter playground"
+  }
 }

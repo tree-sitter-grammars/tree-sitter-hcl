@@ -1,12 +1,12 @@
 import XCTest
 import SwiftTreeSitter
-import TreeSitterHcl
+import TreeSitterHCL
 
-final class TreeSitterHclTests: XCTestCase {
+final class TreeSitterHCLTests: XCTestCase {
     func testCanLoadGrammar() throws {
         let parser = Parser()
         let language = Language(language: tree_sitter_hcl())
         XCTAssertNoThrow(try parser.setLanguage(language),
-                         "Error loading Hcl grammar")
+                         "Error loading HCL grammar")
     }
 }
