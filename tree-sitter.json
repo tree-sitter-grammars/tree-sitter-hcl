@@ -27,14 +27,5 @@
     "links": {
       "repository": "https://github.com/tree-sitter-grammars/tree-sitter-hcl"
     }
-  },
-  "bindings": {
-    "c": true,
-    "go": false,
-    "node": true,
-    "python": false,
-    "rust": true,
-    "swift": true,
-    "zig": false
   }
 }
