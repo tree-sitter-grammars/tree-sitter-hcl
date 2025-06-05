@@ -1,3 +1,7 @@
+/// <reference types="tree-sitter-cli/dsl" />
+// @ts-check
+
+/** @param {string} dialect */
 module.exports = function make_grammar(dialect) {
   const PREC = {
     unary: 7,
@@ -12,6 +16,7 @@ module.exports = function make_grammar(dialect) {
     string_lit: 2,
     quoted_template: 1,
   };
+
   return grammar({
     name: dialect,
 
@@ -51,8 +56,8 @@ module.exports = function make_grammar(dialect) {
       identifier: ($) =>
         token(
           seq(
-            choice(/\p{ID_Start}/, "_"),
-            repeat(choice(/\p{ID_Continue}/, "-", "::")),
+            choice(/\p{ID_Start}/u, "_"),
+            repeat(choice(/\p{ID_Continue}/u, "-", "::")),
           ),
         ),
 
@@ -225,8 +230,8 @@ module.exports = function make_grammar(dialect) {
           [PREC.binary_add, choice("+", "-")],
           [PREC.binary_ord, choice(">", ">=", "<", "<=")],
           [PREC.binary_comp, choice("==", "!=")],
-          [PREC.binary_and, choice("&&")],
-          [PREC.binary_or, choice("||")],
+          [PREC.binary_and, "&&"],
+          [PREC.binary_or, "||"],
         ];
 
         return choice(

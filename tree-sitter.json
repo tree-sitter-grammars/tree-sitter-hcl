@@ -1,0 +1,40 @@
+{
+  "grammars": [
+    {
+      "name": "hcl",
+      "camelcase": "HCL",
+      "scope": "source.hcl",
+      "path": ".",
+      "file-types": [
+        "hcl"
+      ]
+    },
+    {
+      "name": "terraform",
+      "camelcase": "Terraform",
+      "scope": "source.terraform",
+      "path": "dialects/terraform",
+      "file-types": [
+        "tf",
+        "tfvars"
+      ]
+    }
+  ],
+  "metadata": {
+    "version": "1.1.0",
+    "license": "Apache-2.0",
+    "description": "HCL and terraform grammar for tree-sitter",
+    "links": {
+      "repository": "https://github.com/tree-sitter-grammars/tree-sitter-hcl"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": false,
+    "node": true,
+    "python": false,
+    "rust": true,
+    "swift": true,
+    "zig": false
+  }
+}

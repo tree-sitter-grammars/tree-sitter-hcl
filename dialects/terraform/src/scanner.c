@@ -97,7 +97,7 @@ typedef struct {
     char *data;
 } String;
 
-String string_new() { return (String){.cap = 16, .len = 0, .data = calloc(1, sizeof(char) * 17)}; }
+static String string_new() { return (String){.cap = 16, .len = 0, .data = calloc(1, sizeof(char) * 17)}; }
 
 typedef struct {
     ContextType type;

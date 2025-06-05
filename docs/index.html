@@ -1,83 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Tree Sitter HCL Playground</title>
-    <style>
-      #playground-container {
-        max-width: 640px;
-        margin-left: auto;
-        margin-right: auto;
-      }
-      #playground-container .CodeMirror {
-        border: 1px solid;
-      }
-      #create-issue-btn {
-        padding: 0.2em;
-        float: right;
-        font-size: 1.5em;
-      }
-      #checkboxes {
-        padding-bottom: 1em;
-      }
-      #output-container {
-        border: 1px solid;
-      }
-      .highlight {
-        background-color: #f8f8f8;
-      }
-    </style>
-  </head>
-  <body>
-    <!--
+
+<head>
+  <meta charset="utf-8" />
+  <title>Tree Sitter HCL Playground</title>
+  <style>
+    #playground-container {
+      max-width: 640px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    #playground-container .CodeMirror {
+      border: 1px solid;
+    }
+
+    #create-issue-btn {
+      padding: 0.2em;
+      float: right;
+      font-size: 1.5em;
+    }
+
+    #checkboxes {
+      padding-bottom: 1em;
+    }
+
+    #output-container {
+      border: 1px solid;
+    }
+
+    .highlight {
+      background-color: #f8f8f8;
+    }
+  </style>
+</head>
+
+<body>
+  <!--
       This file is licensed under MIT license
-      Copyright (c) 2018 Max Brunsfeld
-      Taken from https://github.com/tree-sitter/tree-sitter/docs/section-7-playground.html
-    -->
+      Taken from https://github.com/tree-sitter/tree-sitter/blob/master/docs/src/7-playground.md
+  -->
 
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.45.0/codemirror.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/clusterize.js/0.18.0/clusterize.min.css"
-    />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/clusterize.js/0.19.0/clusterize.min.css">
 
-    <div id="playground-container">
-      <h1>Tree Sitter HCL Playground</h1>
-      <h4>Code</h4>
-      <div id="checkboxes">
-        <input id="logging-checkbox" type="checkbox" />
-        <label for="logging-checkbox">Log</label>
+  <h1>Tree Sitter HCL Playground</h1>
 
-        <input id="query-checkbox" type="checkbox" />
-        <label for="query-checkbox">Query</label>
+  <div id="playground-container" class="ts-playground" style="visibility: hidden;">
+    <h2>Code</h2>
+
+    <div class="custom-select">
+      <button id="language-button" class="select-button">
+        <span class="selected-value">JavaScript</span>
+        <svg class="arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </button>
+      <div class="select-dropdown">
+        <div class="option" data-value="hcl">HCL</div>
       </div>
+      <select id="language-select" style="display: none;">
+        <option value="hcl">HCL</option>
+      </select>
+    </div>
 
-      <textarea id="code-input">
+    <input id="logging-checkbox" type="checkbox"></input>
+    <label for="logging-checkbox">Log</label>
+
+    <input id="anonymous-nodes-checkbox" type="checkbox"></input>
+    <label for="anonymous-nodes-checkbox">Show anonymous nodes</label>
+
+    <input id="query-checkbox" type="checkbox"></input>
+    <label for="query-checkbox">Query</label>
+
+    <input id="accessibility-checkbox" type="checkbox"></input>
+    <label for="accessibility-checkbox">Accessibility</label>
+
+    <textarea id="code-input">
 example "test" {
   foo = "bar"
 }
-      </textarea>
+    </textarea>
 
-      <div id="query-container" style="visibility: hidden; position: absolute">
-        <h4>Query</h4>
-        <textarea id="query-input"></textarea>
-      </div>
-
-      <h4>Tree</h4>
-      <span id="update-time"></span>
-      <div id="output-container-scroll">
-        <pre id="output-container" class="highlight"></pre>
-      </div>
-      <button id="create-issue-btn" type="button">Create Issue</button>
+    <div id="query-container" style="visibility: hidden; position: absolute;">
+      <h2>Query</h2>
+      <textarea id="query-input"></textarea>
     </div>
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.45.0/codemirror.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/clusterize.js/0.18.0/clusterize.min.js"></script>
-    <script src="./vendor/tree-sitter.js"></script>
-    <script id="playground-script" src="./playground.js?v=3"></script>
-  </body>
+    <h2>Tree</h2>
+    <span id="update-time"></span>
+    <div id="output-container-scroll">
+      <pre id="output-container" class="highlight"></pre>
+    </div>
+    <button id="create-issue-btn" type="button">Create Issue</button>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
+  <script id="playground-script" src="./playground.js?v=3"></script>
+
+  <script type="module">
+    import * as TreeSitter from './vendor/web-tree-sitter.js';
+    window.TreeSitter = TreeSitter;
+    setTimeout(() => window.initializePlayground({ local: false }), 1);
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clusterize.js/0.19.0/clusterize.min.js"></script>
+</body>
+
 </html>

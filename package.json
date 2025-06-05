@@ -1,22 +1,50 @@
 {
-  "name": "tree-sitter-hcl",
-  "version": "0.2.0-snapshot",
-  "description": "",
+  "name": "@tree-sitter-grammars/tree-sitter-hcl",
+  "version": "1.1.0",
+  "description": "HCL and terraform grammar for tree-sitter",
+  "repository": "https://github.com/tree-sitter-grammars/tree-sitter-hcl",
+  "license": "Apache-2.0",
   "main": "bindings/node",
-  "author": "",
-  "license": "ISC",
+  "types": "bindings/node",
+  "keywords": [
+    "incremental",
+    "parsing",
+    "tree-sitter",
+    "hcl",
+    "terraform"
+  ],
+  "files": [
+    "grammar.js",
+    "make_grammar.js",
+    "tree-sitter.json",
+    "binding.gyp",
+    "prebuilds/**",
+    "bindings/node/*",
+    "queries/*",
+    "src/**",
+    "*.wasm"
+  ],
   "dependencies": {
-    "nan": "^2.14.2",
-    "tree-sitter-cli": "^0.20.6"
+    "node-addon-api": "^8.3.1",
+    "node-gyp-build": "^4.8.4"
   },
-  "tree-sitter": [
-    {
-      "scope": "source.hcl",
-      "file-types": [
-        "hcl",
-        "tf",
-        "tfvars"
-      ]
+  "devDependencies": {
+    "prebuildify": "^6.0.1",
+    "tree-sitter-cli": "^0.25.3"
+  },
+  "peerDependencies": {
+    "tree-sitter": "^0.22.4"
+  },
+  "peerDependenciesMeta": {
+    "tree-sitter": {
+      "optional": true
     }
-  ]
+  },
+  "scripts": {
+    "build": "tree-sitter generate",
+    "install": "node-gyp-build",
+    "prestart": "tree-sitter build --wasm",
+    "start": "tree-sitter playground",
+    "test": "node --test bindings/node/*_test.js"
+  }
 }

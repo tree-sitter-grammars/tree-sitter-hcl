@@ -1,21 +1,34 @@
 [package]
 name = "tree-sitter-hcl"
-description = "hcl grammar for the tree-sitter parsing library"
-version = "0.0.1"
-keywords = ["incremental", "parsing", "hcl"]
-categories = ["parsing", "text-editors"]
-repository = "https://github.com/MichaHoffmann/tree-sitter-hcl"
-edition = "2018"
-license = "Apache"
+description = "HCL and terraform grammar for tree-sitter"
+version = "1.1.0"
+license = "Apache-2.0"
+readme = "README.md"
+keywords = ["incremental", "parsing", "tree-sitter", "hcl"]
+categories = ["parser-implementations", "parsing", "text-editors"]
+repository = "https://github.com/tree-sitter-grammars/tree-sitter-hcl"
+edition = "2021"
+autoexamples = false
 
 build = "bindings/rust/build.rs"
-include = ["bindings/rust/*", "grammar.js", "queries/*", "src/*"]
+include = [
+  "bindings/rust/*",
+  "grammar.js",
+  "make_grammar.js",
+  "queries/*",
+  "src/*",
+  "tree-sitter.json",
+  "LICENSE",
+]
 
 [lib]
 path = "bindings/rust/lib.rs"
 
 [dependencies]
-tree-sitter = "~0.20.10"
+tree-sitter-language = "0.1"
 
 [build-dependencies]
-cc = "1.0"
+cc = "1.2"
+
+[dev-dependencies]
+tree-sitter = "0.25.3"
