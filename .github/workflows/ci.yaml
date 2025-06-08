@@ -37,7 +37,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Set up tree-sitter
-        uses: tree-sitter/setup-action/cli@v1
+        uses: tree-sitter/setup-action/cli@v2
       - name: Regenerate with ABI 14
         # TODO: remove when node & swift support ABI 15
         run: |-
