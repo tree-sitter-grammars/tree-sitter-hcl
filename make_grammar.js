@@ -5,6 +5,7 @@
 module.exports = function make_grammar(dialect) {
   const PREC = {
     get_attr: 9,
+    index: 9,
     // unary negation should not pull expressions apart
     expr: 8,
     unary: 7,
@@ -41,6 +42,8 @@ module.exports = function make_grammar(dialect) {
 
     extras: ($) => [$.comment, $._whitespace],
 
+    supertypes: ($) => [$.expression, $.expr_term],
+
     rules: {
       // also allow objects to handle .tfvars in json format
       config_file: ($) => optional(choice($.body, $.object)),
@@ -70,12 +73,12 @@ module.exports = function make_grammar(dialect) {
           ),
         ),
 
-      expression: ($) => prec.right(choice($._expr_term, $.conditional)),
+      expression: ($) => prec.right(choice($.expr_term, $.conditional)),
 
       // operations are documented as expressions, but our real world samples
       // contain instances of operations without parentheses. think for example:
       // x = a == "" && b != ""
-      _expr_term: ($) =>
+      expr_term: ($) =>
         choice(
           $.literal_value,
           $._template_expr,
@@ -84,11 +87,13 @@ module.exports = function make_grammar(dialect) {
           $.function_call,
           $.for_expr,
           $._operation,
-          prec.right(PREC.expr, seq($._expr_term, $.index)),
+          prec.right(PREC.expr, seq($.index)),
           prec.right(PREC.expr, seq($.get_attr)),
           prec.right(PREC.expr, seq($.splat)),
-          seq("(", $.expression, ")"),
+          $.parenthesized_expression,
         ),
+
+      parenthesized_expression: ($) => seq("(", $.expression, ")"),
 
       literal_value: ($) =>
         choice($.numeric_lit, $.bool_lit, $.null_lit, $.string_lit),
@@ -146,7 +151,14 @@ module.exports = function make_grammar(dialect) {
           field("val", $.expression),
         ),
 
-      index: ($) => choice($.new_index, $.legacy_index),
+      index: ($) =>
+        prec(
+          PREC.index,
+          seq(
+            field("object", $.expr_term),
+            field("index", choice($.new_index, $.legacy_index)),
+          ),
+        ),
 
       new_index: ($) => seq("[", $.expression, "]"),
       legacy_index: ($) => seq(".", /[0-9]+/),
@@ -155,7 +167,7 @@ module.exports = function make_grammar(dialect) {
         prec(
           PREC.get_attr,
           seq(
-            field("object", $._expr_term),
+            field("object", $.expr_term),
             ".",
             field("attribute", $.identifier),
           ),
@@ -256,7 +268,7 @@ module.exports = function make_grammar(dialect) {
           PREC.unary,
           seq(
             field("operator", choice("-", "!")),
-            field("operand", $._expr_term),
+            field("operand", $.expr_term),
           ),
         ),
 
@@ -275,9 +287,9 @@ module.exports = function make_grammar(dialect) {
             prec.left(
               precedence,
               seq(
-                field("left", $._expr_term),
+                field("left", $.expr_term),
                 field("operator", operator),
-                field("right", $._expr_term),
+                field("right", $.expr_term),
               ),
             ),
           ),
@@ -341,7 +353,7 @@ module.exports = function make_grammar(dialect) {
           field("strip_marker_start", optional($.strip_marker)),
           "for",
           field("left", $.identifier),
-          field("left", optional(seq(",", $.identifier))),
+          optional(seq(",", field("left", $.identifier))),
           "in",
           field("right", $.expression),
           field("strip_marker_end", optional($.strip_marker)),

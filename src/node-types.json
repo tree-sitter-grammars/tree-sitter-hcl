@@ -1,5 +1,77 @@
 [
   {
+    "type": "expr_term",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "binary_operation",
+        "named": true
+      },
+      {
+        "type": "collection_value",
+        "named": true
+      },
+      {
+        "type": "for_expr",
+        "named": true
+      },
+      {
+        "type": "function_call",
+        "named": true
+      },
+      {
+        "type": "get_attr",
+        "named": true
+      },
+      {
+        "type": "heredoc_template",
+        "named": true
+      },
+      {
+        "type": "identifier",
+        "named": true
+      },
+      {
+        "type": "index",
+        "named": true
+      },
+      {
+        "type": "literal_value",
+        "named": true
+      },
+      {
+        "type": "parenthesized_expression",
+        "named": true
+      },
+      {
+        "type": "quoted_template",
+        "named": true
+      },
+      {
+        "type": "splat",
+        "named": true
+      },
+      {
+        "type": "unary_operation",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "expression",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "conditional",
+        "named": true
+      },
+      {
+        "type": "expr_term",
+        "named": true
+      }
+    ]
+  },
+  {
     "type": "attr_splat",
     "named": true,
     "fields": {
@@ -46,67 +118,11 @@
     "named": true,
     "fields": {
       "left": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "(",
-            "named": false
-          },
-          {
-            "type": ")",
-            "named": false
-          },
-          {
-            "type": "binary_operation",
-            "named": true
-          },
-          {
-            "type": "collection_value",
-            "named": true
-          },
-          {
-            "type": "expression",
-            "named": true
-          },
-          {
-            "type": "for_expr",
-            "named": true
-          },
-          {
-            "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "get_attr",
-            "named": true
-          },
-          {
-            "type": "heredoc_template",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "index",
-            "named": true
-          },
-          {
-            "type": "literal_value",
-            "named": true
-          },
-          {
-            "type": "quoted_template",
-            "named": true
-          },
-          {
-            "type": "splat",
-            "named": true
-          },
-          {
-            "type": "unary_operation",
+            "type": "expr_term",
             "named": true
           }
         ]
@@ -170,67 +186,11 @@
         ]
       },
       "right": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "(",
-            "named": false
-          },
-          {
-            "type": ")",
-            "named": false
-          },
-          {
-            "type": "binary_operation",
-            "named": true
-          },
-          {
-            "type": "collection_value",
-            "named": true
-          },
-          {
-            "type": "expression",
-            "named": true
-          },
-          {
-            "type": "for_expr",
-            "named": true
-          },
-          {
-            "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "get_attr",
-            "named": true
-          },
-          {
-            "type": "heredoc_template",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "index",
-            "named": true
-          },
-          {
-            "type": "literal_value",
-            "named": true
-          },
-          {
-            "type": "quoted_template",
-            "named": true
-          },
-          {
-            "type": "splat",
-            "named": true
-          },
-          {
-            "type": "unary_operation",
+            "type": "expr_term",
             "named": true
           }
         ]
@@ -372,73 +332,6 @@
         },
         {
           "type": "object",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "expression",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "binary_operation",
-          "named": true
-        },
-        {
-          "type": "collection_value",
-          "named": true
-        },
-        {
-          "type": "conditional",
-          "named": true
-        },
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "for_expr",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "get_attr",
-          "named": true
-        },
-        {
-          "type": "heredoc_template",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "index",
-          "named": true
-        },
-        {
-          "type": "literal_value",
-          "named": true
-        },
-        {
-          "type": "quoted_template",
-          "named": true
-        },
-        {
-          "type": "splat",
-          "named": true
-        },
-        {
-          "type": "unary_operation",
           "named": true
         }
       ]
@@ -730,67 +623,11 @@
         ]
       },
       "object": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "(",
-            "named": false
-          },
-          {
-            "type": ")",
-            "named": false
-          },
-          {
-            "type": "binary_operation",
-            "named": true
-          },
-          {
-            "type": "collection_value",
-            "named": true
-          },
-          {
-            "type": "expression",
-            "named": true
-          },
-          {
-            "type": "for_expr",
-            "named": true
-          },
-          {
-            "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "get_attr",
-            "named": true
-          },
-          {
-            "type": "heredoc_template",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "index",
-            "named": true
-          },
-          {
-            "type": "literal_value",
-            "named": true
-          },
-          {
-            "type": "quoted_template",
-            "named": true
-          },
-          {
-            "type": "splat",
-            "named": true
-          },
-          {
-            "type": "unary_operation",
+            "type": "expr_term",
             "named": true
           }
         ]
@@ -841,20 +678,31 @@
   {
     "type": "index",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "legacy_index",
-          "named": true
-        },
-        {
-          "type": "new_index",
-          "named": true
-        }
-      ]
+    "fields": {
+      "index": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "legacy_index",
+            "named": true
+          },
+          {
+            "type": "new_index",
+            "named": true
+          }
+        ]
+      },
+      "object": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expr_term",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -967,6 +815,21 @@
     "type": "object_start",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "parenthesized_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "quoted_template",
@@ -1200,10 +1063,6 @@
         "multiple": true,
         "required": true,
         "types": [
-          {
-            "type": ",",
-            "named": false
-          },
           {
             "type": "identifier",
             "named": true
@@ -1495,67 +1354,11 @@
     "named": true,
     "fields": {
       "operand": {
-        "multiple": true,
+        "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "(",
-            "named": false
-          },
-          {
-            "type": ")",
-            "named": false
-          },
-          {
-            "type": "binary_operation",
-            "named": true
-          },
-          {
-            "type": "collection_value",
-            "named": true
-          },
-          {
-            "type": "expression",
-            "named": true
-          },
-          {
-            "type": "for_expr",
-            "named": true
-          },
-          {
-            "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "get_attr",
-            "named": true
-          },
-          {
-            "type": "heredoc_template",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "index",
-            "named": true
-          },
-          {
-            "type": "literal_value",
-            "named": true
-          },
-          {
-            "type": "quoted_template",
-            "named": true
-          },
-          {
-            "type": "splat",
-            "named": true
-          },
-          {
-            "type": "unary_operation",
+            "type": "expr_term",
             "named": true
           }
         ]
