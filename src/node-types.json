@@ -2,94 +2,239 @@
   {
     "type": "attr_splat",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "get_attr",
-          "named": true
-        },
-        {
-          "type": "index",
-          "named": true
-        }
-      ]
+    "fields": {
+      "expression": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
     "type": "attribute",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        }
-      ]
+    "fields": {
+      "left": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "right": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
     "type": "binary_operation",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "collection_value",
-          "named": true
-        },
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "for_expr",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "get_attr",
-          "named": true
-        },
-        {
-          "type": "index",
-          "named": true
-        },
-        {
-          "type": "literal_value",
-          "named": true
-        },
-        {
-          "type": "operation",
-          "named": true
-        },
-        {
-          "type": "splat",
-          "named": true
-        },
-        {
-          "type": "template_expr",
-          "named": true
-        },
-        {
-          "type": "variable_expr",
-          "named": true
-        }
-      ]
+    "fields": {
+      "left": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": "binary_operation",
+            "named": true
+          },
+          {
+            "type": "collection_value",
+            "named": true
+          },
+          {
+            "type": "expression",
+            "named": true
+          },
+          {
+            "type": "for_expr",
+            "named": true
+          },
+          {
+            "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "get_attr",
+            "named": true
+          },
+          {
+            "type": "heredoc_template",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "index",
+            "named": true
+          },
+          {
+            "type": "literal_value",
+            "named": true
+          },
+          {
+            "type": "quoted_template",
+            "named": true
+          },
+          {
+            "type": "splat",
+            "named": true
+          },
+          {
+            "type": "unary_operation",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "!=",
+            "named": false
+          },
+          {
+            "type": "%",
+            "named": false
+          },
+          {
+            "type": "&&",
+            "named": false
+          },
+          {
+            "type": "*",
+            "named": false
+          },
+          {
+            "type": "+",
+            "named": false
+          },
+          {
+            "type": "-",
+            "named": false
+          },
+          {
+            "type": "/",
+            "named": false
+          },
+          {
+            "type": "<",
+            "named": false
+          },
+          {
+            "type": "<=",
+            "named": false
+          },
+          {
+            "type": "==",
+            "named": false
+          },
+          {
+            "type": ">",
+            "named": false
+          },
+          {
+            "type": ">=",
+            "named": false
+          },
+          {
+            "type": "||",
+            "named": false
+          }
+        ]
+      },
+      "right": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": "binary_operation",
+            "named": true
+          },
+          {
+            "type": "collection_value",
+            "named": true
+          },
+          {
+            "type": "expression",
+            "named": true
+          },
+          {
+            "type": "for_expr",
+            "named": true
+          },
+          {
+            "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "get_attr",
+            "named": true
+          },
+          {
+            "type": "heredoc_template",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "index",
+            "named": true
+          },
+          {
+            "type": "literal_value",
+            "named": true
+          },
+          {
+            "type": "quoted_template",
+            "named": true
+          },
+          {
+            "type": "splat",
+            "named": true
+          },
+          {
+            "type": "unary_operation",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -179,16 +324,37 @@
   {
     "type": "conditional",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "expression",
-          "named": true
-        }
-      ]
+    "fields": {
+      "alternative": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      },
+      "condition": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      },
+      "consequence": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -220,6 +386,10 @@
       "required": true,
       "types": [
         {
+          "type": "binary_operation",
+          "named": true
+        },
+        {
           "type": "collection_value",
           "named": true
         },
@@ -244,6 +414,14 @@
           "named": true
         },
         {
+          "type": "heredoc_template",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
           "type": "index",
           "named": true
         },
@@ -252,7 +430,7 @@
           "named": true
         },
         {
-          "type": "operation",
+          "type": "quoted_template",
           "named": true
         },
         {
@@ -260,11 +438,7 @@
           "named": true
         },
         {
-          "type": "template_expr",
-          "named": true
-        },
-        {
-          "type": "variable_expr",
+          "type": "unary_operation",
           "named": true
         }
       ]
@@ -305,48 +479,120 @@
     }
   },
   {
+    "type": "for_initializer_pair",
+    "named": true,
+    "fields": {
+      "left": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "right": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "for_intro",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        }
-      ]
+    "fields": {
+      "left": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "for_initializer_pair",
+            "named": true
+          },
+          {
+            "type": "for_initializer_single",
+            "named": true
+          }
+        ]
+      },
+      "right": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
     "type": "for_object_expr",
     "named": true,
-    "fields": {},
+    "fields": {
+      "condition": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "for_cond",
+            "named": true
+          }
+        ]
+      },
+      "expansion": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "ellipsis",
+            "named": true
+          }
+        ]
+      },
+      "intro": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "for_intro",
+            "named": true
+          }
+        ]
+      },
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
       "types": [
-        {
-          "type": "ellipsis",
-          "named": true
-        },
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "for_cond",
-          "named": true
-        },
-        {
-          "type": "for_intro",
-          "named": true
-        },
         {
           "type": "object_end",
           "named": true
@@ -361,23 +607,42 @@
   {
     "type": "for_tuple_expr",
     "named": true,
-    "fields": {},
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      },
+      "condition": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "for_cond",
+            "named": true
+          }
+        ]
+      },
+      "intro": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "for_intro",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
       "types": [
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "for_cond",
-          "named": true
-        },
-        {
-          "type": "for_intro",
-          "named": true
-        },
         {
           "type": "tuple_end",
           "named": true
@@ -392,20 +657,17 @@
   {
     "type": "full_splat",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "get_attr",
-          "named": true
-        },
-        {
-          "type": "index",
-          "named": true
-        }
-      ]
+    "fields": {
+      "expression": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -430,35 +692,109 @@
   {
     "type": "function_call",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "function_arguments",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        }
-      ]
+    "fields": {
+      "arguments": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "function_arguments",
+            "named": true
+          }
+        ]
+      },
+      "function": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
     "type": "get_attr",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        }
-      ]
+    "fields": {
+      "attribute": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "object": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": "binary_operation",
+            "named": true
+          },
+          {
+            "type": "collection_value",
+            "named": true
+          },
+          {
+            "type": "expression",
+            "named": true
+          },
+          {
+            "type": "for_expr",
+            "named": true
+          },
+          {
+            "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "get_attr",
+            "named": true
+          },
+          {
+            "type": "heredoc_template",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "index",
+            "named": true
+          },
+          {
+            "type": "literal_value",
+            "named": true
+          },
+          {
+            "type": "quoted_template",
+            "named": true
+          },
+          {
+            "type": "splat",
+            "named": true
+          },
+          {
+            "type": "unary_operation",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -469,29 +805,34 @@
   {
     "type": "heredoc_template",
     "named": true,
-    "fields": {},
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "template",
+            "named": true
+          }
+        ]
+      },
+      "heredoc_marker": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "heredoc_start",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
       "types": [
         {
           "type": "heredoc_identifier",
-          "named": true
-        },
-        {
-          "type": "heredoc_start",
-          "named": true
-        },
-        {
-          "type": "template_directive",
-          "named": true
-        },
-        {
-          "type": "template_interpolation",
-          "named": true
-        },
-        {
-          "type": "template_literal",
           "named": true
         }
       ]
@@ -628,28 +969,20 @@
     "fields": {}
   },
   {
-    "type": "operation",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "binary_operation",
-          "named": true
-        },
-        {
-          "type": "unary_operation",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "quoted_template",
     "named": true,
-    "fields": {},
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "template",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -660,18 +993,6 @@
         },
         {
           "type": "quoted_template_start",
-          "named": true
-        },
-        {
-          "type": "template_directive",
-          "named": true
-        },
-        {
-          "type": "template_interpolation",
-          "named": true
-        },
-        {
-          "type": "template_literal",
           "named": true
         }
       ]
@@ -699,7 +1020,18 @@
   {
     "type": "string_lit",
     "named": true,
-    "fields": {},
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "template_literal",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -710,6 +1042,25 @@
         },
         {
           "type": "quoted_template_start",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "template",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "template_directive",
+          "named": true
+        },
+        {
+          "type": "template_interpolation",
           "named": true
         },
         {
@@ -741,40 +1092,38 @@
   {
     "type": "template_else_intro",
     "named": true,
-    "fields": {},
+    "fields": {
+      "strip_marker_end": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "strip_marker",
+            "named": true
+          }
+        ]
+      },
+      "strip_marker_start": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "strip_marker",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
       "types": [
-        {
-          "type": "strip_marker",
-          "named": true
-        },
         {
           "type": "template_directive_end",
           "named": true
         },
         {
           "type": "template_directive_start",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "template_expr",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "heredoc_template",
-          "named": true
-        },
-        {
-          "type": "quoted_template",
           "named": true
         }
       ]
@@ -789,7 +1138,7 @@
       "required": true,
       "types": [
         {
-          "type": "template_directive",
+          "type": "template",
           "named": true
         },
         {
@@ -799,14 +1148,6 @@
         {
           "type": "template_for_start",
           "named": true
-        },
-        {
-          "type": "template_interpolation",
-          "named": true
-        },
-        {
-          "type": "template_literal",
-          "named": true
         }
       ]
     }
@@ -814,15 +1155,32 @@
   {
     "type": "template_for_end",
     "named": true,
-    "fields": {},
+    "fields": {
+      "strip_marker_end": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "strip_marker",
+            "named": true
+          }
+        ]
+      },
+      "strip_marker_start": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "strip_marker",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
       "types": [
-        {
-          "type": "strip_marker",
-          "named": true
-        },
         {
           "type": "template_directive_end",
           "named": true
@@ -837,23 +1195,56 @@
   {
     "type": "template_for_start",
     "named": true,
-    "fields": {},
+    "fields": {
+      "left": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": ",",
+            "named": false
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "right": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      },
+      "strip_marker_end": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "strip_marker",
+            "named": true
+          }
+        ]
+      },
+      "strip_marker_start": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "strip_marker",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
       "types": [
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "strip_marker",
-          "named": true
-        },
         {
           "type": "template_directive_end",
           "named": true
@@ -868,33 +1259,54 @@
   {
     "type": "template_if",
     "named": true,
-    "fields": {},
+    "fields": {
+      "else_body": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "template",
+            "named": true
+          }
+        ]
+      },
+      "else_intro": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "template_else_intro",
+            "named": true
+          }
+        ]
+      },
+      "if_body": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "template",
+            "named": true
+          }
+        ]
+      },
+      "if_intro": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "template_if_intro",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "template_directive",
-          "named": true
-        },
-        {
-          "type": "template_else_intro",
-          "named": true
-        },
-        {
           "type": "template_if_end",
-          "named": true
-        },
-        {
-          "type": "template_if_intro",
-          "named": true
-        },
-        {
-          "type": "template_interpolation",
-          "named": true
-        },
-        {
-          "type": "template_literal",
           "named": true
         }
       ]
@@ -903,15 +1315,32 @@
   {
     "type": "template_if_end",
     "named": true,
-    "fields": {},
+    "fields": {
+      "strip_marker_end": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "strip_marker",
+            "named": true
+          }
+        ]
+      },
+      "strip_marker_start": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "strip_marker",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
       "types": [
-        {
-          "type": "strip_marker",
-          "named": true
-        },
         {
           "type": "template_directive_end",
           "named": true
@@ -926,19 +1355,42 @@
   {
     "type": "template_if_intro",
     "named": true,
-    "fields": {},
+    "fields": {
+      "condition": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      },
+      "strip_marker_end": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "strip_marker",
+            "named": true
+          }
+        ]
+      },
+      "strip_marker_start": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "strip_marker",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
       "types": [
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "strip_marker",
-          "named": true
-        },
         {
           "type": "template_directive_end",
           "named": true
@@ -953,19 +1405,42 @@
   {
     "type": "template_interpolation",
     "named": true,
-    "fields": {},
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      },
+      "strip_marker_end": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "strip_marker",
+            "named": true
+          }
+        ]
+      },
+      "strip_marker_start": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "strip_marker",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
       "types": [
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "strip_marker",
-          "named": true
-        },
         {
           "type": "template_interpolation_end",
           "named": true
@@ -1018,71 +1493,87 @@
   {
     "type": "unary_operation",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "collection_value",
-          "named": true
-        },
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
-          "type": "for_expr",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "get_attr",
-          "named": true
-        },
-        {
-          "type": "index",
-          "named": true
-        },
-        {
-          "type": "literal_value",
-          "named": true
-        },
-        {
-          "type": "operation",
-          "named": true
-        },
-        {
-          "type": "splat",
-          "named": true
-        },
-        {
-          "type": "template_expr",
-          "named": true
-        },
-        {
-          "type": "variable_expr",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "variable_expr",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        }
-      ]
+    "fields": {
+      "operand": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": "binary_operation",
+            "named": true
+          },
+          {
+            "type": "collection_value",
+            "named": true
+          },
+          {
+            "type": "expression",
+            "named": true
+          },
+          {
+            "type": "for_expr",
+            "named": true
+          },
+          {
+            "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "get_attr",
+            "named": true
+          },
+          {
+            "type": "heredoc_template",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "index",
+            "named": true
+          },
+          {
+            "type": "literal_value",
+            "named": true
+          },
+          {
+            "type": "quoted_template",
+            "named": true
+          },
+          {
+            "type": "splat",
+            "named": true
+          },
+          {
+            "type": "unary_operation",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "-",
+            "named": false
+          }
+        ]
+      }
     }
   },
   {
@@ -1221,6 +1712,10 @@
   {
     "type": "for",
     "named": false
+  },
+  {
+    "type": "for_initializer_single",
+    "named": true
   },
   {
     "type": "heredoc_identifier",

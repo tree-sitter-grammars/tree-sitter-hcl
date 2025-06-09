@@ -4,6 +4,7 @@
 /** @param {string} dialect */
 module.exports = function make_grammar(dialect) {
   const PREC = {
+    get_attr: 9,
     // unary negation should not pull expressions apart
     expr: 8,
     unary: 7,
@@ -21,6 +22,11 @@ module.exports = function make_grammar(dialect) {
 
   return grammar({
     name: dialect,
+
+    // conflicts: ($) => [[$.template_interpolation], [$.template]],
+    // precedences: ($) => [
+    //   [$.template_for_start, $.template_if_end, $.template_for_end],
+    // ],
 
     externals: ($) => [
       $.quoted_template_start,
@@ -41,7 +47,8 @@ module.exports = function make_grammar(dialect) {
 
       body: ($) => choice(repeat1(choice($.attribute, $.block))),
 
-      attribute: ($) => seq($.identifier, "=", $.expression),
+      attribute: ($) =>
+        seq(field("left", $.identifier), "=", field("right", $.expression)),
 
       block: ($) =>
         seq(
@@ -71,15 +78,15 @@ module.exports = function make_grammar(dialect) {
       _expr_term: ($) =>
         choice(
           $.literal_value,
-          $.template_expr,
+          $._template_expr,
           $.collection_value,
-          $.variable_expr,
+          $._variable_expr,
           $.function_call,
           $.for_expr,
-          $.operation,
+          $._operation,
           prec.right(PREC.expr, seq($._expr_term, $.index)),
-          prec.right(PREC.expr, seq($._expr_term, $.get_attr)),
-          prec.right(PREC.expr, seq($._expr_term, $.splat)),
+          prec.right(PREC.expr, seq($.get_attr)),
+          prec.right(PREC.expr, seq($.splat)),
           seq("(", $.expression, ")"),
         ),
 
@@ -98,7 +105,7 @@ module.exports = function make_grammar(dialect) {
           PREC.string_lit,
           seq(
             $.quoted_template_start,
-            optional($.template_literal),
+            field("body", optional($.template_literal)),
             $.quoted_template_end,
           ),
         ),
@@ -144,58 +151,76 @@ module.exports = function make_grammar(dialect) {
       new_index: ($) => seq("[", $.expression, "]"),
       legacy_index: ($) => seq(".", /[0-9]+/),
 
-      get_attr: ($) => seq(".", $.identifier),
+      get_attr: ($) =>
+        prec(
+          PREC.get_attr,
+          seq(
+            field("object", $._expr_term),
+            ".",
+            field("attribute", $.identifier),
+          ),
+        ),
 
       splat: ($) => choice($.attr_splat, $.full_splat),
 
       attr_splat: ($) =>
-        prec.right(seq(".*", repeat(choice($.get_attr, $.index)))),
+        prec.right(seq(field("expression", $.expression), ".*")),
 
       full_splat: ($) =>
-        prec.right(seq("[*]", repeat(choice($.get_attr, $.index)))),
+        prec.right(seq(field("expression", $.expression), "[*]")),
 
       for_expr: ($) => choice($.for_tuple_expr, $.for_object_expr),
 
       for_tuple_expr: ($) =>
         seq(
           $.tuple_start,
-          $.for_intro,
-          $.expression,
-          optional($.for_cond),
+          field("intro", $.for_intro),
+          field("body", $.expression),
+          field("condition", optional($.for_cond)),
           $.tuple_end,
         ),
 
       for_object_expr: ($) =>
         seq(
           $.object_start,
-          $.for_intro,
-          $.expression,
+          field("intro", $.for_intro),
+          field("key", $.expression),
           "=>",
-          $.expression,
-          optional($.ellipsis),
-          optional($.for_cond),
+          field("value", $.expression),
+          field("expansion", optional($.ellipsis)),
+          field("condition", optional($.for_cond)),
           $.object_end,
         ),
 
       for_intro: ($) =>
         seq(
           "for",
-          $.identifier,
-          optional(seq(",", $.identifier)),
+          field(
+            "left",
+            choice(
+              alias($.identifier, $.for_initializer_single),
+              $.for_initializer_pair,
+            ),
+          ),
           "in",
-          $.expression,
+          field("right", $.expression),
           ":",
         ),
 
+      // for_initializer_single: ($) => $.identifier,
+
+      for_initializer_pair: ($) =>
+        seq(field("left", $.identifier), ",", field("right", $.identifier)),
+
       for_cond: ($) => seq("if", $.expression),
 
-      variable_expr: ($) => prec.right($.identifier),
+      _variable_expr: ($) => prec.right($.identifier),
 
       function_call: ($) =>
         seq(
-          $.identifier,
+          field("function", $.identifier),
           $._function_call_start,
-          optional($.function_arguments),
+          field("arguments", optional($.function_arguments)),
           $._function_call_end,
         ),
 
@@ -214,12 +239,26 @@ module.exports = function make_grammar(dialect) {
       ellipsis: ($) => token("..."),
 
       conditional: ($) =>
-        prec.left(seq($.expression, "?", $.expression, ":", $.expression)),
+        prec.left(
+          seq(
+            field("condition", $.expression),
+            "?",
+            field("consequence", $.expression),
+            ":",
+            field("alternative", $.expression),
+          ),
+        ),
 
-      operation: ($) => choice($.unary_operation, $.binary_operation),
+      _operation: ($) => choice($.unary_operation, $.binary_operation),
 
       unary_operation: ($) =>
-        prec.left(PREC.unary, seq(choice("-", "!"), $._expr_term)),
+        prec.left(
+          PREC.unary,
+          seq(
+            field("operator", choice("-", "!")),
+            field("operand", $._expr_term),
+          ),
+        ),
 
       binary_operation: ($) => {
         const table = [
@@ -233,28 +272,35 @@ module.exports = function make_grammar(dialect) {
 
         return choice(
           ...table.map(([precedence, operator]) =>
-            prec.left(precedence, seq($._expr_term, operator, $._expr_term)),
+            prec.left(
+              precedence,
+              seq(
+                field("left", $._expr_term),
+                field("operator", operator),
+                field("right", $._expr_term),
+              ),
+            ),
           ),
         );
       },
 
-      template_expr: ($) => choice($.quoted_template, $.heredoc_template),
+      _template_expr: ($) => choice($.quoted_template, $.heredoc_template),
 
       quoted_template: ($) =>
         prec(
           PREC.quoted_template,
           seq(
             $.quoted_template_start,
-            optional($._template),
+            field("body", optional($.template)),
             $.quoted_template_end,
           ),
         ),
 
       heredoc_template: ($) =>
         seq(
-          $.heredoc_start,
+          field("heredoc_marker", $.heredoc_start),
           $.heredoc_identifier,
-          optional($._template),
+          field("body", optional($.template)),
           $.heredoc_identifier,
         ),
 
@@ -262,12 +308,14 @@ module.exports = function make_grammar(dialect) {
 
       strip_marker: ($) => "~",
 
-      _template: ($) =>
-        repeat1(
-          choice(
-            $.template_interpolation,
-            $.template_directive,
-            $.template_literal,
+      template: ($) =>
+        prec.left(
+          repeat1(
+            choice(
+              $.template_interpolation,
+              $.template_directive,
+              $.template_literal,
+            ),
           ),
         ),
 
@@ -276,72 +324,77 @@ module.exports = function make_grammar(dialect) {
       template_interpolation: ($) =>
         seq(
           $.template_interpolation_start,
-          optional($.strip_marker),
-          optional($.expression),
-          optional($.strip_marker),
+          field("strip_marker_start", optional($.strip_marker)),
+          field("body", $.expression),
+          field("strip_marker_end", optional($.strip_marker)),
           $.template_interpolation_end,
         ),
 
       template_directive: ($) => choice($.template_for, $.template_if),
 
       template_for: ($) =>
-        seq($.template_for_start, optional($._template), $.template_for_end),
+        seq($.template_for_start, optional($.template), $.template_for_end),
 
       template_for_start: ($) =>
         seq(
           $.template_directive_start,
-          optional($.strip_marker),
+          field("strip_marker_start", optional($.strip_marker)),
           "for",
-          $.identifier,
-          optional(seq(",", $.identifier)),
+          field("left", $.identifier),
+          field("left", optional(seq(",", $.identifier))),
           "in",
-          $.expression,
-          optional($.strip_marker),
+          field("right", $.expression),
+          field("strip_marker_end", optional($.strip_marker)),
           $.template_directive_end,
         ),
 
       template_for_end: ($) =>
         seq(
           $.template_directive_start,
-          optional($.strip_marker),
+          field("strip_marker_start", optional($.strip_marker)),
           "endfor",
-          optional($.strip_marker),
+          field("strip_marker_end", optional($.strip_marker)),
           $.template_directive_end,
         ),
 
       template_if: ($) =>
         seq(
-          $.template_if_intro,
-          optional($._template),
-          optional(seq($.template_else_intro, optional($._template))),
+          field("if_intro", $.template_if_intro),
+          field("if_body", optional($.template)),
+          optional(
+            seq(
+              field("else_intro", $.template_else_intro),
+              field("else_body", optional($.template)),
+            ),
+          ),
           $.template_if_end,
         ),
 
       template_if_intro: ($) =>
         seq(
           $.template_directive_start,
-          optional($.strip_marker),
+          field("strip_marker_start", optional($.strip_marker)),
           "if",
-          $.expression,
-          optional($.strip_marker),
+          field("condition", $.expression),
+          field("strip_marker_end", optional($.strip_marker)),
           $.template_directive_end,
         ),
 
       template_else_intro: ($) =>
         seq(
           $.template_directive_start,
-          optional($.strip_marker),
+          field("strip_marker_start", optional($.strip_marker)),
           "else",
-          optional($.strip_marker),
+          field("strip_marker_end", optional($.strip_marker)),
           $.template_directive_end,
         ),
 
       template_if_end: ($) =>
         seq(
           $.template_directive_start,
-          optional($.strip_marker),
+          field("strip_marker_start", optional($.strip_marker)),
           "endif",
-          optional($.strip_marker),
+          field("strip_marker_end", optional($.strip_marker)),
           $.template_directive_end,
         ),
 
