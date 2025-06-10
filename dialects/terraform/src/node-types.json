@@ -72,6 +72,28 @@
     ]
   },
   {
+    "type": "literal_value",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "bool_lit",
+        "named": true
+      },
+      {
+        "type": "null_lit",
+        "named": true
+      },
+      {
+        "type": "numeric_lit",
+        "named": true
+      },
+      {
+        "type": "string_lit",
+        "named": true
+      }
+    ]
+  },
+  {
     "type": "attr_splat",
     "named": true,
     "fields": {
@@ -200,7 +222,42 @@
   {
     "type": "block",
     "named": true,
-    "fields": {},
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "body",
+            "named": true
+          }
+        ]
+      },
+      "labels": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "string_lit",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -211,18 +268,6 @@
         },
         {
           "type": "block_start",
-          "named": true
-        },
-        {
-          "type": "body",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "string_lit",
           "named": true
         }
       ]
@@ -241,20 +286,27 @@
   {
     "type": "body",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "attribute",
-          "named": true
-        },
-        {
-          "type": "block",
-          "named": true
-        }
-      ]
+    "fields": {
+      "attributes": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "attribute",
+            "named": true
+          }
+        ]
+      },
+      "blocks": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -709,33 +761,6 @@
     "type": "legacy_index",
     "named": true,
     "fields": {}
-  },
-  {
-    "type": "literal_value",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "bool_lit",
-          "named": true
-        },
-        {
-          "type": "null_lit",
-          "named": true
-        },
-        {
-          "type": "numeric_lit",
-          "named": true
-        },
-        {
-          "type": "string_lit",
-          "named": true
-        }
-      ]
-    }
   },
   {
     "type": "new_index",

@@ -42,23 +42,23 @@ module.exports = function make_grammar(dialect) {
 
     extras: ($) => [$.comment, $._whitespace],
 
-    supertypes: ($) => [$.expression, $.expr_term],
+    supertypes: ($) => [$.expression, $.expr_term, $.literal_value],
 
     rules: {
       // also allow objects to handle .tfvars in json format
       config_file: ($) => optional(choice($.body, $.object)),
 
-      body: ($) => choice(repeat1(choice($.attribute, $.block))),
+      body: ($) => choice(repeat1(choice(field("attributes", $.attribute), field("blocks", $.block)))),
 
       attribute: ($) =>
         seq(field("left", $.identifier), "=", field("right", $.expression)),
 
       block: ($) =>
         seq(
-          $.identifier,
-          repeat(choice($.string_lit, $.identifier)),
+          field("type", $.identifier),
+          field("labels", repeat(choice($.string_lit, $.identifier))),
           $.block_start,
-          optional($.body),
+          field("body", optional($.body)),
           $.block_end,
         ),
 
