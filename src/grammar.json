@@ -786,7 +786,7 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "for_cond"
+                "name": "_for_cond"
               },
               {
                 "type": "BLANK"
@@ -852,20 +852,16 @@
           }
         },
         {
-          "type": "FIELD",
-          "name": "condition",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "for_cond"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_for_cond"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
@@ -945,7 +941,7 @@
         }
       ]
     },
-    "for_cond": {
+    "_for_cond": {
       "type": "SEQ",
       "members": [
         {
@@ -953,8 +949,12 @@
           "value": "if"
         },
         {
-          "type": "SYMBOL",
-          "name": "expression"
+          "type": "FIELD",
+          "name": "condition",
+          "content": {
+            "type": "SYMBOL",
+            "name": "expression"
+          }
         }
       ]
     },
@@ -2112,7 +2112,8 @@
     "expr_term",
     "literal_value",
     "collection_value",
-    "splat"
+    "splat",
+    "for_expr"
   ],
   "reserved": {}
 }

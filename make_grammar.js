@@ -42,7 +42,7 @@ module.exports = function make_grammar(dialect) {
 
     extras: ($) => [$.comment, $._whitespace],
 
-    supertypes: ($) => [$.expression, $.expr_term, $.literal_value, $.collection_value, $.splat],
+    supertypes: ($) => [$.expression, $.expr_term, $.literal_value, $.collection_value, $.splat, $.for_expr],
 
     rules: {
       // also allow objects to handle .tfvars in json format
@@ -188,7 +188,7 @@ module.exports = function make_grammar(dialect) {
           $.tuple_start,
           field("intro", $.for_intro),
           field("body", $.expression),
-          field("condition", optional($.for_cond)),
+          field("condition", optional($._for_cond)),
           $.tuple_end,
         ),
 
@@ -200,7 +200,7 @@ module.exports = function make_grammar(dialect) {
           "=>",
           field("value", $.expression),
           field("expansion", optional($.ellipsis)),
-          field("condition", optional($.for_cond)),
+          optional($._for_cond),
           $.object_end,
         ),
 
@@ -224,7 +224,7 @@ module.exports = function make_grammar(dialect) {
       for_initializer_pair: ($) =>
         seq(field("left", $.identifier), ",", field("right", $.identifier)),
 
-      for_cond: ($) => seq("if", $.expression),
+      _for_cond: ($) => seq("if", field("condition", $.expression)),
 
       _variable_expr: ($) => prec.right($.identifier),
 
