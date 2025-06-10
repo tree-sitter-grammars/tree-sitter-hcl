@@ -188,7 +188,7 @@ module.exports = function make_grammar(dialect) {
           $.tuple_start,
           field("intro", $.for_intro),
           field("body", $.expression),
-          field("condition", optional($._for_cond)),
+          optional($._for_cond),
           $.tuple_end,
         ),
 
