@@ -1,5 +1,19 @@
 [
   {
+    "type": "collection_value",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "object",
+        "named": true
+      },
+      {
+        "type": "tuple",
+        "named": true
+      }
+    ]
+  },
+  {
     "type": "expr_term",
     "named": true,
     "subtypes": [
@@ -313,25 +327,6 @@
     "type": "bool_lit",
     "named": true,
     "fields": {}
-  },
-  {
-    "type": "collection_value",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "object",
-          "named": true
-        },
-        {
-          "type": "tuple",
-          "named": true
-        }
-      ]
-    }
   },
   {
     "type": "conditional",
@@ -785,15 +780,26 @@
   {
     "type": "object",
     "named": true,
-    "fields": {},
+    "fields": {
+      "elements": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": ",",
+            "named": false
+          },
+          {
+            "type": "object_elem",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
       "types": [
-        {
-          "type": "object_elem",
-          "named": true
-        },
         {
           "type": "object_end",
           "named": true
@@ -1344,15 +1350,26 @@
   {
     "type": "tuple",
     "named": true,
-    "fields": {},
+    "fields": {
+      "elements": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": ",",
+            "named": false
+          },
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
       "types": [
-        {
-          "type": "expression",
-          "named": true
-        },
         {
           "type": "tuple_end",
           "named": true
