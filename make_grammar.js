@@ -42,7 +42,7 @@ module.exports = function make_grammar(dialect) {
 
     extras: ($) => [$.comment, $._whitespace],
 
-    supertypes: ($) => [$.expression, $.expr_term, $.literal_value, $.collection_value],
+    supertypes: ($) => [$.expression, $.expr_term, $.literal_value, $.collection_value, $.splat],
 
     rules: {
       // also allow objects to handle .tfvars in json format
@@ -119,28 +119,28 @@ module.exports = function make_grammar(dialect) {
 
       _comma: ($) => ",",
 
-      tuple: ($) => seq($.tuple_start, field("elements", optional($._tuple_elems)), $.tuple_end),
+      tuple: ($) => seq($.tuple_start, optional($._tuple_elems), $.tuple_end),
 
       tuple_start: ($) => "[",
       tuple_end: ($) => "]",
 
       _tuple_elems: ($) =>
         seq(
-          $.expression,
-          repeat(seq($._comma, $.expression)),
+          field("elements", $.expression),
+          repeat(seq($._comma, field("elements", $.expression))),
           optional($._comma),
         ),
 
       object: ($) =>
-        seq($.object_start, field("elements", optional($._object_elems)), $.object_end),
+        seq($.object_start, optional($._object_elems), $.object_end),
 
       object_start: ($) => "{",
       object_end: ($) => "}",
 
       _object_elems: ($) =>
         seq(
-          $.object_elem,
-          repeat(seq(optional($._comma), $.object_elem)),
+          field("elements", $.object_elem),
+          repeat(seq(optional($._comma), field("elements", $.object_elem))),
           optional($._comma),
         ),
 

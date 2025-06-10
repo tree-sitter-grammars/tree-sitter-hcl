@@ -108,6 +108,20 @@
     ]
   },
   {
+    "type": "splat",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "attr_splat",
+        "named": true
+      },
+      {
+        "type": "full_splat",
+        "named": true
+      }
+    ]
+  },
+  {
     "type": "attr_splat",
     "named": true,
     "fields": {
@@ -786,10 +800,6 @@
         "required": false,
         "types": [
           {
-            "type": ",",
-            "named": false
-          },
-          {
             "type": "object_elem",
             "named": true
           }
@@ -887,25 +897,6 @@
         },
         {
           "type": "quoted_template_start",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "splat",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "attr_splat",
-          "named": true
-        },
-        {
-          "type": "full_splat",
           "named": true
         }
       ]
@@ -1355,10 +1346,6 @@
         "multiple": true,
         "required": false,
         "types": [
-          {
-            "type": ",",
-            "named": false
-          },
           {
             "type": "expression",
             "named": true
