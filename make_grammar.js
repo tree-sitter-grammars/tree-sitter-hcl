@@ -42,13 +42,25 @@ module.exports = function make_grammar(dialect) {
 
     extras: ($) => [$.comment, $._whitespace],
 
-    supertypes: ($) => [$.expression, $.expr_term, $.literal_value, $.collection_value, $.splat, $.for_expr],
+    supertypes: ($) => [
+      $.expression,
+      $.expr_term,
+      $.literal_value,
+      $.collection_value,
+      $.splat,
+      $.for_expr,
+    ],
 
     rules: {
       // also allow objects to handle .tfvars in json format
       config_file: ($) => optional(choice($.body, $.object)),
 
-      body: ($) => choice(repeat1(choice(field("attributes", $.attribute), field("blocks", $.block)))),
+      body: ($) =>
+        choice(
+          repeat1(
+            choice(field("attributes", $.attribute), field("blocks", $.block)),
+          ),
+        ),
 
       attribute: ($) =>
         seq(field("left", $.identifier), "=", field("right", $.expression)),
@@ -232,18 +244,18 @@ module.exports = function make_grammar(dialect) {
         seq(
           field("function", $.identifier),
           $._function_call_start,
-          field("arguments", optional($.function_arguments)),
+          optional($._function_arguments),
           $._function_call_end,
         ),
 
       _function_call_start: ($) => "(",
       _function_call_end: ($) => ")",
 
-      function_arguments: ($) =>
+      _function_arguments: ($) =>
         prec.right(
           seq(
-            $.expression,
-            repeat(seq($._comma, $.expression)),
+            field("arguments", $.expression),
+            repeat(seq($._comma, field("arguments", $.expression))),
             optional(choice($._comma, $.ellipsis)),
           ),
         ),
