@@ -24,15 +24,10 @@ module.exports = function make_grammar(dialect) {
   return grammar({
     name: dialect,
 
-    // conflicts: ($) => [[$.template_interpolation], [$.template]],
-    // precedences: ($) => [
-    //   [$.template_for_start, $.template_if_end, $.template_for_end],
-    // ],
-
     externals: ($) => [
       $.quoted_template_start,
       $.quoted_template_end,
-      $._template_literal_chunk,
+      $.template_literal_chunk,
       $.template_interpolation_start,
       $.template_interpolation_end,
       $.template_directive_start,
@@ -49,6 +44,9 @@ module.exports = function make_grammar(dialect) {
       $.collection_value,
       $.splat,
       $.for_expr,
+      $.template_directive,
+      $.template_expr,
+      $.template,
     ],
 
     rules: {
@@ -93,7 +91,7 @@ module.exports = function make_grammar(dialect) {
       expr_term: ($) =>
         choice(
           $.literal_value,
-          $._template_expr,
+          $.template_expr,
           $.collection_value,
           $._variable_expr,
           $.function_call,
@@ -308,14 +306,14 @@ module.exports = function make_grammar(dialect) {
         );
       },
 
-      _template_expr: ($) => choice($.quoted_template, $.heredoc_template),
+      template_expr: ($) => choice($.quoted_template, $.heredoc_template),
 
       quoted_template: ($) =>
         prec(
           PREC.quoted_template,
           seq(
             $.quoted_template_start,
-            field("body", optional($.template)),
+            field("body", optional($._template_sequence)),
             $.quoted_template_end,
           ),
         ),
@@ -324,7 +322,7 @@ module.exports = function make_grammar(dialect) {
         seq(
           field("heredoc_marker", $.heredoc_start),
           $.heredoc_identifier,
-          field("body", optional($.template)),
+          field("body", optional($._template_sequence)),
           $.heredoc_identifier,
         ),
 
@@ -332,18 +330,15 @@ module.exports = function make_grammar(dialect) {
 
       strip_marker: ($) => "~",
 
+      _template_sequence: ($) => repeat1($.template),
       template: ($) =>
-        prec.left(
-          repeat1(
-            choice(
-              $.template_interpolation,
-              $.template_directive,
-              $.template_literal,
-            ),
-          ),
+        choice(
+          $.template_interpolation,
+          $.template_directive,
+          $.template_literal,
         ),
 
-      template_literal: ($) => prec.right(repeat1($._template_literal_chunk)),
+      template_literal: ($) => prec.right(repeat1($.template_literal_chunk)),
 
       template_interpolation: ($) =>
         seq(
@@ -357,7 +352,11 @@ module.exports = function make_grammar(dialect) {
       template_directive: ($) => choice($.template_for, $.template_if),
 
       template_for: ($) =>
-        seq($.template_for_start, optional($.template), $.template_for_end),
+        seq(
+          $.template_for_start,
+          optional($._template_sequence),
+          $.template_for_end,
+        ),
 
       template_for_start: ($) =>
         seq(
@@ -384,11 +383,11 @@ module.exports = function make_grammar(dialect) {
       template_if: ($) =>
         seq(
           field("if_intro", $.template_if_intro),
-          field("if_body", optional($.template)),
+          field("if_body", optional($._template_sequence)),
           optional(
             seq(
               field("else_intro", $.template_else_intro),
-              field("else_body", optional($.template)),
+              field("else_body", optional($._template_sequence)),
             ),
           ),
           $.template_if_end,

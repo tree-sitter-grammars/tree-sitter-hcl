@@ -725,9 +725,8 @@ class HeredocStart(NamedNode[Literal["heredoc_start"]]): ...
 class HeredocTemplate(NamedNode[Literal["heredoc_template"]]):
     ...
     @override
-    @overload
-    def child_by_field_name(self, name: Literal["body"], /) -> Template | None: ...  # pyright: ignore[reportIncompatibleMethodOverride]
-    @overload
+    def children_by_field_name(self, name: Literal["body"], /) -> list[Template]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+    @override
     def child_by_field_name(
         self, name: Literal["heredoc_marker"], /
     ) -> HeredocStart: ...  # pyright: ignore[reportIncompatibleMethodOverride]
@@ -799,7 +798,7 @@ class ParenthesizedExpression(NamedNode[Literal["parenthesized_expression"]]):
 class QuotedTemplate(NamedNode[Literal["quoted_template"]]):
     ...
     @override
-    def child_by_field_name(self, name: Literal["body"], /) -> Template | None: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+    def children_by_field_name(self, name: Literal["body"], /) -> list[Template]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     @override
     def named_children(self) -> list[QuotedTemplateEnd | QuotedTemplateStart]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
@@ -819,30 +818,6 @@ class StringLit(NamedNode[Literal["string_lit"]]):
     @property
     @override
     def children(self) -> list[QuotedTemplateEnd | QuotedTemplateStart]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
-
-class Template(NamedNode[Literal["template"]]):
-    ...
-
-    @property
-    @override
-    def named_children(
-        self,
-    ) -> list[TemplateDirective | TemplateInterpolation | TemplateLiteral]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
-    @property
-    @override
-    def children(
-        self,
-    ) -> list[TemplateDirective | TemplateInterpolation | TemplateLiteral]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
-
-class TemplateDirective(NamedNode[Literal["template_directive"]]):
-    ...
-
-    @property
-    @override
-    def named_children(self) -> list[TemplateFor | TemplateIf]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
-    @property
-    @override
-    def children(self) -> list[TemplateFor | TemplateIf]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
 
 class TemplateElseIntro(NamedNode[Literal["template_else_intro"]]):
     ...
@@ -916,13 +891,16 @@ class TemplateIf(NamedNode[Literal["template_if"]]):
     ...
     @override
     @overload
-    def child_by_field_name(self, name: Literal["else_body"], /) -> Template | None: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+    def children_by_field_name(
+        self, name: Literal["else_body"], /
+    ) -> list[Template]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+    @override
     @overload
     def child_by_field_name(
         self, name: Literal["else_intro"], /
     ) -> TemplateElseIntro | None: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @overload
-    def child_by_field_name(self, name: Literal["if_body"], /) -> Template | None: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+    def children_by_field_name(self, name: Literal["if_body"], /) -> list[Template]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @overload
     def child_by_field_name(self, name: Literal["if_intro"], /) -> TemplateIfIntro: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
@@ -994,7 +972,15 @@ class TemplateInterpolation(NamedNode[Literal["template_interpolation"]]):
         self,
     ) -> list[TemplateInterpolationEnd | TemplateInterpolationStart]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
 
-class TemplateLiteral(NamedNode[Literal["template_literal"]]): ...
+class TemplateLiteral(NamedNode[Literal["template_literal"]]):
+    ...
+
+    @property
+    @override
+    def named_children(self) -> list[TemplateLiteralChunk]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+    @property
+    @override
+    def children(self) -> list[TemplateLiteralChunk]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
 
 class Tuple(NamedNode[Literal["tuple"]]):
     ...
@@ -1037,27 +1023,30 @@ class TemplateInterpolationEnd(NamedNode[Literal["template_interpolation_end"]])
 class TemplateInterpolationStart(
     NamedNode[Literal["template_interpolation_start"]]
 ): ...
+class TemplateLiteralChunk(NamedNode[Literal["template_literal_chunk"]]): ...
 
 CollectionValue = Object | Tuple
 ExprTerm = (
-    UnaryOperation
-    | ParenthesizedExpression
-    | FunctionCall
-    | CollectionValue
-    | Splat
+    Identifier
     | BinaryOperation
-    | HeredocTemplate
-    | ForExpr
-    | Identifier
-    | Index
-    | QuotedTemplate
+    | UnaryOperation
     | LiteralValue
+    | Index
+    | FunctionCall
+    | Splat
+    | ForExpr
+    | TemplateExpr
+    | CollectionValue
+    | ParenthesizedExpression
     | GetAttr
 )
-Expression = ExprTerm | Conditional
+Expression = Conditional | ExprTerm
 ForExpr = ForObjectExpr | ForTupleExpr
 LiteralValue = BoolLit | StringLit | NumericLit | NullLit
-Splat = FullSplat | AttrSplat
+Splat = AttrSplat | FullSplat
+Template = TemplateLiteral | TemplateInterpolation | TemplateDirective
+TemplateDirective = TemplateFor | TemplateIf
+TemplateExpr = HeredocTemplate | QuotedTemplate
 HclNode = (
     CollectionValue
     | ExprTerm
@@ -1065,6 +1054,9 @@ HclNode = (
     | ForExpr
     | LiteralValue
     | Splat
+    | Template
+    | TemplateDirective
+    | TemplateExpr
     | AttrSplat
     | Attribute
     | BinaryOperation
@@ -1095,8 +1087,6 @@ HclNode = (
     | ParenthesizedExpression
     | QuotedTemplate
     | StringLit
-    | Template
-    | TemplateDirective
     | TemplateElseIntro
     | TemplateFor
     | TemplateForEnd
@@ -1157,6 +1147,7 @@ HclNode = (
     | TemplateDirectiveStart
     | TemplateInterpolationEnd
     | TemplateInterpolationStart
+    | TemplateLiteralChunk
     | UnnamedNode[Literal["true"]]
     | UnnamedNode[Literal["{"]]
     | UnnamedNode[Literal["||"]]
