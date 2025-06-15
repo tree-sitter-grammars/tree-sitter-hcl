@@ -230,18 +230,26 @@ static inline bool in_interpolation_context(Scanner *scanner) {
     return in_context_type(scanner, TEMPLATE_INTERPOLATION);
 }
 
+static inline void consume_ws(TSLexer *lexer) {
+    while (iswspace(lexer->lookahead)) {
+        advance(lexer);
+    }
+}
 static inline bool in_directive_context(Scanner *scanner) { return in_context_type(scanner, TEMPLATE_DIRECTIVE); }
 
 static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
     bool has_leading_whitespace_with_newline = false;
-    if (!in_template_context(scanner)) {
+    bool is_in_template_context = in_template_context(scanner);
         while (iswspace(lexer->lookahead)) {
             if (lexer->lookahead == '\n') {
                 has_leading_whitespace_with_newline = true;
             }
-            skip(lexer);
+            if (is_in_template_context) {
+                advance(lexer);
+            } else {
+                skip(lexer);
+            }
         }
-    }
     if (lexer->lookahead == '\0') {
         return false;
     }
@@ -274,9 +282,12 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
             advance(lexer);
             if (lexer->lookahead == '{') {
                 // $${
-                return accept_and_advance(lexer, TEMPLATE_LITERAL_CHUNK);
+                advance(lexer);
+                consume_ws(lexer);
+                return accept_inplace(lexer, TEMPLATE_LITERAL_CHUNK);
             }
         }
+        consume_ws(lexer);
         return accept_inplace(lexer, TEMPLATE_LITERAL_CHUNK);
     }
     if (valid_symbols[TEMPLATE_INTERPOLATION_END] && in_interpolation_context(scanner) && lexer->lookahead == '}') {
@@ -300,7 +311,9 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
             advance(lexer);
             if (lexer->lookahead == '{') {
                 // $${
-                return accept_and_advance(lexer, TEMPLATE_LITERAL_CHUNK);
+                advance(lexer);
+                consume_ws(lexer);
+                return accept_inplace(lexer, TEMPLATE_LITERAL_CHUNK);
             }
         }
         return accept_inplace(lexer, TEMPLATE_LITERAL_CHUNK);
@@ -331,6 +344,7 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
             if (lexer->lookahead == expected_identifier.data[i]) {
                 advance(lexer);
             } else {
+                consume_ws(lexer);
                 return accept_inplace(lexer, TEMPLATE_LITERAL_CHUNK);
             }
         }
@@ -344,6 +358,7 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
             return accept_inplace(lexer, HEREDOC_IDENTIFIER);
         }
         advance(lexer);
+        consume_ws(lexer);
         lexer->mark_end(lexer);
         return accept_inplace(lexer, TEMPLATE_LITERAL_CHUNK);
     }
@@ -362,21 +377,27 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
                     case 'r':
                     case 't':
                     case '\\':
-                        return accept_and_advance(lexer, TEMPLATE_LITERAL_CHUNK);
+                        advance(lexer);
+                        consume_ws(lexer);
+                        return accept_inplace(lexer, TEMPLATE_LITERAL_CHUNK);
                     case 'u':
                         for (int i = 0; i < 4; i++) {
                             if (!consume_wxdigit(lexer)) {
                                 return false;
                             }
                         }
-                        return accept_and_advance(lexer, TEMPLATE_LITERAL_CHUNK);
+                        advance(lexer);
+                        consume_ws(lexer);
+                        return accept_inplace(lexer, TEMPLATE_LITERAL_CHUNK);
                     case 'U':
                         for (int i = 0; i < 8; i++) {
                             if (!consume_wxdigit(lexer)) {
                                 return false;
                             }
                         }
-                        return accept_and_advance(lexer, TEMPLATE_LITERAL_CHUNK);
+                        advance(lexer);
+                        consume_ws(lexer);
+                        return accept_inplace(lexer, TEMPLATE_LITERAL_CHUNK);
                     default:
                         return false;
                 }
@@ -385,7 +406,9 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
 
     // handle all other quoted template or string literal characters
     if (valid_symbols[TEMPLATE_LITERAL_CHUNK] && in_template_context(scanner)) {
-        return accept_and_advance(lexer, TEMPLATE_LITERAL_CHUNK);
+        advance(lexer);
+        consume_ws(lexer);
+        return accept_inplace(lexer, TEMPLATE_LITERAL_CHUNK);
     }
 
     // probably not handled by the external scanner
