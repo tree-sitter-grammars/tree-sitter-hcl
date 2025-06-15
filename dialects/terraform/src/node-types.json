@@ -132,24 +132,6 @@
     ]
   },
   {
-    "type": "template",
-    "named": true,
-    "subtypes": [
-      {
-        "type": "template_directive",
-        "named": true
-      },
-      {
-        "type": "template_interpolation",
-        "named": true
-      },
-      {
-        "type": "template_literal",
-        "named": true
-      }
-    ]
-  },
-  {
     "type": "template_directive",
     "named": true,
     "subtypes": [
@@ -722,7 +704,15 @@
         "required": false,
         "types": [
           {
-            "type": "template",
+            "type": "template_directive",
+            "named": true
+          },
+          {
+            "type": "template_interpolation",
+            "named": true
+          },
+          {
+            "type": "template_literal",
             "named": true
           }
         ]
@@ -894,7 +884,15 @@
         "required": false,
         "types": [
           {
-            "type": "template",
+            "type": "template_directive",
+            "named": true
+          },
+          {
+            "type": "template_interpolation",
+            "named": true
+          },
+          {
+            "type": "template_literal",
             "named": true
           }
         ]
@@ -988,21 +986,42 @@
   {
     "type": "template_for",
     "named": true,
-    "fields": {},
+    "fields": {
+      "body": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "template_directive",
+            "named": true
+          },
+          {
+            "type": "template_interpolation",
+            "named": true
+          },
+          {
+            "type": "template_literal",
+            "named": true
+          }
+        ]
+      },
+      "start": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "template_for_start",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "template",
-          "named": true
-        },
-        {
           "type": "template_for_end",
-          "named": true
-        },
-        {
-          "type": "template_for_start",
           "named": true
         }
       ]
@@ -1117,7 +1136,15 @@
         "required": false,
         "types": [
           {
-            "type": "template",
+            "type": "template_directive",
+            "named": true
+          },
+          {
+            "type": "template_interpolation",
+            "named": true
+          },
+          {
+            "type": "template_literal",
             "named": true
           }
         ]
@@ -1137,7 +1164,15 @@
         "required": false,
         "types": [
           {
-            "type": "template",
+            "type": "template_directive",
+            "named": true
+          },
+          {
+            "type": "template_interpolation",
+            "named": true
+          },
+          {
+            "type": "template_literal",
             "named": true
           }
         ]
@@ -1307,17 +1342,7 @@
   {
     "type": "template_literal",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "template_literal_chunk",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "tuple",
@@ -1576,10 +1601,6 @@
   },
   {
     "type": "template_interpolation_start",
-    "named": true
-  },
-  {
-    "type": "template_literal_chunk",
     "named": true
   },
   {
