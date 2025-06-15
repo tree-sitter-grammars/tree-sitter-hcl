@@ -4,7 +4,7 @@ endif
 
 LANGUAGE_NAME := tree-sitter-hcl
 HOMEPAGE_URL := https://github.com/tree-sitter-grammars/tree-sitter-hcl
-VERSION := 1.1.0
+VERSION := 1.2.0
 
 # repository
 SRC_DIR := src
