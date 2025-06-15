@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.2.0 - 2025-06-15
+
+feat:
+* namespaced identitifers
+
+fix:
+* precedence of unary operators and expressions
+
+housekeeping:
+* regenerate with tree-sitter-cli 0.25.6
+* add bindings
+
 ## 1.1.0 - 2023-07-25
 
 feature

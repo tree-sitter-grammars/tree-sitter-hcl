@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.13)
 
 project(tree-sitter-hcl
-        VERSION "1.1.0"
+        VERSION "1.2.0"
         DESCRIPTION "HCL and terraform grammar for tree-sitter"
         HOMEPAGE_URL "https://github.com/tree-sitter-grammars/tree-sitter-hcl"
         LANGUAGES C)
