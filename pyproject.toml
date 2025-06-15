@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "tree-sitter-hcl"
 description = "HCL and terraform grammar for tree-sitter"
-version = "1.1.0"
+version = "1.2.0"
 keywords = ["incremental", "parsing", "tree-sitter", "hcl"]
 classifiers = [
   "Intended Audience :: Developers",
