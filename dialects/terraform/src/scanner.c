@@ -234,11 +234,13 @@ static inline bool in_directive_context(Scanner *scanner) { return in_context_ty
 
 static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
     bool has_leading_whitespace_with_newline = false;
-    while (iswspace(lexer->lookahead)) {
-        if (lexer->lookahead == '\n') {
-            has_leading_whitespace_with_newline = true;
+    if (!in_template_context(scanner)) {
+        while (iswspace(lexer->lookahead)) {
+            if (lexer->lookahead == '\n') {
+                has_leading_whitespace_with_newline = true;
+            }
+            skip(lexer);
         }
-        skip(lexer);
     }
     if (lexer->lookahead == '\0') {
         return false;
