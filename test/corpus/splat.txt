@@ -10,11 +10,9 @@ foo = bar.baz
   (body
     (attribute
       (identifier)
-      (expression
-        (variable_expr
-          (identifier))
-        (get_attr
-          (identifier))))))
+      (get_attr
+        (identifier)
+        (identifier)))))
 
 ================================================================================
 get index
@@ -28,14 +26,10 @@ foo = bar[1]
   (body
     (attribute
       (identifier)
-      (expression
-        (variable_expr
-          (identifier))
-        (index
-          (new_index
-            (expression
-              (literal_value
-                (numeric_lit)))))))))
+      (index
+        (identifier)
+        (new_index
+          (numeric_lit))))))
 
 ================================================================================
 attr splat
@@ -49,13 +43,10 @@ foo = bar.*.foo
   (body
     (attribute
       (identifier)
-      (expression
-        (variable_expr
+      (get_attr
+        (attr_splat
           (identifier))
-        (splat
-          (attr_splat
-            (get_attr
-              (identifier))))))))
+        (identifier)))))
 
 ================================================================================
 full splat
@@ -69,13 +60,10 @@ foo = bar[*].foo
   (body
     (attribute
       (identifier)
-      (expression
-        (variable_expr
+      (get_attr
+        (full_splat
           (identifier))
-        (splat
-          (full_splat
-            (get_attr
-              (identifier))))))))
+        (identifier)))))
 
 ================================================================================
 full splat repeated
@@ -89,21 +77,15 @@ foo = bar[*][*].a.b.c[d]
   (body
     (attribute
       (identifier)
-      (expression
-        (variable_expr
+      (index
+        (get_attr
+          (get_attr
+            (get_attr
+              (full_splat
+                (full_splat
+                  (identifier)))
+              (identifier))
+            (identifier))
           (identifier))
-        (splat
-          (full_splat))
-        (splat
-          (full_splat
-            (get_attr
-              (identifier))
-            (get_attr
-              (identifier))
-            (get_attr
-              (identifier))
-            (index
-              (new_index
-                (expression
-                  (variable_expr
-                    (identifier)))))))))))
+        (new_index
+          (identifier))))))

@@ -10,40 +10,15 @@ foo = "${ var.bar }"
   (body
     (attribute
       (identifier)
-      (expression
-        (template_expr
-          (quoted_template
-            (quoted_template_start)
-            (template_interpolation
-              (template_interpolation_start)
-              (expression
-                (variable_expr
-                  (identifier))
-                (get_attr
-                  (identifier)))
-              (template_interpolation_end))
-            (quoted_template_end)))))))
-
-================================================================================
-empty template interpolation
-================================================================================
-
-foo = "${}"
-
---------------------------------------------------------------------------------
-
-(config_file
-  (body
-    (attribute
-      (identifier)
-      (expression
-        (template_expr
-          (quoted_template
-            (quoted_template_start)
-            (template_interpolation
-              (template_interpolation_start)
-              (template_interpolation_end))
-            (quoted_template_end)))))))
+      (quoted_template
+        (quoted_template_start)
+        (template_interpolation
+          (template_interpolation_start)
+          (get_attr
+            (identifier)
+            (identifier))
+          (template_interpolation_end))
+        (quoted_template_end)))))
 
 ================================================================================
 template for expression in quoted template
@@ -57,30 +32,24 @@ foo = "%{ for a in b } prefix-${a} %{ endfor }"
   (body
     (attribute
       (identifier)
-      (expression
-        (template_expr
-          (quoted_template
-            (quoted_template_start)
-            (template_directive
-              (template_for
-                (template_for_start
-                  (template_directive_start)
-                  (identifier)
-                  (expression
-                    (variable_expr
-                      (identifier)))
-                  (template_directive_end))
-                (template_literal)
-                (template_interpolation
-                  (template_interpolation_start)
-                  (expression
-                    (variable_expr
-                      (identifier)))
-                  (template_interpolation_end))
-                (template_for_end
-                  (template_directive_start)
-                  (template_directive_end))))
-            (quoted_template_end)))))))
+      (quoted_template
+        (quoted_template_start)
+        (template_for
+          (template_for_start
+            (template_directive_start)
+            (identifier)
+            (identifier)
+            (template_directive_end))
+          (template_literal)
+          (template_interpolation
+            (template_interpolation_start)
+            (identifier)
+            (template_interpolation_end))
+          (template_literal)
+          (template_for_end
+            (template_directive_start)
+            (template_directive_end)))
+        (quoted_template_end)))))
 
 ================================================================================
 escaped template for directive
@@ -94,24 +63,19 @@ foo = "%{ for a in b } %%{ endfor } %{ endfor }"
   (body
     (attribute
       (identifier)
-      (expression
-        (template_expr
-          (quoted_template
-            (quoted_template_start)
-            (template_directive
-              (template_for
-                (template_for_start
-                  (template_directive_start)
-                  (identifier)
-                  (expression
-                    (variable_expr
-                      (identifier)))
-                  (template_directive_end))
-                (template_literal)
-                (template_for_end
-                  (template_directive_start)
-                  (template_directive_end))))
-            (quoted_template_end)))))))
+      (quoted_template
+        (quoted_template_start)
+        (template_for
+          (template_for_start
+            (template_directive_start)
+            (identifier)
+            (identifier)
+            (template_directive_end))
+          (template_literal)
+          (template_for_end
+            (template_directive_start)
+            (template_directive_end)))
+        (quoted_template_end)))))
 
 ================================================================================
 escaped template for directive 2
@@ -125,12 +89,10 @@ foo = "%%{ for a in b } %%{ endfor }"
   (body
     (attribute
       (identifier)
-      (expression
-        (literal_value
-          (string_lit
-            (quoted_template_start)
-            (template_literal)
-            (quoted_template_end)))))))
+      (string_lit
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end)))))
 
 ================================================================================
 template for directive with weird whitespace
@@ -144,23 +106,19 @@ foo = "%{     for a in b   } %{      endfor    }"
   (body
     (attribute
       (identifier)
-      (expression
-        (template_expr
-          (quoted_template
-            (quoted_template_start)
-            (template_directive
-              (template_for
-                (template_for_start
-                  (template_directive_start)
-                  (identifier)
-                  (expression
-                    (variable_expr
-                      (identifier)))
-                  (template_directive_end))
-                (template_for_end
-                  (template_directive_start)
-                  (template_directive_end))))
-            (quoted_template_end)))))))
+      (quoted_template
+        (quoted_template_start)
+        (template_for
+          (template_for_start
+            (template_directive_start)
+            (identifier)
+            (identifier)
+            (template_directive_end))
+          (template_literal)
+          (template_for_end
+            (template_directive_start)
+            (template_directive_end)))
+        (quoted_template_end)))))
 
 ================================================================================
 template for expression in heredoc template
@@ -180,33 +138,28 @@ EOF
   (body
     (attribute
       (identifier)
-      (expression
-        (template_expr
-          (heredoc_template
-            (heredoc_start)
-            (heredoc_identifier)
-            (template_directive
-              (template_for
-                (template_for_start
-                  (template_directive_start)
-                  (identifier)
-                  (expression
-                    (variable_expr
-                      (identifier)))
-                  (strip_marker)
-                  (template_directive_end))
-                (template_literal)
-                (template_interpolation
-                  (template_interpolation_start)
-                  (expression
-                    (variable_expr
-                      (identifier)))
-                  (template_interpolation_end))
-                (template_for_end
-                  (template_directive_start)
-                  (strip_marker)
-                  (template_directive_end))))
-            (heredoc_identifier)))))))
+      (heredoc_template
+        (heredoc_start)
+        (heredoc_identifier)
+        (template_for
+          (template_for_start
+            (template_directive_start)
+            (identifier)
+            (identifier)
+            (strip_marker)
+            (template_directive_end))
+          (template_literal)
+          (template_interpolation
+            (template_interpolation_start)
+            (identifier)
+            (template_interpolation_end))
+          (template_literal)
+          (template_for_end
+            (template_directive_start)
+            (strip_marker)
+            (template_directive_end)))
+        (template_literal)
+        (heredoc_identifier)))))
 
 ================================================================================
 empty heredoc template
@@ -221,12 +174,10 @@ END
   (body
     (attribute
       (identifier)
-      (expression
-        (template_expr
-          (heredoc_template
-            (heredoc_start)
-            (heredoc_identifier)
-            (heredoc_identifier)))))))
+      (heredoc_template
+        (heredoc_start)
+        (heredoc_identifier)
+        (heredoc_identifier)))))
 
 ================================================================================
 heredoc with fake ending
@@ -242,13 +193,11 @@ END
   (body
     (attribute
       (identifier)
-      (expression
-        (template_expr
-          (heredoc_template
-            (heredoc_start)
-            (heredoc_identifier)
-            (template_literal)
-            (heredoc_identifier)))))))
+      (heredoc_template
+        (heredoc_start)
+        (heredoc_identifier)
+        (template_literal)
+        (heredoc_identifier)))))
 
 ================================================================================
 quoted template expression with escaped strings and fake strip marker
@@ -262,20 +211,16 @@ foo = "${ " ~ " }"
   (body
     (attribute
       (identifier)
-      (expression
-        (template_expr
-          (quoted_template
+      (quoted_template
+        (quoted_template_start)
+        (template_interpolation
+          (template_interpolation_start)
+          (string_lit
             (quoted_template_start)
-            (template_interpolation
-              (template_interpolation_start)
-              (expression
-                (literal_value
-                  (string_lit
-                    (quoted_template_start)
-                    (template_literal)
-                    (quoted_template_end))))
-              (template_interpolation_end))
-            (quoted_template_end)))))))
+            (template_literal)
+            (quoted_template_end))
+          (template_interpolation_end))
+        (quoted_template_end)))))
 
 ================================================================================
 quoted template with nested quoted template
@@ -289,33 +234,25 @@ foo = "p-${ foo("v-${a.b}") }"
   (body
     (attribute
       (identifier)
-      (expression
-        (template_expr
-          (quoted_template
-            (quoted_template_start)
-            (template_literal)
-            (template_interpolation
-              (template_interpolation_start)
-              (expression
-                (function_call
+      (quoted_template
+        (quoted_template_start)
+        (template_literal)
+        (template_interpolation
+          (template_interpolation_start)
+          (function_call
+            (identifier)
+            (quoted_template
+              (quoted_template_start)
+              (template_literal)
+              (template_interpolation
+                (template_interpolation_start)
+                (get_attr
                   (identifier)
-                  (function_arguments
-                    (expression
-                      (template_expr
-                        (quoted_template
-                          (quoted_template_start)
-                          (template_literal)
-                          (template_interpolation
-                            (template_interpolation_start)
-                            (expression
-                              (variable_expr
-                                (identifier))
-                              (get_attr
-                                (identifier)))
-                            (template_interpolation_end))
-                          (quoted_template_end)))))))
-              (template_interpolation_end))
-            (quoted_template_end)))))))
+                  (identifier))
+                (template_interpolation_end))
+              (quoted_template_end)))
+          (template_interpolation_end))
+        (quoted_template_end)))))
 
 ================================================================================
 quoted template interpolation with strip markers
@@ -329,24 +266,20 @@ foo = "hello ${~ "world" ~} hello"
   (body
     (attribute
       (identifier)
-      (expression
-        (template_expr
-          (quoted_template
+      (quoted_template
+        (quoted_template_start)
+        (template_literal)
+        (template_interpolation
+          (template_interpolation_start)
+          (strip_marker)
+          (string_lit
             (quoted_template_start)
             (template_literal)
-            (template_interpolation
-              (template_interpolation_start)
-              (strip_marker)
-              (expression
-                (literal_value
-                  (string_lit
-                    (quoted_template_start)
-                    (template_literal)
-                    (quoted_template_end))))
-              (strip_marker)
-              (template_interpolation_end))
-            (template_literal)
-            (quoted_template_end)))))))
+            (quoted_template_end))
+          (strip_marker)
+          (template_interpolation_end))
+        (template_literal)
+        (quoted_template_end)))))
 
 ================================================================================
 quoted template object expression in template
@@ -360,31 +293,21 @@ foo = "${ {a=b}[a] }"
   (body
     (attribute
       (identifier)
-      (expression
-        (template_expr
-          (quoted_template
-            (quoted_template_start)
-            (template_interpolation
-              (template_interpolation_start)
-              (expression
-                (collection_value
-                  (object
-                    (object_start)
-                    (object_elem
-                      (expression
-                        (variable_expr
-                          (identifier)))
-                      (expression
-                        (variable_expr
-                          (identifier))))
-                    (object_end)))
-                (index
-                  (new_index
-                    (expression
-                      (variable_expr
-                        (identifier))))))
-              (template_interpolation_end))
-            (quoted_template_end)))))))
+      (quoted_template
+        (quoted_template_start)
+        (template_interpolation
+          (template_interpolation_start)
+          (index
+            (object
+              (object_start)
+              (object_elem
+                (identifier)
+                (identifier))
+              (object_end))
+            (new_index
+              (identifier)))
+          (template_interpolation_end))
+        (quoted_template_end)))))
 
 ================================================================================
 escaped template interpolation start
@@ -398,12 +321,10 @@ foo = "hello $${ world"
   (body
     (attribute
       (identifier)
-      (expression
-        (literal_value
-          (string_lit
-            (quoted_template_start)
-            (template_literal)
-            (quoted_template_end)))))))
+      (string_lit
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end)))))
 
 ================================================================================
 tricky heredoc
@@ -420,13 +341,11 @@ END
   (body
     (attribute
       (identifier)
-      (expression
-        (template_expr
-          (heredoc_template
-            (heredoc_start)
-            (heredoc_identifier)
-            (template_literal)
-            (heredoc_identifier)))))))
+      (heredoc_template
+        (heredoc_start)
+        (heredoc_identifier)
+        (template_literal)
+        (heredoc_identifier)))))
 
 ================================================================================
 heredoc with identifier that does not fit into the serialization buffer (should not crash)
@@ -441,12 +360,10 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
   (body
     (attribute
       (identifier)
-      (expression
-        (template_expr
-          (heredoc_template
-            (heredoc_start)
-            (heredoc_identifier)
-            (heredoc_identifier)))))))
+      (heredoc_template
+        (heredoc_start)
+        (heredoc_identifier)
+        (heredoc_identifier)))))
 
 ================================================================================
 template if directive in quoted template
@@ -460,27 +377,22 @@ foo = "%{if cond} foo %{else} bar %{endif}"
   (body
     (attribute
       (identifier)
-      (expression
-        (template_expr
-          (quoted_template
-            (quoted_template_start)
-            (template_directive
-              (template_if
-                (template_if_intro
-                  (template_directive_start)
-                  (expression
-                    (variable_expr
-                      (identifier)))
-                  (template_directive_end))
-                (template_literal)
-                (template_else_intro
-                  (template_directive_start)
-                  (template_directive_end))
-                (template_literal)
-                (template_if_end
-                  (template_directive_start)
-                  (template_directive_end))))
-            (quoted_template_end)))))))
+      (quoted_template
+        (quoted_template_start)
+        (template_if
+          (template_if_intro
+            (template_directive_start)
+            (identifier)
+            (template_directive_end))
+          (template_literal)
+          (template_else_intro
+            (template_directive_start)
+            (template_directive_end))
+          (template_literal)
+          (template_if_end
+            (template_directive_start)
+            (template_directive_end)))
+        (quoted_template_end)))))
 
 ================================================================================
 template nested for directives with interlaced chunks
@@ -494,42 +406,35 @@ foo = "%{for a in b} x %{for c in a} ${c} %{endfor} %{endfor}"
   (body
     (attribute
       (identifier)
-      (expression
-        (template_expr
-          (quoted_template
-            (quoted_template_start)
-            (template_directive
-              (template_for
-                (template_for_start
-                  (template_directive_start)
-                  (identifier)
-                  (expression
-                    (variable_expr
-                      (identifier)))
-                  (template_directive_end))
-                (template_literal)
-                (template_directive
-                  (template_for
-                    (template_for_start
-                      (template_directive_start)
-                      (identifier)
-                      (expression
-                        (variable_expr
-                          (identifier)))
-                      (template_directive_end))
-                    (template_interpolation
-                      (template_interpolation_start)
-                      (expression
-                        (variable_expr
-                          (identifier)))
-                      (template_interpolation_end))
-                    (template_for_end
-                      (template_directive_start)
-                      (template_directive_end))))
-                (template_for_end
-                  (template_directive_start)
-                  (template_directive_end))))
-            (quoted_template_end)))))))
+      (quoted_template
+        (quoted_template_start)
+        (template_for
+          (template_for_start
+            (template_directive_start)
+            (identifier)
+            (identifier)
+            (template_directive_end))
+          (template_literal)
+          (template_for
+            (template_for_start
+              (template_directive_start)
+              (identifier)
+              (identifier)
+              (template_directive_end))
+            (template_literal)
+            (template_interpolation
+              (template_interpolation_start)
+              (identifier)
+              (template_interpolation_end))
+            (template_literal)
+            (template_for_end
+              (template_directive_start)
+              (template_directive_end)))
+          (template_literal)
+          (template_for_end
+            (template_directive_start)
+            (template_directive_end)))
+        (quoted_template_end)))))
 
 ================================================================================
 template nested if directives with interlaced chunks
@@ -543,38 +448,32 @@ foo = "%{if a} %{if b} y %{else} x %{endif} %{endif}"
   (body
     (attribute
       (identifier)
-      (expression
-        (template_expr
-          (quoted_template
-            (quoted_template_start)
-            (template_directive
-              (template_if
-                (template_if_intro
-                  (template_directive_start)
-                  (expression
-                    (variable_expr
-                      (identifier)))
-                  (template_directive_end))
-                (template_directive
-                  (template_if
-                    (template_if_intro
-                      (template_directive_start)
-                      (expression
-                        (variable_expr
-                          (identifier)))
-                      (template_directive_end))
-                    (template_literal)
-                    (template_else_intro
-                      (template_directive_start)
-                      (template_directive_end))
-                    (template_literal)
-                    (template_if_end
-                      (template_directive_start)
-                      (template_directive_end))))
-                (template_if_end
-                  (template_directive_start)
-                  (template_directive_end))))
-            (quoted_template_end)))))))
+      (quoted_template
+        (quoted_template_start)
+        (template_if
+          (template_if_intro
+            (template_directive_start)
+            (identifier)
+            (template_directive_end))
+          (template_literal)
+          (template_if
+            (template_if_intro
+              (template_directive_start)
+              (identifier)
+              (template_directive_end))
+            (template_literal)
+            (template_else_intro
+              (template_directive_start)
+              (template_directive_end))
+            (template_literal)
+            (template_if_end
+              (template_directive_start)
+              (template_directive_end)))
+          (template_literal)
+          (template_if_end
+            (template_directive_start)
+            (template_directive_end)))
+        (quoted_template_end)))))
 
 ================================================================================
 template empty if else statement
@@ -588,25 +487,22 @@ foo = "%{if a} %{else} %{endif}"
   (body
     (attribute
       (identifier)
-      (expression
-        (template_expr
-          (quoted_template
-            (quoted_template_start)
-            (template_directive
-              (template_if
-                (template_if_intro
-                  (template_directive_start)
-                  (expression
-                    (variable_expr
-                      (identifier)))
-                  (template_directive_end))
-                (template_else_intro
-                  (template_directive_start)
-                  (template_directive_end))
-                (template_if_end
-                  (template_directive_start)
-                  (template_directive_end))))
-            (quoted_template_end)))))))
+      (quoted_template
+        (quoted_template_start)
+        (template_if
+          (template_if_intro
+            (template_directive_start)
+            (identifier)
+            (template_directive_end))
+          (template_literal)
+          (template_else_intro
+            (template_directive_start)
+            (template_directive_end))
+          (template_literal)
+          (template_if_end
+            (template_directive_start)
+            (template_directive_end)))
+        (quoted_template_end)))))
 
 ================================================================================
 template empty for statement
@@ -620,23 +516,19 @@ foo = "%{for a in b} %{endfor}"
   (body
     (attribute
       (identifier)
-      (expression
-        (template_expr
-          (quoted_template
-            (quoted_template_start)
-            (template_directive
-              (template_for
-                (template_for_start
-                  (template_directive_start)
-                  (identifier)
-                  (expression
-                    (variable_expr
-                      (identifier)))
-                  (template_directive_end))
-                (template_for_end
-                  (template_directive_start)
-                  (template_directive_end))))
-            (quoted_template_end)))))))
+      (quoted_template
+        (quoted_template_start)
+        (template_for
+          (template_for_start
+            (template_directive_start)
+            (identifier)
+            (identifier)
+            (template_directive_end))
+          (template_literal)
+          (template_for_end
+            (template_directive_start)
+            (template_directive_end)))
+        (quoted_template_end)))))
 
 ================================================================================
 template parenthesis in heredoc for directive with nested if 1
@@ -654,54 +546,46 @@ EOF
   (body
     (attribute
       (identifier)
-      (expression
-        (template_expr
-          (heredoc_template
-            (heredoc_start)
-            (heredoc_identifier)
-            (template_directive
-              (template_for
-                (template_for_start
-                  (template_directive_start)
-                  (identifier)
-                  (expression
-                    (function_call
-                      (identifier)
-                      (function_arguments
-                        (expression
-                          (variable_expr
-                            (identifier))))))
-                  (strip_marker)
-                  (template_directive_end))
-                (template_literal)
-                (template_directive
-                  (template_if
-                    (template_if_intro
-                      (template_directive_start)
-                      (strip_marker)
-                      (expression
-                        (variable_expr
-                          (identifier)))
-                      (strip_marker)
-                      (template_directive_end))
-                    (template_literal)
-                    (template_else_intro
-                      (template_directive_start)
-                      (strip_marker)
-                      (strip_marker)
-                      (template_directive_end))
-                    (template_literal)
-                    (template_if_end
-                      (template_directive_start)
-                      (strip_marker)
-                      (strip_marker)
-                      (template_directive_end))))
-                (template_literal)
-                (template_for_end
-                  (template_directive_start)
-                  (strip_marker)
-                  (template_directive_end))))
-            (heredoc_identifier)))))))
+      (heredoc_template
+        (heredoc_start)
+        (heredoc_identifier)
+        (template_literal)
+        (template_for
+          (template_for_start
+            (template_directive_start)
+            (identifier)
+            (function_call
+              (identifier)
+              (identifier))
+            (strip_marker)
+            (template_directive_end))
+          (template_literal)
+          (template_if
+            (template_if_intro
+              (template_directive_start)
+              (strip_marker)
+              (identifier)
+              (strip_marker)
+              (template_directive_end))
+            (template_literal)
+            (template_else_intro
+              (template_directive_start)
+              (strip_marker)
+              (strip_marker)
+              (template_directive_end))
+            (template_literal)
+            (template_if_end
+              (template_directive_start)
+              (strip_marker)
+              (strip_marker)
+              (template_directive_end)))
+          (template_literal)
+          (template_for_end
+            (template_directive_start)
+            (strip_marker)
+            (template_directive_end)))
+        (template_literal)
+        (heredoc_identifier)))))
 
 ================================================================================
 template parenthesis in heredoc for directive with nested if 2
@@ -720,50 +604,43 @@ EOF
   (body
     (attribute
       (identifier)
-      (expression
-        (template_expr
-          (heredoc_template
-            (heredoc_start)
-            (heredoc_identifier)
-            (template_directive
-              (template_for
-                (template_for_start
-                  (template_directive_start)
-                  (identifier)
-                  (expression
-                    (function_call
-                      (identifier)
-                      (function_arguments
-                        (expression
-                          (variable_expr
-                            (identifier))))))
-                  (strip_marker)
-                  (template_directive_end))
-                (template_literal)
-                (template_directive
-                  (template_if
-                    (template_if_intro
-                      (template_directive_start)
-                      (strip_marker)
-                      (expression
-                        (variable_expr
-                          (identifier)))
-                      (strip_marker)
-                      (template_directive_end))
-                    (template_literal)
-                    (template_else_intro
-                      (template_directive_start)
-                      (strip_marker)
-                      (strip_marker)
-                      (template_directive_end))
-                    (template_literal)
-                    (template_if_end
-                      (template_directive_start)
-                      (strip_marker)
-                      (strip_marker)
-                      (template_directive_end))))
-                (template_for_end
-                  (template_directive_start)
-                  (strip_marker)
-                  (template_directive_end))))
-            (heredoc_identifier)))))))
+      (heredoc_template
+        (heredoc_start)
+        (heredoc_identifier)
+        (template_literal)
+        (template_for
+          (template_for_start
+            (template_directive_start)
+            (identifier)
+            (function_call
+              (identifier)
+              (identifier))
+            (strip_marker)
+            (template_directive_end))
+          (template_literal)
+          (template_if
+            (template_if_intro
+              (template_directive_start)
+              (strip_marker)
+              (identifier)
+              (strip_marker)
+              (template_directive_end))
+            (template_literal)
+            (template_else_intro
+              (template_directive_start)
+              (strip_marker)
+              (strip_marker)
+              (template_directive_end))
+            (template_literal)
+            (template_if_end
+              (template_directive_start)
+              (strip_marker)
+              (strip_marker)
+              (template_directive_end)))
+          (template_literal)
+          (template_for_end
+            (template_directive_start)
+            (strip_marker)
+            (template_directive_end)))
+        (template_literal)
+        (heredoc_identifier)))))

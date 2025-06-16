@@ -74,12 +74,10 @@ block_1 "strlit1" "strlit2" {
       (body
         (attribute
           (identifier)
-          (expression
-            (literal_value
-              (string_lit
-                (quoted_template_start)
-                (template_literal)
-                (quoted_template_end))))))
+          (string_lit
+            (quoted_template_start)
+            (template_literal)
+            (quoted_template_end))))
       (block_end))))
 
 ================================================================================
@@ -171,22 +169,15 @@ locals { timestamp = regex_replace(timestamp(), "[- TZ:]", "") }
       (body
         (attribute
           (identifier)
-          (expression
+          (function_call
+            (identifier)
             (function_call
-              (identifier)
-              (function_arguments
-                (expression
-                  (function_call
-                    (identifier)))
-                (expression
-                  (literal_value
-                    (string_lit
-                      (quoted_template_start)
-                      (template_literal)
-                      (quoted_template_end))))
-                (expression
-                  (literal_value
-                    (string_lit
-                      (quoted_template_start)
-                      (quoted_template_end)))))))))
+              (identifier))
+            (string_lit
+              (quoted_template_start)
+              (template_literal)
+              (quoted_template_end))
+            (string_lit
+              (quoted_template_start)
+              (quoted_template_end)))))
       (block_end))))
