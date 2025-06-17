@@ -113,7 +113,7 @@ typedef struct {
 } context_vec;
 
 typedef struct {
-    char last_char;
+    bool is_line_ws_only;
     bool skip_next_newline;
     context_vec context_stack;
 } Scanner;
@@ -125,7 +125,7 @@ static inline void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
 static unsigned serialize(Scanner *scanner, char *buf) {
     unsigned size = 0;
 
-    buf[0] = scanner->last_char;
+    buf[0] = scanner->is_line_ws_only ? 1 : 0;
     size++;
     buf[1] = scanner->skip_next_newline ? 1 : 0;
     size++;
@@ -163,7 +163,7 @@ static void deserialize(Scanner *scanner, const char *buffer, unsigned length) {
 
     unsigned size = 0;
 
-    scanner->last_char = buffer[0];
+    scanner->is_line_ws_only = buffer[0] != 0;
     size++;
     scanner->skip_next_newline = buffer[1] != 0;
     size++;
@@ -190,12 +190,6 @@ static void deserialize(Scanner *scanner, const char *buffer, unsigned length) {
         VEC_PUSH(scanner->context_stack, ctx);
     }
     assert(size == length);
-}
-
-static void update_last_char(Scanner *scanner, char last_char) {
-    if (last_char != '\0') {
-        scanner->last_char = last_char;
-    }
 }
 
 static inline bool accept_inplace(TSLexer *lexer, enum TokenType token) {
@@ -249,13 +243,16 @@ static inline bool in_interpolation_context(Scanner *scanner) {
     return in_context_type(scanner, TEMPLATE_INTERPOLATION);
 }
 
-static inline char consume_ws(TSLexer *lexer) {
-    char last_consumed_char = '\0';
+static inline int consume_ws(TSLexer *lexer, Scanner *scanner) {
+    unsigned int consumed = 0;
     while (iswspace(lexer->lookahead) || lexer->lookahead == '\n') {
-        last_consumed_char = lexer->lookahead;
+        if (lexer->lookahead == '\n') {
+            scanner->is_line_ws_only = true;
+        }
+        consumed++;
         advance(lexer);
     }
-    return last_consumed_char;
+    return consumed;
 }
 static inline bool in_directive_context(Scanner *scanner) { return in_context_type(scanner, TEMPLATE_DIRECTIVE); }
 
@@ -266,16 +263,14 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
         }
         skip(lexer);
         scanner->skip_next_newline = false;
-        scanner->last_char = '\n';
+        scanner->is_line_ws_only = true;
     }
 
     bool is_in_template_context = in_template_context(scanner);
     if (is_in_template_context && valid_symbols[TEMPLATE_LITERAL_CHUNK]) {
         // In a template context, eat up any whitespace as a literal chunk
         // and exit early
-        char last_char = consume_ws(lexer);
-        if (last_char != '\0') {
-            update_last_char(scanner, last_char);
+        if (consume_ws(lexer, scanner)) {
             return accept_inplace(lexer, TEMPLATE_LITERAL_CHUNK);
         }
     }
@@ -317,11 +312,11 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
             if (lexer->lookahead == '{') {
                 // $${
                 advance(lexer);
-                consume_ws(lexer);
+                consume_ws(lexer, scanner);
                 return accept_inplace(lexer, TEMPLATE_LITERAL_CHUNK);
             }
         }
-        consume_ws(lexer);
+        consume_ws(lexer, scanner);
         return accept_inplace(lexer, TEMPLATE_LITERAL_CHUNK);
     }
     if (valid_symbols[TEMPLATE_INTERPOLATION_END] && in_interpolation_context(scanner) && lexer->lookahead == '}') {
@@ -346,7 +341,7 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
             if (lexer->lookahead == '{') {
                 // $${
                 advance(lexer);
-                consume_ws(lexer);
+                consume_ws(lexer, scanner);
                 return accept_inplace(lexer, TEMPLATE_LITERAL_CHUNK);
             }
         }
@@ -359,8 +354,6 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
 
     // manage heredoc context
     if (valid_symbols[HEREDOC_IDENTIFIER] && !in_heredoc_context(scanner)) {
-        // Entering heredoc context, reset last_char
-        scanner->last_char = '\0';
         // First, skip any whitespace
         while (iswspace(lexer->lookahead)) {
             skip(lexer);
@@ -386,9 +379,9 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
             if (lexer->lookahead == expected_identifier.data[i]) {
                 advance(lexer);
             } else {
-                update_last_char(scanner, lexer->lookahead);
+                scanner->is_line_ws_only = false;
                 advance(lexer);
-                update_last_char(scanner, consume_ws(lexer));
+                consume_ws(lexer, scanner);
                 return accept_inplace(lexer, TEMPLATE_LITERAL_CHUNK);
             }
         }
@@ -398,23 +391,25 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
             advance(lexer);
         }
         lexer->log(lexer, "Matched ending heredoc identifier. Checking if it's on a line of its own...");
-        lexer->log(lexer, "Last char: %d", scanner->last_char);
+        lexer->log(lexer, "Last char: %d", scanner->is_line_ws_only);
         lexer->log(lexer, "Next char: %d", lexer->lookahead);
-        if (scanner->last_char == '\n') {
-            lexer->log(lexer, "Last char is \\n...");
+        if (scanner->is_line_ws_only) {
+            lexer->log(lexer, "Line is whitespace only so far.");
         }
         if (lexer->lookahead == '\n') {
-            lexer->log(lexer,"And next char is \\n.");
+            lexer->log(lexer,"And next char is a newline");
         }
-        if (scanner->last_char == '\n' && lexer->lookahead == '\n') {
+        if (scanner->is_line_ws_only && lexer->lookahead == '\n') {
             // Reset last_char when leaving the heredoc context
-            scanner->last_char = '\0';
+            scanner->is_line_ws_only = '\0';
             VEC_POP(scanner->context_stack);
             return accept_inplace(lexer, HEREDOC_IDENTIFIER);
         }
-        update_last_char(scanner, lexer->lookahead);
+        if (lexer->lookahead == '\n') {
+            scanner->is_line_ws_only = true;
+        }
         advance(lexer);
-        update_last_char(scanner, consume_ws(lexer));
+        consume_ws(lexer, scanner);
         lexer->mark_end(lexer);
         return accept_inplace(lexer, TEMPLATE_LITERAL_CHUNK);
     }
@@ -434,7 +429,7 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
                     case 't':
                     case '\\':
                         advance(lexer);
-                        consume_ws(lexer);
+                        consume_ws(lexer, scanner);
                         return accept_inplace(lexer, TEMPLATE_LITERAL_CHUNK);
                     case 'u':
                         for (int i = 0; i < 4; i++) {
@@ -443,7 +438,7 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
                             }
                         }
                         advance(lexer);
-                        consume_ws(lexer);
+                        consume_ws(lexer, scanner);
                         return accept_inplace(lexer, TEMPLATE_LITERAL_CHUNK);
                     case 'U':
                         for (int i = 0; i < 8; i++) {
@@ -452,7 +447,7 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
                             }
                         }
                         advance(lexer);
-                        consume_ws(lexer);
+                        consume_ws(lexer, scanner);
                         return accept_inplace(lexer, TEMPLATE_LITERAL_CHUNK);
                     default:
                         return false;
@@ -463,7 +458,7 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
     // handle all other quoted template or string literal characters
     if (valid_symbols[TEMPLATE_LITERAL_CHUNK] && in_template_context(scanner)) {
         advance(lexer);
-        consume_ws(lexer);
+        consume_ws(lexer, scanner);
         return accept_inplace(lexer, TEMPLATE_LITERAL_CHUNK);
     }
 

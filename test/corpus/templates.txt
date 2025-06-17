@@ -180,6 +180,45 @@ END
         (heredoc_identifier)))))
 
 ================================================================================
+empty heredoc template with whitespace before ending marker
+================================================================================
+
+foo = <<END
+    END
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (heredoc_template
+        (heredoc_start)
+        (heredoc_identifier)
+        (template_literal)
+        (heredoc_identifier)))))
+
+================================================================================
+heredoc template with whitespace before ending marker
+================================================================================
+
+foo = <<END
+    hello
+    END
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (heredoc_template
+        (heredoc_start)
+        (heredoc_identifier)
+        (template_literal)
+        (heredoc_identifier)))))
+
+================================================================================
 heredoc with fake ending
 ================================================================================
 
