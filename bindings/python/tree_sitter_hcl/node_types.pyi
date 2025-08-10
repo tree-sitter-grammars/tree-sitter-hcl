@@ -39,11 +39,9 @@ class HclTree(Tree):  # pyright: ignore[reportGeneralTypeIssues]
     @property
     @override
     def root_node(self) -> HclNode: ...
-
     @property
     @override
     def language(self) -> HclLanguage: ...
-
     def root_node_with_offset(
         self,
         offset_bytes: int,
@@ -55,7 +53,7 @@ class HclTree(Tree):  # pyright: ignore[reportGeneralTypeIssues]
     @override
     def walk(self) -> HclTreeCursor: ...
     @override
-    def changed_ranges(self, new_tree: HclTree, /) -> list[Range]: ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def changed_ranges(self, new_tree: HclTree, /) -> list[Range]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @override
     def __copy__(self) -> HclTree: ...
 
@@ -75,8 +73,7 @@ class HclTreeCursor(TreeCursor):  # pyright: ignore[reportGeneralTypeIssues]
 class Base[T = LiteralString](Node):  # pyright: ignore[reportGeneralTypeIssues]
     @property
     @override
-    def type(self) -> T: ... # pyright: ignore[reportIncompatibleMethodOverride]
-
+    def type(self) -> T: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     def children(self) -> list[HclNode]: ...
     @property
@@ -145,492 +142,719 @@ class UnnamedNode[T](Base[T]):
     @override
     def is_named(self) -> Literal[False]: ...
 
-type SyntaxType = Literal["strip_marker", "unary_operation", "null_lit", "get_attr", "tuple", "for_expr", "object_end", "template_directive_start", "template_literal", "template_if", "template_if_intro", "template_directive_end", "for_tuple_expr", "ellipsis", "heredoc_start", "template_interpolation_start", "numeric_lit", "tuple_start", "quoted_template", "object", "string_lit", "template_directive", "expression", "bool_lit", "identifier", "literal_value", "template_interpolation_end", "config_file", "splat", "template_for_start", "attribute", "function_call", "full_splat", "attr_splat", "new_index", "quoted_template_start", "body", "collection_value", "block", "tuple_end", "template_else_intro", "template_for_end", "heredoc_identifier", "object_elem", "template_for", "quoted_template_end", "object_start", "template_expr", "for_initializer_single", "index", "expr_term", "binary_operation", "for_intro", "block_start", "for_object_expr", "for_initializer_pair", "legacy_index", "conditional", "parenthesized_expression", "template_interpolation", "block_end", "template_if_end", "comment", "heredoc_template"]
-type UnnamedType = Literal["[", "%", "{", ".*", "in", "?", ",", "for", "false", ".", "(", "&&", "-", "}", ">", ":", "<", "==", "||", "=", "endif", "<=", "/", "*", "+", "true", "endfor", "<<-", "[*]", "]", "=>", "else", ")", ">=", "if", "!", "<<", "!="]
+type SyntaxType = Literal[
+    "splat",
+    "object",
+    "template_if_end",
+    "numeric_lit",
+    "template_for",
+    "ellipsis",
+    "block",
+    "template_for_end",
+    "template_if",
+    "template_expr",
+    "parenthesized_expression",
+    "heredoc_identifier",
+    "template_directive_end",
+    "literal_value",
+    "expression",
+    "template_literal",
+    "binary_operation",
+    "for_expr",
+    "heredoc_template",
+    "legacy_index",
+    "index",
+    "object_end",
+    "template_if_intro",
+    "bool_lit",
+    "template_interpolation",
+    "block_end",
+    "function_call",
+    "tuple",
+    "collection_value",
+    "body",
+    "get_attr",
+    "template_for_start",
+    "tuple_start",
+    "full_splat",
+    "object_elem",
+    "attr_splat",
+    "template_else_intro",
+    "comment",
+    "block_start",
+    "template_directive_start",
+    "template_interpolation_end",
+    "null_lit",
+    "template_directive",
+    "quoted_template",
+    "quoted_template_start",
+    "for_intro",
+    "for_initializer_pair",
+    "attribute",
+    "conditional",
+    "heredoc_start",
+    "config_file",
+    "for_initializer_single",
+    "new_index",
+    "for_tuple_expr",
+    "tuple_end",
+    "unary_operation",
+    "object_start",
+    "template_interpolation_start",
+    "identifier",
+    "expr_term",
+    "quoted_template_end",
+    "for_object_expr",
+    "strip_marker",
+    "string_lit",
+]
+type UnnamedType = Literal[
+    "!",
+    ".*",
+    "{",
+    "endfor",
+    "else",
+    "?",
+    "<=",
+    ")",
+    "<",
+    "[",
+    "=",
+    ":",
+    "}",
+    ">=",
+    "(",
+    "false",
+    "||",
+    ",",
+    "&&",
+    "*",
+    "for",
+    "true",
+    ".",
+    "=>",
+    "%",
+    "+",
+    "==",
+    "]",
+    "<<",
+    "!=",
+    "-",
+    "<<-",
+    "/",
+    "[*]",
+    "in",
+    "endif",
+    "if",
+    ">",
+]
 
 type TypeString = SyntaxType | UnnamedType
 
 class AttrSplat(NamedNode[Literal["attr_splat"]]):
     ...
     @override
-    def child_by_field_name(self, name: Literal["expression"], /) -> Expression:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def child_by_field_name(self, name: Literal["expression"], /) -> Expression: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+
 class Attribute(NamedNode[Literal["attribute"]]):
     ...
     @override
     @overload
-    def child_by_field_name(self, name: Literal["left"], /) -> Identifier:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def child_by_field_name(self, name: Literal["left"], /) -> Identifier: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @overload
-    def child_by_field_name(self, name: Literal["right"], /) -> Expression:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def child_by_field_name(self, name: Literal["right"], /) -> Expression: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+
 class BinaryOperation(NamedNode[Literal["binary_operation"]]):
     ...
     @override
     @overload
-    def child_by_field_name(self, name: Literal["left"], /) -> ExprTerm:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def child_by_field_name(self, name: Literal["left"], /) -> ExprTerm: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @overload
-    def child_by_field_name(self, name: Literal["operator"], /) -> UnnamedNode[Literal["!="]] | UnnamedNode[Literal["%"]] | UnnamedNode[Literal["&&"]] | UnnamedNode[Literal["*"]] | UnnamedNode[Literal["+"]] | UnnamedNode[Literal["-"]] | UnnamedNode[Literal["/"]] | UnnamedNode[Literal["<"]] | UnnamedNode[Literal["<="]] | UnnamedNode[Literal["=="]] | UnnamedNode[Literal[">"]] | UnnamedNode[Literal[">="]] | UnnamedNode[Literal["||"]]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def child_by_field_name(
+        self, name: Literal["operator"], /
+    ) -> (
+        UnnamedNode[Literal["!="]]
+        | UnnamedNode[Literal["%"]]
+        | UnnamedNode[Literal["&&"]]
+        | UnnamedNode[Literal["*"]]
+        | UnnamedNode[Literal["+"]]
+        | UnnamedNode[Literal["-"]]
+        | UnnamedNode[Literal["/"]]
+        | UnnamedNode[Literal["<"]]
+        | UnnamedNode[Literal["<="]]
+        | UnnamedNode[Literal["=="]]
+        | UnnamedNode[Literal[">"]]
+        | UnnamedNode[Literal[">="]]
+        | UnnamedNode[Literal["||"]]
+    ): ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @overload
-    def child_by_field_name(self, name: Literal["right"], /) -> ExprTerm:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def child_by_field_name(self, name: Literal["right"], /) -> ExprTerm: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+
 class Block(NamedNode[Literal["block"]]):
     ...
     @override
     @overload
-    def child_by_field_name(self, name: Literal["body"], /) -> Body | None:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def child_by_field_name(self, name: Literal["body"], /) -> Body | None: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @override
-    def children_by_field_name(self, name: Literal["labels"], /) -> list[Identifier | StringLit]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def children_by_field_name(
+        self, name: Literal["labels"], /
+    ) -> list[Identifier | StringLit]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @overload
-    def child_by_field_name(self, name: Literal["type"], /) -> Identifier:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def child_by_field_name(self, name: Literal["type"], /) -> Identifier: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     @override
-    def named_children(self) -> list[BlockEnd | BlockStart]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def named_children(self) -> list[BlockEnd | BlockStart]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     @override
-    def children(self) -> list[BlockEnd | BlockStart]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
-class BlockEnd(NamedNode[Literal["block_end"]]):
-    ...
-    
-class BlockStart(NamedNode[Literal["block_start"]]):
-    ...
-    
+    def children(self) -> list[BlockEnd | BlockStart]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+
+class BlockEnd(NamedNode[Literal["block_end"]]): ...
+class BlockStart(NamedNode[Literal["block_start"]]): ...
+
 class Body(NamedNode[Literal["body"]]):
     ...
     @override
     @overload
-    def children_by_field_name(self, name: Literal["attributes"], /) -> list[Attribute]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def children_by_field_name(
+        self, name: Literal["attributes"], /
+    ) -> list[Attribute]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @overload
-    def children_by_field_name(self, name: Literal["blocks"], /) -> list[Block]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
-class BoolLit(NamedNode[Literal["bool_lit"]]):
-    ...
-    
+    def children_by_field_name(self, name: Literal["blocks"], /) -> list[Block]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+
+class BoolLit(NamedNode[Literal["bool_lit"]]): ...
+
 class Conditional(NamedNode[Literal["conditional"]]):
     ...
     @override
     @overload
-    def child_by_field_name(self, name: Literal["alternative"], /) -> Expression:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def child_by_field_name(self, name: Literal["alternative"], /) -> Expression: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @overload
-    def child_by_field_name(self, name: Literal["condition"], /) -> Expression:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def child_by_field_name(self, name: Literal["condition"], /) -> Expression: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @overload
-    def child_by_field_name(self, name: Literal["consequence"], /) -> Expression:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def child_by_field_name(self, name: Literal["consequence"], /) -> Expression: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+
 class ConfigFile(NamedNode[Literal["config_file"]]):
     ...
-    
+
     @property
     @override
-    def named_children(self) -> list[Body | Object]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def named_children(self) -> list[Body | Object]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     @override
-    def children(self) -> list[Body | Object]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def children(self) -> list[Body | Object]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+
 class ForInitializerPair(NamedNode[Literal["for_initializer_pair"]]):
     ...
     @override
     @overload
-    def child_by_field_name(self, name: Literal["left"], /) -> Identifier:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def child_by_field_name(self, name: Literal["left"], /) -> Identifier: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @overload
-    def child_by_field_name(self, name: Literal["right"], /) -> Identifier:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def child_by_field_name(self, name: Literal["right"], /) -> Identifier: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+
 class ForIntro(NamedNode[Literal["for_intro"]]):
     ...
     @override
     @overload
-    def child_by_field_name(self, name: Literal["left"], /) -> ForInitializerPair | ForInitializerSingle:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def child_by_field_name(
+        self, name: Literal["left"], /
+    ) -> ForInitializerPair | ForInitializerSingle: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @overload
-    def child_by_field_name(self, name: Literal["right"], /) -> Expression:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def child_by_field_name(self, name: Literal["right"], /) -> Expression: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+
 class ForObjectExpr(NamedNode[Literal["for_object_expr"]]):
     ...
     @override
     @overload
-    def child_by_field_name(self, name: Literal["condition"], /) -> Expression | None:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def child_by_field_name(
+        self, name: Literal["condition"], /
+    ) -> Expression | None: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @overload
-    def child_by_field_name(self, name: Literal["expansion"], /) -> Ellipsis | None:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def child_by_field_name(self, name: Literal["expansion"], /) -> Ellipsis | None: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @overload
-    def child_by_field_name(self, name: Literal["intro"], /) -> ForIntro:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def child_by_field_name(self, name: Literal["intro"], /) -> ForIntro: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @overload
-    def child_by_field_name(self, name: Literal["key"], /) -> Expression:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def child_by_field_name(self, name: Literal["key"], /) -> Expression: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @overload
-    def child_by_field_name(self, name: Literal["value"], /) -> Expression:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def child_by_field_name(self, name: Literal["value"], /) -> Expression: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     @override
-    def named_children(self) -> list[ObjectEnd | ObjectStart]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def named_children(self) -> list[ObjectEnd | ObjectStart]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     @override
-    def children(self) -> list[ObjectEnd | ObjectStart]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def children(self) -> list[ObjectEnd | ObjectStart]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+
 class ForTupleExpr(NamedNode[Literal["for_tuple_expr"]]):
     ...
     @override
     @overload
-    def child_by_field_name(self, name: Literal["body"], /) -> Expression:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def child_by_field_name(self, name: Literal["body"], /) -> Expression: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @overload
-    def child_by_field_name(self, name: Literal["condition"], /) -> Expression | None:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def child_by_field_name(
+        self, name: Literal["condition"], /
+    ) -> Expression | None: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @overload
-    def child_by_field_name(self, name: Literal["intro"], /) -> ForIntro:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def child_by_field_name(self, name: Literal["intro"], /) -> ForIntro: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     @override
-    def named_children(self) -> list[TupleEnd | TupleStart]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def named_children(self) -> list[TupleEnd | TupleStart]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     @override
-    def children(self) -> list[TupleEnd | TupleStart]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def children(self) -> list[TupleEnd | TupleStart]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+
 class FullSplat(NamedNode[Literal["full_splat"]]):
     ...
     @override
-    def child_by_field_name(self, name: Literal["expression"], /) -> Expression:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def child_by_field_name(self, name: Literal["expression"], /) -> Expression: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+
 class FunctionCall(NamedNode[Literal["function_call"]]):
     ...
     @override
-    def children_by_field_name(self, name: Literal["arguments"], /) -> list[Expression]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def children_by_field_name(
+        self, name: Literal["arguments"], /
+    ) -> list[Expression]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @override
     @overload
-    def child_by_field_name(self, name: Literal["expansion"], /) -> Ellipsis | None:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def child_by_field_name(self, name: Literal["expansion"], /) -> Ellipsis | None: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @overload
-    def child_by_field_name(self, name: Literal["function"], /) -> Identifier:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def child_by_field_name(self, name: Literal["function"], /) -> Identifier: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+
 class GetAttr(NamedNode[Literal["get_attr"]]):
     ...
     @override
     @overload
-    def child_by_field_name(self, name: Literal["attribute"], /) -> Identifier:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def child_by_field_name(self, name: Literal["attribute"], /) -> Identifier: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @overload
-    def child_by_field_name(self, name: Literal["object"], /) -> ExprTerm:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
-class HeredocStart(NamedNode[Literal["heredoc_start"]]):
-    ...
-    
+    def child_by_field_name(self, name: Literal["object"], /) -> ExprTerm: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+
+class HeredocStart(NamedNode[Literal["heredoc_start"]]): ...
+
 class HeredocTemplate(NamedNode[Literal["heredoc_template"]]):
     ...
     @override
-    def children_by_field_name(self, name: Literal["body"], /) -> list[TemplateDirective | TemplateInterpolation | TemplateLiteral]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def children_by_field_name(
+        self, name: Literal["body"], /
+    ) -> list[TemplateDirective | TemplateInterpolation | TemplateLiteral]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @override
-    def child_by_field_name(self, name: Literal["heredoc_marker"], /) -> HeredocStart:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def child_by_field_name(
+        self, name: Literal["heredoc_marker"], /
+    ) -> HeredocStart: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     @override
-    def named_children(self) -> list[HeredocIdentifier]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def named_children(self) -> list[HeredocIdentifier]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     @override
-    def children(self) -> list[HeredocIdentifier]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def children(self) -> list[HeredocIdentifier]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+
 class Index(NamedNode[Literal["index"]]):
     ...
     @override
     @overload
-    def child_by_field_name(self, name: Literal["index"], /) -> LegacyIndex | NewIndex:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def child_by_field_name(
+        self, name: Literal["index"], /
+    ) -> LegacyIndex | NewIndex: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @overload
-    def child_by_field_name(self, name: Literal["object"], /) -> ExprTerm:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
-class LegacyIndex(NamedNode[Literal["legacy_index"]]):
-    ...
-    
+    def child_by_field_name(self, name: Literal["object"], /) -> ExprTerm: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+
+class LegacyIndex(NamedNode[Literal["legacy_index"]]): ...
+
 class NewIndex(NamedNode[Literal["new_index"]]):
     ...
-    
+
     @property
     @override
-    def named_children(self) -> list[Expression]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def named_children(self) -> list[Expression]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     @override
-    def children(self) -> list[Expression]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
-class NumericLit(NamedNode[Literal["numeric_lit"]]):
-    ...
-    
+    def children(self) -> list[Expression]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+
+class NumericLit(NamedNode[Literal["numeric_lit"]]): ...
+
 class Object(NamedNode[Literal["object"]]):
     ...
     @override
-    def children_by_field_name(self, name: Literal["elements"], /) -> list[ObjectElem]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def children_by_field_name(
+        self, name: Literal["elements"], /
+    ) -> list[ObjectElem]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     @override
-    def named_children(self) -> list[ObjectEnd | ObjectStart]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def named_children(self) -> list[ObjectEnd | ObjectStart]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     @override
-    def children(self) -> list[ObjectEnd | ObjectStart]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def children(self) -> list[ObjectEnd | ObjectStart]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+
 class ObjectElem(NamedNode[Literal["object_elem"]]):
     ...
     @override
     @overload
-    def child_by_field_name(self, name: Literal["key"], /) -> Expression:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def child_by_field_name(self, name: Literal["key"], /) -> Expression: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @overload
-    def child_by_field_name(self, name: Literal["val"], /) -> Expression:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
-class ObjectEnd(NamedNode[Literal["object_end"]]):
-    ...
-    
-class ObjectStart(NamedNode[Literal["object_start"]]):
-    ...
-    
+    def child_by_field_name(self, name: Literal["val"], /) -> Expression: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+
+class ObjectEnd(NamedNode[Literal["object_end"]]): ...
+class ObjectStart(NamedNode[Literal["object_start"]]): ...
+
 class ParenthesizedExpression(NamedNode[Literal["parenthesized_expression"]]):
     ...
-    
+
     @property
     @override
-    def named_children(self) -> list[Expression]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def named_children(self) -> list[Expression]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     @override
-    def children(self) -> list[Expression]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def children(self) -> list[Expression]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+
 class QuotedTemplate(NamedNode[Literal["quoted_template"]]):
     ...
     @override
-    def children_by_field_name(self, name: Literal["body"], /) -> list[TemplateDirective | TemplateInterpolation | TemplateLiteral]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def children_by_field_name(
+        self, name: Literal["body"], /
+    ) -> list[TemplateDirective | TemplateInterpolation | TemplateLiteral]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     @override
-    def named_children(self) -> list[QuotedTemplateEnd | QuotedTemplateStart]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def named_children(self) -> list[QuotedTemplateEnd | QuotedTemplateStart]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     @override
-    def children(self) -> list[QuotedTemplateEnd | QuotedTemplateStart]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def children(self) -> list[QuotedTemplateEnd | QuotedTemplateStart]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+
 class StringLit(NamedNode[Literal["string_lit"]]):
     ...
     @override
-    def child_by_field_name(self, name: Literal["body"], /) -> TemplateLiteral | None:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def child_by_field_name(
+        self, name: Literal["body"], /
+    ) -> TemplateLiteral | None: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     @override
-    def named_children(self) -> list[QuotedTemplateEnd | QuotedTemplateStart]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def named_children(self) -> list[QuotedTemplateEnd | QuotedTemplateStart]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     @override
-    def children(self) -> list[QuotedTemplateEnd | QuotedTemplateStart]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def children(self) -> list[QuotedTemplateEnd | QuotedTemplateStart]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+
 class TemplateElseIntro(NamedNode[Literal["template_else_intro"]]):
     ...
     @override
     @overload
-    def child_by_field_name(self, name: Literal["strip_marker_end"], /) -> StripMarker | None:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def child_by_field_name(
+        self, name: Literal["strip_marker_end"], /
+    ) -> StripMarker | None: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @overload
-    def child_by_field_name(self, name: Literal["strip_marker_start"], /) -> StripMarker | None:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def child_by_field_name(
+        self, name: Literal["strip_marker_start"], /
+    ) -> StripMarker | None: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     @override
-    def named_children(self) -> list[TemplateDirectiveEnd | TemplateDirectiveStart]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def named_children(self) -> list[TemplateDirectiveEnd | TemplateDirectiveStart]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     @override
-    def children(self) -> list[TemplateDirectiveEnd | TemplateDirectiveStart]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def children(self) -> list[TemplateDirectiveEnd | TemplateDirectiveStart]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+
 class TemplateFor(NamedNode[Literal["template_for"]]):
     ...
     @override
-    def children_by_field_name(self, name: Literal["body"], /) -> list[TemplateDirective | TemplateInterpolation | TemplateLiteral]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def children_by_field_name(
+        self, name: Literal["body"], /
+    ) -> list[TemplateDirective | TemplateInterpolation | TemplateLiteral]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @override
-    def child_by_field_name(self, name: Literal["start"], /) -> TemplateForStart:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def child_by_field_name(self, name: Literal["start"], /) -> TemplateForStart: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     @override
-    def named_children(self) -> list[TemplateForEnd]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def named_children(self) -> list[TemplateForEnd]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     @override
-    def children(self) -> list[TemplateForEnd]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def children(self) -> list[TemplateForEnd]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+
 class TemplateForEnd(NamedNode[Literal["template_for_end"]]):
     ...
     @override
     @overload
-    def child_by_field_name(self, name: Literal["strip_marker_end"], /) -> StripMarker | None:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def child_by_field_name(
+        self, name: Literal["strip_marker_end"], /
+    ) -> StripMarker | None: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @overload
-    def child_by_field_name(self, name: Literal["strip_marker_start"], /) -> StripMarker | None:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def child_by_field_name(
+        self, name: Literal["strip_marker_start"], /
+    ) -> StripMarker | None: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     @override
-    def named_children(self) -> list[TemplateDirectiveEnd | TemplateDirectiveStart]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def named_children(self) -> list[TemplateDirectiveEnd | TemplateDirectiveStart]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     @override
-    def children(self) -> list[TemplateDirectiveEnd | TemplateDirectiveStart]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def children(self) -> list[TemplateDirectiveEnd | TemplateDirectiveStart]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+
 class TemplateForStart(NamedNode[Literal["template_for_start"]]):
     ...
     @override
-    def children_by_field_name(self, name: Literal["left"], /) -> list[Identifier]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def children_by_field_name(self, name: Literal["left"], /) -> list[Identifier]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @override
     @overload
-    def child_by_field_name(self, name: Literal["right"], /) -> Expression:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def child_by_field_name(self, name: Literal["right"], /) -> Expression: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @overload
-    def child_by_field_name(self, name: Literal["strip_marker_end"], /) -> StripMarker | None:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def child_by_field_name(
+        self, name: Literal["strip_marker_end"], /
+    ) -> StripMarker | None: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @overload
-    def child_by_field_name(self, name: Literal["strip_marker_start"], /) -> StripMarker | None:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def child_by_field_name(
+        self, name: Literal["strip_marker_start"], /
+    ) -> StripMarker | None: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     @override
-    def named_children(self) -> list[TemplateDirectiveEnd | TemplateDirectiveStart]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def named_children(self) -> list[TemplateDirectiveEnd | TemplateDirectiveStart]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     @override
-    def children(self) -> list[TemplateDirectiveEnd | TemplateDirectiveStart]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def children(self) -> list[TemplateDirectiveEnd | TemplateDirectiveStart]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+
 class TemplateIf(NamedNode[Literal["template_if"]]):
     ...
     @override
     @overload
-    def children_by_field_name(self, name: Literal["else_body"], /) -> list[TemplateDirective | TemplateInterpolation | TemplateLiteral]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def children_by_field_name(
+        self, name: Literal["else_body"], /
+    ) -> list[TemplateDirective | TemplateInterpolation | TemplateLiteral]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @override
     @overload
-    def child_by_field_name(self, name: Literal["else_intro"], /) -> TemplateElseIntro | None:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def child_by_field_name(
+        self, name: Literal["else_intro"], /
+    ) -> TemplateElseIntro | None: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @overload
-    def children_by_field_name(self, name: Literal["if_body"], /) -> list[TemplateDirective | TemplateInterpolation | TemplateLiteral]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def children_by_field_name(
+        self, name: Literal["if_body"], /
+    ) -> list[TemplateDirective | TemplateInterpolation | TemplateLiteral]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @overload
-    def child_by_field_name(self, name: Literal["if_intro"], /) -> TemplateIfIntro:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def child_by_field_name(self, name: Literal["if_intro"], /) -> TemplateIfIntro: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     @override
-    def named_children(self) -> list[TemplateIfEnd]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def named_children(self) -> list[TemplateIfEnd]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     @override
-    def children(self) -> list[TemplateIfEnd]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def children(self) -> list[TemplateIfEnd]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+
 class TemplateIfEnd(NamedNode[Literal["template_if_end"]]):
     ...
     @override
     @overload
-    def child_by_field_name(self, name: Literal["strip_marker_end"], /) -> StripMarker | None:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def child_by_field_name(
+        self, name: Literal["strip_marker_end"], /
+    ) -> StripMarker | None: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @overload
-    def child_by_field_name(self, name: Literal["strip_marker_start"], /) -> StripMarker | None:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def child_by_field_name(
+        self, name: Literal["strip_marker_start"], /
+    ) -> StripMarker | None: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     @override
-    def named_children(self) -> list[TemplateDirectiveEnd | TemplateDirectiveStart]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def named_children(self) -> list[TemplateDirectiveEnd | TemplateDirectiveStart]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     @override
-    def children(self) -> list[TemplateDirectiveEnd | TemplateDirectiveStart]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def children(self) -> list[TemplateDirectiveEnd | TemplateDirectiveStart]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+
 class TemplateIfIntro(NamedNode[Literal["template_if_intro"]]):
     ...
     @override
     @overload
-    def child_by_field_name(self, name: Literal["condition"], /) -> Expression:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def child_by_field_name(self, name: Literal["condition"], /) -> Expression: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @overload
-    def child_by_field_name(self, name: Literal["strip_marker_end"], /) -> StripMarker | None:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def child_by_field_name(
+        self, name: Literal["strip_marker_end"], /
+    ) -> StripMarker | None: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @overload
-    def child_by_field_name(self, name: Literal["strip_marker_start"], /) -> StripMarker | None:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def child_by_field_name(
+        self, name: Literal["strip_marker_start"], /
+    ) -> StripMarker | None: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     @override
-    def named_children(self) -> list[TemplateDirectiveEnd | TemplateDirectiveStart]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def named_children(self) -> list[TemplateDirectiveEnd | TemplateDirectiveStart]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     @override
-    def children(self) -> list[TemplateDirectiveEnd | TemplateDirectiveStart]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def children(self) -> list[TemplateDirectiveEnd | TemplateDirectiveStart]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+
 class TemplateInterpolation(NamedNode[Literal["template_interpolation"]]):
     ...
     @override
     @overload
-    def child_by_field_name(self, name: Literal["body"], /) -> Expression:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def child_by_field_name(self, name: Literal["body"], /) -> Expression: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @overload
-    def child_by_field_name(self, name: Literal["strip_marker_end"], /) -> StripMarker | None:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def child_by_field_name(
+        self, name: Literal["strip_marker_end"], /
+    ) -> StripMarker | None: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @overload
-    def child_by_field_name(self, name: Literal["strip_marker_start"], /) -> StripMarker | None:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def child_by_field_name(
+        self, name: Literal["strip_marker_start"], /
+    ) -> StripMarker | None: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     @override
-    def named_children(self) -> list[TemplateInterpolationEnd | TemplateInterpolationStart]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def named_children(
+        self,
+    ) -> list[TemplateInterpolationEnd | TemplateInterpolationStart]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     @override
-    def children(self) -> list[TemplateInterpolationEnd | TemplateInterpolationStart]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
-class TemplateLiteral(NamedNode[Literal["template_literal"]]):
-    ...
-    
+    def children(
+        self,
+    ) -> list[TemplateInterpolationEnd | TemplateInterpolationStart]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+
+class TemplateLiteral(NamedNode[Literal["template_literal"]]): ...
+
 class Tuple(NamedNode[Literal["tuple"]]):
     ...
     @override
-    def children_by_field_name(self, name: Literal["elements"], /) -> list[Expression]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def children_by_field_name(
+        self, name: Literal["elements"], /
+    ) -> list[Expression]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     @override
-    def named_children(self) -> list[TupleEnd | TupleStart]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
+    def named_children(self) -> list[TupleEnd | TupleStart]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @property
     @override
-    def children(self) -> list[TupleEnd | TupleStart]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
-class TupleEnd(NamedNode[Literal["tuple_end"]]):
-    ...
-    
-class TupleStart(NamedNode[Literal["tuple_start"]]):
-    ...
-    
+    def children(self) -> list[TupleEnd | TupleStart]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+
+class TupleEnd(NamedNode[Literal["tuple_end"]]): ...
+class TupleStart(NamedNode[Literal["tuple_start"]]): ...
+
 class UnaryOperation(NamedNode[Literal["unary_operation"]]):
     ...
     @override
     @overload
-    def child_by_field_name(self, name: Literal["operand"], /) -> ExprTerm:      ... # pyright: ignore[reportIncompatibleMethodOverride]
+    def child_by_field_name(self, name: Literal["operand"], /) -> ExprTerm: ...  # pyright: ignore[reportIncompatibleMethodOverride]
     @overload
-    def child_by_field_name(self, name: Literal["operator"], /) -> UnnamedNode[Literal["!"]] | UnnamedNode[Literal["-"]]:      ... # pyright: ignore[reportIncompatibleMethodOverride]
-    
-class Comment(NamedNode[Literal["comment"]]):
-    ...
-    
-class Ellipsis(NamedNode[Literal["ellipsis"]]):
-    ...
-    
-class ForInitializerSingle(NamedNode[Literal["for_initializer_single"]]):
-    ...
-    
-class HeredocIdentifier(NamedNode[Literal["heredoc_identifier"]]):
-    ...
-    
-class Identifier(NamedNode[Literal["identifier"]]):
-    ...
-    
-class NullLit(NamedNode[Literal["null_lit"]]):
-    ...
-    
-class QuotedTemplateEnd(NamedNode[Literal["quoted_template_end"]]):
-    ...
-    
-class QuotedTemplateStart(NamedNode[Literal["quoted_template_start"]]):
-    ...
-    
-class StripMarker(NamedNode[Literal["strip_marker"]]):
-    ...
-    
-class TemplateDirectiveEnd(NamedNode[Literal["template_directive_end"]]):
-    ...
-    
-class TemplateDirectiveStart(NamedNode[Literal["template_directive_start"]]):
-    ...
-    
-class TemplateInterpolationEnd(NamedNode[Literal["template_interpolation_end"]]):
-    ...
-    
-class TemplateInterpolationStart(NamedNode[Literal["template_interpolation_start"]]):
-    ...
-    
+    def child_by_field_name(
+        self, name: Literal["operator"], /
+    ) -> UnnamedNode[Literal["!"]] | UnnamedNode[Literal["-"]]: ...  # pyright: ignore[reportIncompatibleMethodOverride]
+
+class Comment(NamedNode[Literal["comment"]]): ...
+class Ellipsis(NamedNode[Literal["ellipsis"]]): ...
+class ForInitializerSingle(NamedNode[Literal["for_initializer_single"]]): ...
+class HeredocIdentifier(NamedNode[Literal["heredoc_identifier"]]): ...
+class Identifier(NamedNode[Literal["identifier"]]): ...
+class NullLit(NamedNode[Literal["null_lit"]]): ...
+class QuotedTemplateEnd(NamedNode[Literal["quoted_template_end"]]): ...
+class QuotedTemplateStart(NamedNode[Literal["quoted_template_start"]]): ...
+class StripMarker(NamedNode[Literal["strip_marker"]]): ...
+class TemplateDirectiveEnd(NamedNode[Literal["template_directive_end"]]): ...
+class TemplateDirectiveStart(NamedNode[Literal["template_directive_start"]]): ...
+class TemplateInterpolationEnd(NamedNode[Literal["template_interpolation_end"]]): ...
+class TemplateInterpolationStart(
+    NamedNode[Literal["template_interpolation_start"]]
+): ...
+
 type CollectionValue = "Tuple" | "Object"
-type ExprTerm = "FunctionCall" | "GetAttr" | "TemplateExpr" | "ForExpr" | "CollectionValue" | "Index" | "BinaryOperation" | "ParenthesizedExpression" | "Identifier" | "LiteralValue" | "UnaryOperation" | "Splat"
+type ExprTerm = (
+    "Splat"
+    | "LiteralValue"
+    | "BinaryOperation"
+    | "ForExpr"
+    | "UnaryOperation"
+    | "Index"
+    | "Identifier"
+    | "FunctionCall"
+    | "CollectionValue"
+    | "GetAttr"
+    | "TemplateExpr"
+    | "ParenthesizedExpression"
+)
 type Expression = "Conditional" | "ExprTerm"
-type ForExpr = "ForTupleExpr" | "ForObjectExpr"
-type LiteralValue = "NumericLit" | "BoolLit" | "NullLit" | "StringLit"
+type ForExpr = "ForObjectExpr" | "ForTupleExpr"
+type LiteralValue = "NumericLit" | "NullLit" | "BoolLit" | "StringLit"
 type Splat = "FullSplat" | "AttrSplat"
 type TemplateDirective = "TemplateFor" | "TemplateIf"
 type TemplateExpr = "QuotedTemplate" | "HeredocTemplate"
-type HclNode = CollectionValue | ExprTerm | Expression | ForExpr | LiteralValue | Splat | TemplateDirective | TemplateExpr | AttrSplat | Attribute | BinaryOperation | Block | BlockEnd | BlockStart | Body | BoolLit | Conditional | ConfigFile | ForInitializerPair | ForIntro | ForObjectExpr | ForTupleExpr | FullSplat | FunctionCall | GetAttr | HeredocStart | HeredocTemplate | Index | LegacyIndex | NewIndex | NumericLit | Object | ObjectElem | ObjectEnd | ObjectStart | ParenthesizedExpression | QuotedTemplate | StringLit | TemplateElseIntro | TemplateFor | TemplateForEnd | TemplateForStart | TemplateIf | TemplateIfEnd | TemplateIfIntro | TemplateInterpolation | TemplateLiteral | Tuple | TupleEnd | TupleStart | UnaryOperation | UnnamedNode[Literal["!"]] | UnnamedNode[Literal["!="]] | UnnamedNode[Literal["%"]] | UnnamedNode[Literal["&&"]] | UnnamedNode[Literal["("]] | UnnamedNode[Literal[")"]] | UnnamedNode[Literal["*"]] | UnnamedNode[Literal["+"]] | UnnamedNode[Literal[","]] | UnnamedNode[Literal["-"]] | UnnamedNode[Literal["."]] | UnnamedNode[Literal[".*"]] | UnnamedNode[Literal["/"]] | UnnamedNode[Literal[":"]] | UnnamedNode[Literal["<"]] | UnnamedNode[Literal["<<"]] | UnnamedNode[Literal["<<-"]] | UnnamedNode[Literal["<="]] | UnnamedNode[Literal["="]] | UnnamedNode[Literal["=="]] | UnnamedNode[Literal["=>"]] | UnnamedNode[Literal[">"]] | UnnamedNode[Literal[">="]] | UnnamedNode[Literal["?"]] | UnnamedNode[Literal["["]] | UnnamedNode[Literal["[*]"]] | UnnamedNode[Literal["]"]] | Comment | Ellipsis | UnnamedNode[Literal["else"]] | UnnamedNode[Literal["endfor"]] | UnnamedNode[Literal["endif"]] | UnnamedNode[Literal["false"]] | UnnamedNode[Literal["for"]] | ForInitializerSingle | HeredocIdentifier | Identifier | UnnamedNode[Literal["if"]] | UnnamedNode[Literal["in"]] | NullLit | QuotedTemplateEnd | QuotedTemplateStart | StripMarker | TemplateDirectiveEnd | TemplateDirectiveStart | TemplateInterpolationEnd | TemplateInterpolationStart | UnnamedNode[Literal["true"]] | UnnamedNode[Literal["{"]] | UnnamedNode[Literal["||"]] | UnnamedNode[Literal["}"]]
-
+type HclNode = (
+    CollectionValue
+    | ExprTerm
+    | Expression
+    | ForExpr
+    | LiteralValue
+    | Splat
+    | TemplateDirective
+    | TemplateExpr
+    | AttrSplat
+    | Attribute
+    | BinaryOperation
+    | Block
+    | BlockEnd
+    | BlockStart
+    | Body
+    | BoolLit
+    | Conditional
+    | ConfigFile
+    | ForInitializerPair
+    | ForIntro
+    | ForObjectExpr
+    | ForTupleExpr
+    | FullSplat
+    | FunctionCall
+    | GetAttr
+    | HeredocStart
+    | HeredocTemplate
+    | Index
+    | LegacyIndex
+    | NewIndex
+    | NumericLit
+    | Object
+    | ObjectElem
+    | ObjectEnd
+    | ObjectStart
+    | ParenthesizedExpression
+    | QuotedTemplate
+    | StringLit
+    | TemplateElseIntro
+    | TemplateFor
+    | TemplateForEnd
+    | TemplateForStart
+    | TemplateIf
+    | TemplateIfEnd
+    | TemplateIfIntro
+    | TemplateInterpolation
+    | TemplateLiteral
+    | Tuple
+    | TupleEnd
+    | TupleStart
+    | UnaryOperation
+    | UnnamedNode[Literal["!"]]
+    | UnnamedNode[Literal["!="]]
+    | UnnamedNode[Literal["%"]]
+    | UnnamedNode[Literal["&&"]]
+    | UnnamedNode[Literal["("]]
+    | UnnamedNode[Literal[")"]]
+    | UnnamedNode[Literal["*"]]
+    | UnnamedNode[Literal["+"]]
+    | UnnamedNode[Literal[","]]
+    | UnnamedNode[Literal["-"]]
+    | UnnamedNode[Literal["."]]
+    | UnnamedNode[Literal[".*"]]
+    | UnnamedNode[Literal["/"]]
+    | UnnamedNode[Literal[":"]]
+    | UnnamedNode[Literal["<"]]
+    | UnnamedNode[Literal["<<"]]
+    | UnnamedNode[Literal["<<-"]]
+    | UnnamedNode[Literal["<="]]
+    | UnnamedNode[Literal["="]]
+    | UnnamedNode[Literal["=="]]
+    | UnnamedNode[Literal["=>"]]
+    | UnnamedNode[Literal[">"]]
+    | UnnamedNode[Literal[">="]]
+    | UnnamedNode[Literal["?"]]
+    | UnnamedNode[Literal["["]]
+    | UnnamedNode[Literal["[*]"]]
+    | UnnamedNode[Literal["]"]]
+    | Comment
+    | Ellipsis
+    | UnnamedNode[Literal["else"]]
+    | UnnamedNode[Literal["endfor"]]
+    | UnnamedNode[Literal["endif"]]
+    | UnnamedNode[Literal["false"]]
+    | UnnamedNode[Literal["for"]]
+    | ForInitializerSingle
+    | HeredocIdentifier
+    | Identifier
+    | UnnamedNode[Literal["if"]]
+    | UnnamedNode[Literal["in"]]
+    | NullLit
+    | QuotedTemplateEnd
+    | QuotedTemplateStart
+    | StripMarker
+    | TemplateDirectiveEnd
+    | TemplateDirectiveStart
+    | TemplateInterpolationEnd
+    | TemplateInterpolationStart
+    | UnnamedNode[Literal["true"]]
+    | UnnamedNode[Literal["{"]]
+    | UnnamedNode[Literal["||"]]
+    | UnnamedNode[Literal["}"]]
+)
