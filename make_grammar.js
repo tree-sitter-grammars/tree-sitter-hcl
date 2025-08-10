@@ -253,7 +253,7 @@ module.exports = function make_grammar(dialect) {
           seq(
             field("arguments", $.expression),
             repeat(seq($._comma, field("arguments", $.expression))),
-            optional(choice($._comma, $.ellipsis)),
+            optional(choice($._comma, field("expansion", $.ellipsis))),
           ),
         ),
 

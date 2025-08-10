@@ -642,6 +642,16 @@
           }
         ]
       },
+      "expansion": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "ellipsis",
+            "named": true
+          }
+        ]
+      },
       "function": {
         "multiple": false,
         "required": true,
@@ -652,16 +662,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "ellipsis",
-          "named": true
-        }
-      ]
     }
   },
   {

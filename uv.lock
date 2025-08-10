@@ -1,6 +1,6 @@
 version = 1
 revision = 2
-requires-python = ">=3.10"
+requires-python = ">=3.13"
 
 [[package]]
 name = "tree-sitter"
@@ -42,6 +42,9 @@ wheels = [
 name = "tree-sitter-hcl"
 version = "1.1.0"
 source = { editable = "." }
+dependencies = [
+    { name = "tree-sitter" },
+]
 
 [package.optional-dependencies]
 core = [
@@ -49,5 +52,8 @@ core = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "tree-sitter", marker = "extra == 'core'", specifier = "~=0.24" }]
+requires-dist = [
+    { name = "tree-sitter", specifier = ">=0.24.0" },
+    { name = "tree-sitter", marker = "extra == 'core'", specifier = "~=0.24" },
+]
 provides-extras = ["core"]

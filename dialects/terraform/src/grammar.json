@@ -1050,8 +1050,12 @@
                     "name": "_comma"
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "ellipsis"
+                    "type": "FIELD",
+                    "name": "expansion",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "ellipsis"
+                    }
                   }
                 ]
               },
