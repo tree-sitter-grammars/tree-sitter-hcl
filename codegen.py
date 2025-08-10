@@ -157,7 +157,7 @@ def write_children(writer: Writer, field: Field, only_named: bool = False) -> No
         )
     )
 
-    writer.write("  ... # pyright: ignore[reportIncompatibleMethodOverride]\n")
+    writer.write("  ...\n")
     writer.write("\n")
 
 
@@ -212,7 +212,7 @@ def write_fields(writer: Writer, fields: dict[str, Field]) -> None:
                 )
             )
 
-        writer.write("  ... # pyright: ignore[reportIncompatibleMethodOverride]\n")
+        writer.write("  ...\n")
     writer.write("\n")
 
 def main():
