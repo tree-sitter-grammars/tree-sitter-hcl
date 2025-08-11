@@ -683,3 +683,45 @@ EOF
             (template_directive_end)))
         (template_literal)
         (heredoc_identifier)))))
+
+================================================================================
+heredoc with single character that matches start of heredoc identifer
+================================================================================
+
+locals {
+
+  annotations = {
+    "description" = replace(<<EOM
+ 	E
+EOM
+    ,)
+  }
+}
+
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (block
+      (identifier)
+      (block_start)
+      (body
+        (attribute
+          (identifier)
+          (object
+            (object_start)
+            (object_elem
+              (string_lit
+                (quoted_template_start)
+                (template_literal)
+                (quoted_template_end))
+              (function_call
+                (identifier)
+                (heredoc_template
+                  (heredoc_start)
+                  (heredoc_identifier)
+                  (template_literal)
+                  (heredoc_identifier))))
+            (object_end))))
+      (block_end))))
