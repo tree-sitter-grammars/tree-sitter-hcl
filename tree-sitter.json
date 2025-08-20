@@ -16,7 +16,8 @@
       "path": "dialects/terraform",
       "file-types": [
         "tf",
-        "tfvars"
+        "tfvars",
+        "tofu"
       ]
     }
   ],
