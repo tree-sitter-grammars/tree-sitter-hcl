@@ -272,6 +272,12 @@ static inline int consume_ws(TSLexer *lexer, Scanner *scanner) {
 static inline bool in_directive_context(Scanner *scanner) { return in_context_type(scanner, TEMPLATE_DIRECTIVE); }
 
 static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
+    // Early EOF handling for heredoc contexts to prevent infinite loops
+    if (lexer->eof(lexer) && in_heredoc_context(scanner)) {
+        // If we're at EOF in a heredoc context, just return false to let the parser handle it
+        return false;
+    }
+
     if (scanner->skip_next_newline) {
         while (lexer->lookahead != '\n') {
             skip(lexer, scanner);
@@ -379,6 +385,11 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
             STRING_PUSH(identifier, lexer->lookahead);
             advance(lexer, scanner);
         }
+        // Only proceed if we actually found a valid identifier
+        if (identifier.len == 0) {
+            STRING_FREE(identifier);
+            return false;
+        }
         Context ctx;
         ctx.type = HEREDOC_TEMPLATE;
         ctx.heredoc_identifier = identifier;
@@ -394,6 +405,10 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
     if (valid_symbols[HEREDOC_IDENTIFIER] && in_heredoc_context(scanner)) {
         String expected_identifier = VEC_BACK(scanner->context_stack).heredoc_identifier;
         for (size_t i = 0; i < expected_identifier.len; i++) {
+            if (lexer->eof(lexer)) {
+                // At EOF during identifier matching, treat as template literal chunk
+                return accept_inplace(lexer, TEMPLATE_LITERAL_CHUNK);
+            }
             if (lexer->lookahead == expected_identifier.data[i]) {
                 advance(lexer, scanner);
             } else {
@@ -417,16 +432,15 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
         if (lexer->lookahead == '\n') {
             lexer->log(lexer,"next char is a newline");
         }
-        if (was_line_ws_only && lexer->lookahead == '\n') {
-        lexer->log(lexer,"Line is whitespace only and next char is a newline, so accepting HEREDOC_IDENTIFIER and popping context.");
-            // Reset last_char when leaving the heredoc context
-            // scanner->is_line_ws_only = '\0';
+        if (was_line_ws_only && (lexer->lookahead == '\n' || lexer->eof(lexer))) {
+        lexer->log(lexer,"Line is whitespace only and next char is a newline or EOF, so accepting HEREDOC_IDENTIFIER and popping context.");
             VEC_POP(scanner->context_stack);
             return accept_inplace(lexer, HEREDOC_IDENTIFIER);
         }
-        // if (lexer->lookahead == '\n') {
-        //     scanner->is_line_ws_only = true;
-        // }
+        if (lexer->eof(lexer)) {
+            // At EOF, treat as template literal chunk to avoid infinite loop
+            return accept_inplace(lexer, TEMPLATE_LITERAL_CHUNK);
+        }
         advance(lexer, scanner);
         consume_ws(lexer, scanner);
         lexer->mark_end(lexer);
