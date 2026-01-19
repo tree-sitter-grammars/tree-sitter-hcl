@@ -10,11 +10,9 @@ foo = ""
   (body
     (attribute
       (identifier)
-      (expression
-        (literal_value
-          (string_lit
-            (quoted_template_start)
-            (quoted_template_end)))))))
+      (string_lit
+        (quoted_template_start)
+        (quoted_template_end)))))
 
 ================================================================================
 unescaped tab
@@ -28,12 +26,10 @@ foo = "foo	bar"
   (body
     (attribute
       (identifier)
-      (expression
-        (literal_value
-          (string_lit
-            (quoted_template_start)
-            (template_literal)
-            (quoted_template_end)))))))
+      (string_lit
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end)))))
 
 ================================================================================
 escaped backslash at end
@@ -47,12 +43,10 @@ foo = "foo\\"
   (body
     (attribute
       (identifier)
-      (expression
-        (literal_value
-          (string_lit
-            (quoted_template_start)
-            (template_literal)
-            (quoted_template_end)))))))
+      (string_lit
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end)))))
 
 ================================================================================
 string literal escaped template interpolation
@@ -66,12 +60,10 @@ foo = "$${foo.bar}"
   (body
     (attribute
       (identifier)
-      (expression
-        (literal_value
-          (string_lit
-            (quoted_template_start)
-            (template_literal)
-            (quoted_template_end)))))))
+      (string_lit
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end)))))
 
 ================================================================================
 template chars but no template 1
@@ -85,12 +77,10 @@ foo = "$$$"
   (body
     (attribute
       (identifier)
-      (expression
-        (literal_value
-          (string_lit
-            (quoted_template_start)
-            (template_literal)
-            (quoted_template_end)))))))
+      (string_lit
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end)))))
 
 ================================================================================
 template chars but no template 2
@@ -104,12 +94,10 @@ foo = "100%"
   (body
     (attribute
       (identifier)
-      (expression
-        (literal_value
-          (string_lit
-            (quoted_template_start)
-            (template_literal)
-            (quoted_template_end)))))))
+      (string_lit
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end)))))
 
 ================================================================================
 template chars but no template 3
@@ -123,12 +111,10 @@ foo = "%\n\t"
   (body
     (attribute
       (identifier)
-      (expression
-        (literal_value
-          (string_lit
-            (quoted_template_start)
-            (template_literal)
-            (quoted_template_end)))))))
+      (string_lit
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end)))))
 
 ================================================================================
 template chars but no template 4
@@ -142,12 +128,10 @@ foo = "%%\n\t"
   (body
     (attribute
       (identifier)
-      (expression
-        (literal_value
-          (string_lit
-            (quoted_template_start)
-            (template_literal)
-            (quoted_template_end)))))))
+      (string_lit
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end)))))
 
 ================================================================================
 template chars but no template 5
@@ -161,12 +145,10 @@ foo = "$$"
   (body
     (attribute
       (identifier)
-      (expression
-        (literal_value
-          (string_lit
-            (quoted_template_start)
-            (template_literal)
-            (quoted_template_end)))))))
+      (string_lit
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end)))))
 
 ================================================================================
 template chars but no template 6
@@ -180,12 +162,10 @@ foo = "%%{\n\t"
   (body
     (attribute
       (identifier)
-      (expression
-        (literal_value
-          (string_lit
-            (quoted_template_start)
-            (template_literal)
-            (quoted_template_end)))))))
+      (string_lit
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end)))))
 
 ================================================================================
 escaped template
@@ -199,9 +179,7 @@ foo = "$${ var.bar }"
   (body
     (attribute
       (identifier)
-      (expression
-        (literal_value
-          (string_lit
-            (quoted_template_start)
-            (template_literal)
-            (quoted_template_end)))))))
+      (string_lit
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end)))))

@@ -1,6 +1,6 @@
 ======
 Unary operation on variable with splat expression
-=====
+======
 
 foo = !var.bar
 
@@ -10,13 +10,10 @@ foo = !var.bar
   (body
     (attribute
       (identifier)
-      (expression
-        (operation
-          (unary_operation
-            (variable_expr
-              (identifier))
-            (get_attr
-              (identifier))))))))
+      (unary_operation
+        (get_attr
+          (identifier)
+          (identifier))))))
 
 =====
 Attribute as conditional expression
@@ -30,14 +27,10 @@ foo = local.bar == local.baz
   (body
     (attribute
       (identifier)
-      (expression
-        (operation
-          (binary_operation
-            (variable_expr
-              (identifier))
-            (get_attr
-              (identifier))
-            (variable_expr
-              (identifier))
-            (get_attr
-              (identifier))))))))
+      (binary_operation
+        (get_attr
+          (identifier)
+          (identifier))
+        (get_attr
+          (identifier)
+          (identifier))))))

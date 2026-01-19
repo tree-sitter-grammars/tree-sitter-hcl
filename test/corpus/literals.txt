@@ -10,9 +10,7 @@ pi = 0x314F
   (body
     (attribute
       (identifier)
-      (expression
-        (literal_value
-          (numeric_lit))))))
+      (numeric_lit))))
 
 ================================================================================
 numeric literal scientific notation 1
@@ -26,9 +24,7 @@ pi = 3
   (body
     (attribute
       (identifier)
-      (expression
-        (literal_value
-          (numeric_lit))))))
+      (numeric_lit))))
 
 ================================================================================
 numeric literal scientific notation 2
@@ -42,9 +38,7 @@ pi = 3.14
   (body
     (attribute
       (identifier)
-      (expression
-        (literal_value
-          (numeric_lit))))))
+      (numeric_lit))))
 
 ================================================================================
 numeric literal scientific notation 3
@@ -58,9 +52,7 @@ big_pi = 3.14e+10
   (body
     (attribute
       (identifier)
-      (expression
-        (literal_value
-          (numeric_lit))))))
+      (numeric_lit))))
 
 ================================================================================
 numeric literal scientific notation 4
@@ -74,9 +66,7 @@ big_pi = 3.14E+10
   (body
     (attribute
       (identifier)
-      (expression
-        (literal_value
-          (numeric_lit))))))
+      (numeric_lit))))
 
 ================================================================================
 numeric literal scientific notation 5
@@ -90,9 +80,7 @@ small_pi = 3.14e-10
   (body
     (attribute
       (identifier)
-      (expression
-        (literal_value
-          (numeric_lit))))))
+      (numeric_lit))))
 
 ================================================================================
 numeric literal scientific notation 6
@@ -106,9 +94,7 @@ small_pi = 3.14E-10
   (body
     (attribute
       (identifier)
-      (expression
-        (literal_value
-          (numeric_lit))))))
+      (numeric_lit))))
 
 ================================================================================
 bool literal true
@@ -122,9 +108,7 @@ foo = true
   (body
     (attribute
       (identifier)
-      (expression
-        (literal_value
-          (bool_lit))))))
+      (bool_lit))))
 
 ================================================================================
 bool literal false
@@ -138,9 +122,7 @@ foo = false
   (body
     (attribute
       (identifier)
-      (expression
-        (literal_value
-          (bool_lit))))))
+      (bool_lit))))
 
 ================================================================================
 null literal
@@ -154,6 +136,4 @@ foo = null
   (body
     (attribute
       (identifier)
-      (expression
-        (literal_value
-          (null_lit))))))
+      (null_lit))))

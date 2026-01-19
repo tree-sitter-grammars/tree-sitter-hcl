@@ -10,9 +10,8 @@ foo = bar()
   (body
     (attribute
       (identifier)
-      (expression
-        (function_call
-          (identifier))))))
+      (function_call
+        (identifier)))))
 
 ================================================================================
 unary function call
@@ -26,16 +25,12 @@ foo = bar("foo")
   (body
     (attribute
       (identifier)
-      (expression
-        (function_call
-          (identifier)
-          (function_arguments
-            (expression
-              (literal_value
-                (string_lit
-                  (quoted_template_start)
-                  (template_literal)
-                  (quoted_template_end))))))))))
+      (function_call
+        (identifier)
+        (string_lit
+          (quoted_template_start)
+          (template_literal)
+          (quoted_template_end))))))
 
 ================================================================================
 variadic function call
@@ -49,14 +44,10 @@ foo = bar(x...)
   (body
     (attribute
       (identifier)
-      (expression
-        (function_call
-          (identifier)
-          (function_arguments
-            (expression
-              (variable_expr
-                (identifier)))
-            (ellipsis)))))))
+      (function_call
+        (identifier)
+        (identifier)
+        (ellipsis)))))
 
 ================================================================================
 multiline function call
@@ -74,28 +65,20 @@ foo = bar(
   (body
     (attribute
       (identifier)
-      (expression
-        (function_call
-          (identifier)
-          (function_arguments
-            (expression
-              (literal_value
-                (string_lit
-                  (quoted_template_start)
-                  (template_literal)
-                  (quoted_template_end))))
-            (expression
-              (literal_value
-                (string_lit
-                  (quoted_template_start)
-                  (template_literal)
-                  (quoted_template_end))))
-            (expression
-              (literal_value
-                (string_lit
-                  (quoted_template_start)
-                  (template_literal)
-                  (quoted_template_end))))))))))
+      (function_call
+        (identifier)
+        (string_lit
+          (quoted_template_start)
+          (template_literal)
+          (quoted_template_end))
+        (string_lit
+          (quoted_template_start)
+          (template_literal)
+          (quoted_template_end))
+        (string_lit
+          (quoted_template_start)
+          (template_literal)
+          (quoted_template_end))))))
 
 ================================================================================
 namespaced function call
@@ -109,13 +92,9 @@ foo = provider::time::rfc3339_parse("2023-07-25T23:43:16Z")
   (body
     (attribute
       (identifier)
-      (expression
-        (function_call
-          (identifier)
-          (function_arguments
-            (expression
-              (literal_value
-                (string_lit
-                  (quoted_template_start)
-                  (template_literal)
-                  (quoted_template_end))))))))))
+      (function_call
+        (identifier)
+        (string_lit
+          (quoted_template_start)
+          (template_literal)
+          (quoted_template_end))))))

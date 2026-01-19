@@ -58,9 +58,7 @@ block {
       (body
         (attribute
           (identifier)
-          (expression
-            (variable_expr
-              (identifier)))))
+          (identifier)))
       (block_end))))
 
 ================================================================================
@@ -83,9 +81,7 @@ block {
       (body
         (attribute
           (identifier)
-          (expression
-            (variable_expr
-              (identifier)))))
+          (identifier)))
       (block_end))))
 
 ================================================================================
@@ -107,9 +103,7 @@ block {
       (body
         (attribute
           (identifier)
-          (expression
-            (variable_expr
-              (identifier)))))
+          (identifier)))
       (comment)
       (block_end))))
 
@@ -133,15 +127,11 @@ block {
       (body
         (attribute
           (identifier)
-          (expression
-            (variable_expr
-              (identifier))))
+          (identifier))
         (comment)
         (attribute
           (identifier)
-          (expression
-            (variable_expr
-              (identifier)))))
+          (identifier)))
       (block_end))))
 
 ================================================================================

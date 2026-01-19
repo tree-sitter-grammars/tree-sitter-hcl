@@ -10,17 +10,11 @@ foo = predicate() ? 1 : 2
   (body
     (attribute
       (identifier)
-      (expression
-        (conditional
-          (expression
-            (function_call
-              (identifier)))
-          (expression
-            (literal_value
-              (numeric_lit)))
-          (expression
-            (literal_value
-              (numeric_lit))))))))
+      (conditional
+        (function_call
+          (identifier))
+        (numeric_lit)
+        (numeric_lit)))))
 
 ================================================================================
 nested conditional expression expression
@@ -34,32 +28,20 @@ foo = ( true ? false : true ) ? "yes" : "no"
   (body
     (attribute
       (identifier)
-      (expression
-        (conditional
-          (expression
-            (expression
-              (conditional
-                (expression
-                  (literal_value
-                    (bool_lit)))
-                (expression
-                  (literal_value
-                    (bool_lit)))
-                (expression
-                  (literal_value
-                    (bool_lit))))))
-          (expression
-            (literal_value
-              (string_lit
-                (quoted_template_start)
-                (template_literal)
-                (quoted_template_end))))
-          (expression
-            (literal_value
-              (string_lit
-                (quoted_template_start)
-                (template_literal)
-                (quoted_template_end)))))))))
+      (conditional
+        (parenthesized_expression
+          (conditional
+            (bool_lit)
+            (bool_lit)
+            (bool_lit)))
+        (string_lit
+          (quoted_template_start)
+          (template_literal)
+          (quoted_template_end))
+        (string_lit
+          (quoted_template_start)
+          (template_literal)
+          (quoted_template_end))))))
 
 ================================================================================
 nested conditional expression expression without parentheses
@@ -73,28 +55,16 @@ foo =  true ? false : true  ? "yes" : "no"
   (body
     (attribute
       (identifier)
-      (expression
+      (conditional
         (conditional
-          (expression
-            (conditional
-              (expression
-                (literal_value
-                  (bool_lit)))
-              (expression
-                (literal_value
-                  (bool_lit)))
-              (expression
-                (literal_value
-                  (bool_lit)))))
-          (expression
-            (literal_value
-              (string_lit
-                (quoted_template_start)
-                (template_literal)
-                (quoted_template_end))))
-          (expression
-            (literal_value
-              (string_lit
-                (quoted_template_start)
-                (template_literal)
-                (quoted_template_end)))))))))
+          (bool_lit)
+          (bool_lit)
+          (bool_lit))
+        (string_lit
+          (quoted_template_start)
+          (template_literal)
+          (quoted_template_end))
+        (string_lit
+          (quoted_template_start)
+          (template_literal)
+          (quoted_template_end))))))
