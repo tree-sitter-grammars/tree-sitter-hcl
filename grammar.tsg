@@ -1,0 +1,263 @@
+// HCL grammar for tree-sitter (native DSL).
+// Translated from make_grammar.js (called with 'hcl').
+
+let PREC = {
+    expr: 8,
+    unary: 7,
+    binary_mult: 6, binary_add: 5, binary_ord: 4,
+    binary_comp: 3, binary_and: 2, binary_or: 1,
+    string_lit: 2, quoted_template: 1,
+}
+
+// `${~ ... ~}` style template directive wrapper: optional strip markers
+// flanking an inner clause, between %{ ... %} delimiters.
+macro directive_block(inner: rule_t) rule_t {
+    seq(
+        template_directive_start,
+        optional(strip_marker),
+        inner,
+        optional(strip_marker),
+        template_directive_end,
+    )
+}
+
+// Postfix accessor on _expr_term: e.g. `x.y`, `x[i]`, `x.*`.
+macro expr_postfix(suffix: rule_t) rule_t {
+    prec_right(PREC.expr, seq(_expr_term, suffix))
+}
+
+// Binary infix on _expr_term at a given precedence (left-assoc).
+macro binop_l(p: int_t, op: rule_t) rule_t {
+    prec_left(p, seq(_expr_term, op, _expr_term))
+}
+
+grammar {
+    language: "hcl",
+    extras: [comment, _whitespace],
+    externals: [
+        quoted_template_start, quoted_template_end,
+        _template_literal_chunk,
+        template_interpolation_start, template_interpolation_end,
+        template_directive_start, template_directive_end,
+        heredoc_identifier,
+    ],
+}
+
+rule config_file { optional(choice(body, object)) }
+
+rule body { choice(repeat1(choice(attribute, block))) }
+
+rule attribute { seq(identifier, "=", expression) }
+
+rule block {
+    seq(
+        identifier,
+        repeat(choice(string_lit, identifier)),
+        block_start,
+        optional(body),
+        block_end,
+    )
+}
+
+rule block_start { "{" }
+rule block_end { "}" }
+
+rule identifier {
+    token(seq(
+        choice(regexp(r"\p{ID_Start}"), "_"),
+        repeat(choice(regexp(r"\p{ID_Continue}"), "-", "::")),
+    ))
+}
+
+rule expression { prec_right(0, choice(_expr_term, conditional)) }
+
+rule _expr_term {
+    choice(
+        literal_value, template_expr, collection_value,
+        variable_expr, function_call, for_expr, operation,
+        expr_postfix(index),
+        expr_postfix(get_attr),
+        expr_postfix(splat),
+        seq("(", expression, ")"),
+    )
+}
+
+rule literal_value { choice(numeric_lit, bool_lit, null_lit, string_lit) }
+
+rule numeric_lit {
+    choice(regexp(r"[0-9]+(\.[0-9]+([eE][-+]?[0-9]+)?)?"), regexp(r"0x[0-9a-zA-Z]+"))
+}
+
+rule bool_lit { choice("true", "false") }
+rule null_lit { "null" }
+
+rule string_lit {
+    prec(PREC.string_lit, seq(quoted_template_start, optional(template_literal), quoted_template_end))
+}
+
+rule collection_value { choice(tuple, object) }
+
+rule _comma { "," }
+
+rule tuple { seq(tuple_start, optional(_tuple_elems), tuple_end) }
+rule tuple_start { "[" }
+rule tuple_end { "]" }
+
+rule _tuple_elems {
+    seq(expression, repeat(seq(_comma, expression)), optional(_comma))
+}
+
+rule object { seq(object_start, optional(_object_elems), object_end) }
+rule object_start { "{" }
+rule object_end { "}" }
+
+rule _object_elems {
+    seq(object_elem, repeat(seq(optional(_comma), object_elem)), optional(_comma))
+}
+
+rule object_elem {
+    seq(field(key, expression), choice("=", ":"), field(val, expression))
+}
+
+rule index { choice(new_index, legacy_index) }
+rule new_index { seq("[", expression, "]") }
+rule legacy_index { seq(".", regexp(r"[0-9]+")) }
+
+rule get_attr { seq(".", identifier) }
+
+rule splat { choice(attr_splat, full_splat) }
+rule attr_splat { prec_right(0, seq(".*", repeat(choice(get_attr, index)))) }
+rule full_splat { prec_right(0, seq("[*]", repeat(choice(get_attr, index)))) }
+
+rule for_expr { choice(for_tuple_expr, for_object_expr) }
+
+rule for_tuple_expr {
+    seq(tuple_start, for_intro, expression, optional(for_cond), tuple_end)
+}
+
+rule for_object_expr {
+    seq(
+        object_start,
+        for_intro,
+        expression, "=>", expression,
+        optional(ellipsis),
+        optional(for_cond),
+        object_end,
+    )
+}
+
+rule for_intro {
+    seq(
+        "for", identifier, optional(seq(",", identifier)),
+        "in", expression, ":",
+    )
+}
+
+rule for_cond { seq("if", expression) }
+
+rule variable_expr { prec_right(0, identifier) }
+
+rule function_call {
+    seq(identifier, _function_call_start, optional(function_arguments), _function_call_end)
+}
+
+rule _function_call_start { "(" }
+rule _function_call_end { ")" }
+
+rule function_arguments {
+    prec_right(0, seq(
+        expression,
+        repeat(seq(_comma, expression)),
+        optional(choice(_comma, ellipsis)),
+    ))
+}
+
+rule ellipsis { token("...") }
+
+rule conditional {
+    prec_left(0, seq(expression, "?", expression, ":", expression))
+}
+
+rule operation { choice(unary_operation, binary_operation) }
+
+rule unary_operation {
+    prec_left(PREC.unary, seq(choice("-", "!"), _expr_term))
+}
+
+rule binary_operation {
+    choice(
+        binop_l(PREC.binary_mult, choice("*", "/", "%")),
+        binop_l(PREC.binary_add,  choice("+", "-")),
+        binop_l(PREC.binary_ord,  choice(">", ">=", "<", "<=")),
+        binop_l(PREC.binary_comp, choice("==", "!=")),
+        binop_l(PREC.binary_and,  "&&"),
+        binop_l(PREC.binary_or,   "||"),
+    )
+}
+
+rule template_expr { choice(quoted_template, heredoc_template) }
+
+rule quoted_template {
+    prec(PREC.quoted_template, seq(
+        quoted_template_start, optional(_template), quoted_template_end,
+    ))
+}
+
+rule heredoc_template {
+    seq(heredoc_start, heredoc_identifier, optional(_template), heredoc_identifier)
+}
+
+rule heredoc_start { choice("<<", "<<-") }
+
+rule strip_marker { "~" }
+
+rule _template {
+    repeat1(choice(template_interpolation, template_directive, template_literal))
+}
+
+rule template_literal { prec_right(0, repeat1(_template_literal_chunk)) }
+
+rule template_interpolation {
+    seq(
+        template_interpolation_start,
+        optional(strip_marker),
+        optional(expression),
+        optional(strip_marker),
+        template_interpolation_end,
+    )
+}
+
+rule template_directive { choice(template_for, template_if) }
+
+rule template_for {
+    seq(template_for_start, optional(_template), template_for_end)
+}
+
+rule template_for_start {
+    directive_block(seq("for", identifier, optional(seq(",", identifier)), "in", expression))
+}
+
+rule template_for_end { directive_block("endfor") }
+
+rule template_if {
+    seq(
+        template_if_intro,
+        optional(_template),
+        optional(seq(template_else_intro, optional(_template))),
+        template_if_end,
+    )
+}
+
+rule template_if_intro { directive_block(seq("if", expression)) }
+rule template_else_intro { directive_block("else") }
+rule template_if_end { directive_block("endif") }
+
+rule comment {
+    token(choice(
+        seq("#", regexp(r".*")),
+        seq("//", regexp(r".*")),
+        seq("/*", regexp(r"[^*]*\*+([^/*][^*]*\*+)*"), "/"),
+    ))
+}
+
+rule _whitespace { token(regexp(r"\s")) }
