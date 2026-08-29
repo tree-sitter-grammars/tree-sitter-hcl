@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "prebuildify": "^6.0.1",
-    "tree-sitter-cli": "^0.25.6"
+    "tree-sitter-cli": "^0.26.13"
   },
   "peerDependencies": {
     "tree-sitter": "^0.25.0"
