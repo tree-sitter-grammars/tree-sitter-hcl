@@ -279,10 +279,12 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
     }
 
     if (scanner->skip_next_newline) {
-        while (lexer->lookahead != '\n') {
+        while (!lexer->eof(lexer) && lexer->lookahead != '\n') {
             skip(lexer, scanner);
         }
-        skip(lexer, scanner);
+        if (!lexer->eof(lexer)) {
+            skip(lexer, scanner);
+        }
         scanner->skip_next_newline = false;
         scanner->is_line_ws_only = true;
     }
