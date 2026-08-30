@@ -392,12 +392,25 @@ static bool scan(Scanner *scanner, TSLexer *lexer, const bool *valid_symbols) {
             STRING_FREE(identifier);
             return false;
         }
+        // Fix the token boundary here so the lookahead below (which may advance
+        // past a CRLF's '\r') doesn't get absorbed into the identifier token.
+        lexer->mark_end(lexer);
+        // The identifier must be immediately followed by a newline (optionally CRLF);
+        // trailing whitespace or anything else means this isn't a heredoc opener.
+        bool followed_by_newline = lexer->lookahead == '\n';
+        if (lexer->lookahead == '\r') {
+            advance(lexer, scanner);
+            followed_by_newline = lexer->lookahead == '\n';
+        }
+        if (!followed_by_newline) {
+            STRING_FREE(identifier);
+            return false;
+        }
         Context ctx;
         ctx.type = HEREDOC_TEMPLATE;
         ctx.heredoc_identifier = identifier;
         VEC_PUSH(scanner->context_stack, ctx);
         lexer->result_symbol = HEREDOC_IDENTIFIER;
-        lexer->mark_end(lexer);
         scanner->skip_next_newline = true;
         return true;
     }
