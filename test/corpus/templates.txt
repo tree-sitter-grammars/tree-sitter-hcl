@@ -16,7 +16,7 @@ foo = "${ var.bar }"
 1:6  - 1:7            quoted_template_start `\"`
 1:7  - 1:19           body: template_interpolation
 1:7  - 1:9              template_interpolation_start `${`
-1:10 - 1:17             body: get_attr
+1:10 - 1:17             expression: get_attr
 1:10 - 1:13               object: identifier `var`
 1:13 - 1:14               "."
 1:14 - 1:17               attribute: identifier `bar`
@@ -50,7 +50,7 @@ foo = "%{ for a in b } prefix-${a} %{ endfor }"
 1:22 - 1:30             body: template_literal ` prefix-`
 1:30 - 1:34             body: template_interpolation
 1:30 - 1:32               template_interpolation_start `${`
-1:32 - 1:33               body: identifier `a`
+1:32 - 1:33               expression: identifier `a`
 1:33 - 1:34               template_interpolation_end `}`
 1:34 - 1:35             body: template_literal ` `
 1:35 - 1:46             template_for_end
@@ -179,7 +179,7 @@ EOF
 4:16 - 4:7                `prefix-`
 4:7  - 4:11             body: template_interpolation
 4:7  - 4:9                template_interpolation_start `${`
-4:9  - 4:10               body: identifier `a`
+4:9  - 4:10               expression: identifier `a`
 4:10 - 4:11               template_interpolation_end `}`
 4:11 - 6:0              body: template_literal
 4:11 - 4:12               `\n`
@@ -303,7 +303,7 @@ foo = "${ " ~ " }"
 1:6  - 1:7            quoted_template_start `\"`
 1:7  - 1:17           body: template_interpolation
 1:7  - 1:9              template_interpolation_start `${`
-1:10 - 1:15             body: quoted_template
+1:10 - 1:15             expression: quoted_template
 1:10 - 1:11               quoted_template_start `\"`
 1:11 - 1:14               body: template_literal ` ~ `
 1:14 - 1:15               quoted_template_end `\"`
@@ -329,7 +329,7 @@ foo = "p-${ foo("v-${a.b}") }"
 1:7  - 1:9            body: template_literal `p-`
 1:9  - 1:29           body: template_interpolation
 1:9  - 1:11             template_interpolation_start `${`
-1:12 - 1:27             body: function_call
+1:12 - 1:27             expression: function_call
 1:12 - 1:15               function: identifier `foo`
 1:15 - 1:16               "("
 1:16 - 1:26               arguments: quoted_template
@@ -337,7 +337,7 @@ foo = "p-${ foo("v-${a.b}") }"
 1:17 - 1:19                 body: template_literal `v-`
 1:19 - 1:25                 body: template_interpolation
 1:19 - 1:21                   template_interpolation_start `${`
-1:21 - 1:24                   body: get_attr
+1:21 - 1:24                   expression: get_attr
 1:21 - 1:22                     object: identifier `a`
 1:22 - 1:23                     "."
 1:23 - 1:24                     attribute: identifier `b`
@@ -367,7 +367,7 @@ foo = "hello ${~ "world" ~} hello"
 1:13 - 1:27           body: template_interpolation
 1:13 - 1:15             template_interpolation_start `${`
 1:15 - 1:16             strip_marker_start: strip_marker `~`
-1:17 - 1:24             body: quoted_template
+1:17 - 1:24             expression: quoted_template
 1:17 - 1:18               quoted_template_start `\"`
 1:18 - 1:23               body: template_literal `world`
 1:23 - 1:24               quoted_template_end `\"`
@@ -394,7 +394,7 @@ foo = "${ {a=b}[a] }"
 1:6  - 1:7            quoted_template_start `\"`
 1:7  - 1:20           body: template_interpolation
 1:7  - 1:9              template_interpolation_start `${`
-1:10 - 1:18             body: bracket_index
+1:10 - 1:18             expression: bracket_index
 1:10 - 1:15               object: object
 1:10 - 1:11                 "{"
 1:11 - 1:14                 elements: object_elem
@@ -544,7 +544,7 @@ foo = "%{for a in b} x %{for c in a} ${c} %{endfor} %{endfor}"
 1:36 - 1:37               body: template_literal ` `
 1:37 - 1:41               body: template_interpolation
 1:37 - 1:39                 template_interpolation_start `${`
-1:39 - 1:40                 body: identifier `c`
+1:39 - 1:40                 expression: identifier `c`
 1:40 - 1:41                 template_interpolation_end `}`
 1:41 - 1:42               body: template_literal ` `
 1:42 - 1:51               template_for_end

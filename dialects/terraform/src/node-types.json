@@ -1230,7 +1230,7 @@
     "type": "template_interpolation",
     "named": true,
     "fields": {
-      "body": {
+      "expression": {
         "multiple": false,
         "required": true,
         "types": [

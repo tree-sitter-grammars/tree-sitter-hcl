@@ -325,7 +325,7 @@ module.exports = function make_grammar(dialect) {
         seq(
           $.template_interpolation_start,
           field("strip_marker_start", optional($.strip_marker)),
-          field("body", $.expression),
+          field("expression", $.expression),
           field("strip_marker_end", optional($.strip_marker)),
           $.template_interpolation_end,
         ),
