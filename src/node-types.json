@@ -163,7 +163,7 @@
     "type": "attr_splat",
     "named": true,
     "fields": {
-      "expression": {
+      "object": {
         "multiple": false,
         "required": true,
         "types": [
@@ -616,7 +616,7 @@
     "type": "full_splat",
     "named": true,
     "fields": {
-      "expression": {
+      "object": {
         "multiple": false,
         "required": true,
         "types": [
