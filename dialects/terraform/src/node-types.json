@@ -985,12 +985,12 @@
           }
         ]
       },
-      "start": {
+      "intro": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "template_for_start",
+            "type": "template_for_intro",
             "named": true
           }
         ]
@@ -1048,25 +1048,25 @@
     }
   },
   {
-    "type": "template_for_start",
+    "type": "template_for_intro",
     "named": true,
     "fields": {
-      "left": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      },
-      "right": {
+      "collection": {
         "multiple": false,
         "required": true,
         "types": [
           {
             "type": "expression",
+            "named": true
+          }
+        ]
+      },
+      "key": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
             "named": true
           }
         ]
@@ -1087,6 +1087,16 @@
         "types": [
           {
             "type": "strip_marker",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
             "named": true
           }
         ]

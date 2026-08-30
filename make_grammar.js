@@ -349,20 +349,26 @@ module.exports = function make_grammar(dialect) {
 
       template_for: ($) =>
         seq(
-          field("start", $.template_for_start),
+          field("intro", $.template_for_intro),
           field("body", optional($._template)),
           $.template_for_end,
         ),
 
-      template_for_start: ($) =>
+      template_for_intro: ($) =>
         seq(
           $.template_directive_start,
           field("strip_marker_start", optional($.strip_marker)),
           "for",
-          field("left", $.identifier),
-          optional(seq(",", field("left", $.identifier))),
+          choice(
+            field("value", $.identifier),
+            seq(
+              field("key", $.identifier),
+              ",",
+              field("value", $.identifier),
+            ),
+          ),
           "in",
-          field("right", $.expression),
+          field("collection", $.expression),
           field("strip_marker_end", optional($.strip_marker)),
           $.template_directive_end,
         ),

@@ -40,12 +40,12 @@ foo = "%{ for a in b } prefix-${a} %{ endfor }"
 1:6  - 1:47         value: quoted_template
 1:6  - 1:7            quoted_template_start `\"`
 1:7  - 1:46           body: template_for
-1:7  - 1:22             start: template_for_start
+1:7  - 1:22             intro: template_for_intro
 1:7  - 1:9                template_directive_start `%{`
 1:10 - 1:13               "for"
-1:14 - 1:15               left: identifier `a`
+1:14 - 1:15               value: identifier `a`
 1:16 - 1:18               "in"
-1:19 - 1:20               right: identifier `b`
+1:19 - 1:20               collection: identifier `b`
 1:21 - 1:22               template_directive_end `}`
 1:22 - 1:30             body: template_literal ` prefix-`
 1:30 - 1:34             body: template_interpolation
@@ -76,12 +76,12 @@ foo = "%{ for a in b } %%{ endfor } %{ endfor }"
 1:6  - 1:48         value: quoted_template
 1:6  - 1:7            quoted_template_start `\"`
 1:7  - 1:47           body: template_for
-1:7  - 1:22             start: template_for_start
+1:7  - 1:22             intro: template_for_intro
 1:7  - 1:9                template_directive_start `%{`
 1:10 - 1:13               "for"
-1:14 - 1:15               left: identifier `a`
+1:14 - 1:15               value: identifier `a`
 1:16 - 1:18               "in"
-1:19 - 1:20               right: identifier `b`
+1:19 - 1:20               collection: identifier `b`
 1:21 - 1:22               template_directive_end `}`
 1:22 - 1:36             body: template_literal ` %%{ endfor } `
 1:36 - 1:47             template_for_end
@@ -126,12 +126,12 @@ foo = "%{     for a in b   } %{      endfor    }"
 1:6  - 1:49         value: quoted_template
 1:6  - 1:7            quoted_template_start `\"`
 1:7  - 1:48           body: template_for
-1:7  - 1:28             start: template_for_start
+1:7  - 1:28             intro: template_for_intro
 1:7  - 1:9                template_directive_start `%{`
 1:14 - 1:17               "for"
-1:18 - 1:19               left: identifier `a`
+1:18 - 1:19               value: identifier `a`
 1:20 - 1:22               "in"
-1:23 - 1:24               right: identifier `b`
+1:23 - 1:24               collection: identifier `b`
 1:27 - 1:28               template_directive_end `}`
 1:28 - 1:29             body: template_literal ` `
 1:29 - 1:48             template_for_end
@@ -165,12 +165,12 @@ EOF
 1:6  - 1:8              "<<"
 1:8  - 1:11           heredoc_identifier `EOF`
 2:0  - 6:12           body: template_for
-2:0  - 2:16             start: template_for_start
+2:0  - 2:16             intro: template_for_intro
 2:0  - 2:2                template_directive_start `%{`
 2:3  - 2:6                "for"
-2:7  - 2:8                left: identifier `a`
+2:7  - 2:8                value: identifier `a`
 2:9  - 2:11               "in"
-2:12 - 2:13               right: identifier `b`
+2:12 - 2:13               collection: identifier `b`
 2:14 - 2:15               strip_marker_end: strip_marker `~`
 2:15 - 2:16               template_directive_end `}`
 2:16 - 4:7              body: template_literal
@@ -528,21 +528,21 @@ foo = "%{for a in b} x %{for c in a} ${c} %{endfor} %{endfor}"
 1:6  - 1:62         value: quoted_template
 1:6  - 1:7            quoted_template_start `\"`
 1:7  - 1:61           body: template_for
-1:7  - 1:20             start: template_for_start
+1:7  - 1:20             intro: template_for_intro
 1:7  - 1:9                template_directive_start `%{`
 1:9  - 1:12               "for"
-1:13 - 1:14               left: identifier `a`
+1:13 - 1:14               value: identifier `a`
 1:15 - 1:17               "in"
-1:18 - 1:19               right: identifier `b`
+1:18 - 1:19               collection: identifier `b`
 1:19 - 1:20               template_directive_end `}`
 1:20 - 1:23             body: template_literal ` x `
 1:23 - 1:51             body: template_for
-1:23 - 1:36               start: template_for_start
+1:23 - 1:36               intro: template_for_intro
 1:23 - 1:25                 template_directive_start `%{`
 1:25 - 1:28                 "for"
-1:29 - 1:30                 left: identifier `c`
+1:29 - 1:30                 value: identifier `c`
 1:31 - 1:33                 "in"
-1:34 - 1:35                 right: identifier `a`
+1:34 - 1:35                 collection: identifier `a`
 1:35 - 1:36                 template_directive_end `}`
 1:36 - 1:37               body: template_literal ` `
 1:37 - 1:41               body: template_interpolation
@@ -658,12 +658,12 @@ foo = "%{for a in b} %{endfor}"
 1:6  - 1:31         value: quoted_template
 1:6  - 1:7            quoted_template_start `\"`
 1:7  - 1:30           body: template_for
-1:7  - 1:20             start: template_for_start
+1:7  - 1:20             intro: template_for_intro
 1:7  - 1:9                template_directive_start `%{`
 1:9  - 1:12               "for"
-1:13 - 1:14               left: identifier `a`
+1:13 - 1:14               value: identifier `a`
 1:15 - 1:17               "in"
-1:18 - 1:19               right: identifier `b`
+1:18 - 1:19               collection: identifier `b`
 1:19 - 1:20               template_directive_end `}`
 1:20 - 1:21             body: template_literal ` `
 1:21 - 1:30             template_for_end
@@ -696,12 +696,12 @@ EOF
 1:10 - 1:13           heredoc_identifier `EOF`
 2:0  - 2:2            body: template_literal `  `
 2:2  - 4:14           body: template_for
-2:2  - 2:21             start: template_for_start
+2:2  - 2:21             intro: template_for_intro
 2:2  - 2:4                template_directive_start `%{`
 2:5  - 2:8                "for"
-2:9  - 2:10               left: identifier `a`
+2:9  - 2:10               value: identifier `a`
 2:11 - 2:13               "in"
-2:14 - 2:18               right: function_call
+2:14 - 2:18               collection: function_call
 2:14 - 2:15                 function: identifier `f`
 2:15 - 2:16                 "("
 2:16 - 2:17                 arguments: identifier `b`
@@ -770,12 +770,12 @@ EOF
 1:10 - 1:13           heredoc_identifier `EOF`
 2:0  - 2:2            body: template_literal `  `
 2:2  - 5:14           body: template_for
-2:2  - 2:21             start: template_for_start
+2:2  - 2:21             intro: template_for_intro
 2:2  - 2:4                template_directive_start `%{`
 2:5  - 2:8                "for"
-2:9  - 2:10               left: identifier `a`
+2:9  - 2:10               value: identifier `a`
 2:11 - 2:13               "in"
-2:14 - 2:18               right: function_call
+2:14 - 2:18               collection: function_call
 2:14 - 2:15                 function: identifier `f`
 2:15 - 2:16                 "("
 2:16 - 2:17                 arguments: identifier `b`
