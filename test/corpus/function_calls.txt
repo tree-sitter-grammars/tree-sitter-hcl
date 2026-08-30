@@ -98,3 +98,61 @@ foo = provider::time::rfc3339_parse("2023-07-25T23:43:16Z")
           (quoted_template_start)
           (template_literal)
           (quoted_template_end))))))
+
+================================================================================
+function call with nested quoted string in interpolation
+================================================================================
+
+foo = "prefix-${func("bar")}"
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (quoted_template
+        (quoted_template_start)
+        (template_literal)
+        (template_interpolation
+          (template_interpolation_start)
+          (function_call
+            (identifier)
+            (string_lit
+              (quoted_template_start)
+              (template_literal)
+              (quoted_template_end)))
+          (template_interpolation_end))
+        (quoted_template_end)))))
+
+================================================================================
+function call with doubly nested quoted string in interpolation
+================================================================================
+
+foo = "prefix-${func("nested-${var.bar}")}"
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (quoted_template
+        (quoted_template_start)
+        (template_literal)
+        (template_interpolation
+          (template_interpolation_start)
+          (function_call
+            (identifier)
+            (quoted_template
+              (quoted_template_start)
+              (template_literal)
+              (template_interpolation
+                (template_interpolation_start)
+                (get_attr
+                  (identifier)
+                  (identifier))
+                (template_interpolation_end))
+              (quoted_template_end)))
+          (template_interpolation_end))
+        (quoted_template_end)))))

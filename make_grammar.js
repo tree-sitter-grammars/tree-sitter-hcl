@@ -233,13 +233,10 @@ module.exports = function make_grammar(dialect) {
       function_call: ($) =>
         seq(
           field("function", $.identifier),
-          $._function_call_start,
+          "(",
           optional($._function_arguments),
-          $._function_call_end,
+          ")",
         ),
-
-      _function_call_start: ($) => "(",
-      _function_call_end: ($) => ")",
 
       _function_arguments: ($) =>
         prec.right(

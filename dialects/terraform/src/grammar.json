@@ -961,8 +961,8 @@
           }
         },
         {
-          "type": "SYMBOL",
-          "name": "_function_call_start"
+          "type": "STRING",
+          "value": "("
         },
         {
           "type": "CHOICE",
@@ -977,18 +977,10 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "_function_call_end"
+          "type": "STRING",
+          "value": ")"
         }
       ]
-    },
-    "_function_call_start": {
-      "type": "STRING",
-      "value": "("
-    },
-    "_function_call_end": {
-      "type": "STRING",
-      "value": ")"
     },
     "_function_arguments": {
       "type": "PREC_RIGHT",
