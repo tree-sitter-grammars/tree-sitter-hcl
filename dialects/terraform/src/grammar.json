@@ -227,7 +227,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_operation"
+          "name": "operation"
         },
         {
           "type": "PREC_RIGHT",
@@ -1092,7 +1092,7 @@
         ]
       }
     },
-    "_operation": {
+    "operation": {
       "type": "CHOICE",
       "members": [
         {
@@ -2107,6 +2107,7 @@
     "index",
     "splat",
     "for_expr",
+    "operation",
     "template_directive",
     "template_expr"
   ],

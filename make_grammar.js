@@ -45,6 +45,7 @@ module.exports = function make_grammar(dialect) {
       $.index,
       $.splat,
       $.for_expr,
+      $.operation,
       $.template_directive,
       $.template_expr,
     ],
@@ -93,7 +94,7 @@ module.exports = function make_grammar(dialect) {
           $._variable_expr,
           $.function_call,
           $.for_expr,
-          $._operation,
+          $.operation,
           prec.right(PREC.expr, seq($.index)),
           prec.right(PREC.expr, seq($.get_attr)),
           prec.right(PREC.expr, seq($.splat)),
@@ -260,7 +261,7 @@ module.exports = function make_grammar(dialect) {
           ),
         ),
 
-      _operation: ($) => choice($.unary_operation, $.binary_operation),
+      operation: ($) => choice($.unary_operation, $.binary_operation),
 
       unary_operation: ($) =>
         prec.left(
