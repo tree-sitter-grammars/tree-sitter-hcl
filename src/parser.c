@@ -13,7 +13,7 @@
 #define ALIAS_COUNT 0
 #define TOKEN_COUNT 56
 #define EXTERNAL_TOKEN_COUNT 8
-#define FIELD_COUNT 32
+#define FIELD_COUNT 33
 #define MAX_ALIAS_SEQUENCE_LENGTH 10
 #define MAX_RESERVED_WORD_SET_SIZE 0
 #define PRODUCTION_ID_COUNT 70
@@ -851,26 +851,27 @@ enum ts_field_identifiers {
   field_elements = 10,
   field_else_body = 11,
   field_else_intro = 12,
-  field_expansion = 13,
-  field_expression = 14,
-  field_function = 15,
-  field_grouping = 16,
-  field_heredoc_marker = 17,
-  field_if_body = 18,
-  field_if_intro = 19,
-  field_intro = 20,
-  field_key = 21,
-  field_labels = 22,
-  field_left = 23,
-  field_name = 24,
-  field_object = 25,
-  field_operand = 26,
-  field_operator = 27,
-  field_right = 28,
-  field_strip_marker_end = 29,
-  field_strip_marker_start = 30,
-  field_type = 31,
-  field_value = 32,
+  field_end = 13,
+  field_expansion = 14,
+  field_expression = 15,
+  field_function = 16,
+  field_grouping = 17,
+  field_heredoc_marker = 18,
+  field_if_body = 19,
+  field_if_intro = 20,
+  field_intro = 21,
+  field_key = 22,
+  field_labels = 23,
+  field_left = 24,
+  field_name = 25,
+  field_object = 26,
+  field_operand = 27,
+  field_operator = 28,
+  field_right = 29,
+  field_strip_marker_end = 30,
+  field_strip_marker_start = 31,
+  field_type = 32,
+  field_value = 33,
 };
 
 static const char * const ts_field_names[] = {
@@ -887,6 +888,7 @@ static const char * const ts_field_names[] = {
   [field_elements] = "elements",
   [field_else_body] = "else_body",
   [field_else_intro] = "else_intro",
+  [field_end] = "end",
   [field_expansion] = "expansion",
   [field_expression] = "expression",
   [field_function] = "function",
@@ -923,62 +925,62 @@ static const TSMapSlice ts_field_map_slices[PRODUCTION_ID_COUNT] = {
   [11] = {.index = 16, .length = 2},
   [12] = {.index = 18, .length = 1},
   [13] = {.index = 19, .length = 1},
-  [14] = {.index = 20, .length = 1},
-  [15] = {.index = 21, .length = 1},
-  [16] = {.index = 22, .length = 1},
-  [17] = {.index = 23, .length = 1},
-  [18] = {.index = 24, .length = 1},
-  [19] = {.index = 25, .length = 2},
-  [20] = {.index = 27, .length = 2},
-  [21] = {.index = 29, .length = 2},
-  [22] = {.index = 31, .length = 3},
-  [23] = {.index = 34, .length = 1},
-  [24] = {.index = 35, .length = 2},
-  [25] = {.index = 37, .length = 1},
-  [26] = {.index = 38, .length = 2},
-  [27] = {.index = 40, .length = 2},
-  [28] = {.index = 42, .length = 2},
-  [29] = {.index = 44, .length = 2},
-  [30] = {.index = 46, .length = 2},
-  [31] = {.index = 48, .length = 2},
-  [32] = {.index = 50, .length = 2},
-  [33] = {.index = 52, .length = 3},
-  [34] = {.index = 55, .length = 2},
-  [35] = {.index = 57, .length = 2},
-  [36] = {.index = 59, .length = 3},
-  [37] = {.index = 62, .length = 2},
-  [38] = {.index = 64, .length = 2},
-  [39] = {.index = 66, .length = 1},
-  [40] = {.index = 67, .length = 3},
-  [41] = {.index = 70, .length = 3},
-  [42] = {.index = 73, .length = 1},
-  [43] = {.index = 74, .length = 3},
-  [44] = {.index = 77, .length = 2},
-  [45] = {.index = 79, .length = 1},
-  [46] = {.index = 80, .length = 3},
-  [47] = {.index = 83, .length = 3},
-  [48] = {.index = 86, .length = 3},
-  [49] = {.index = 89, .length = 2},
-  [50] = {.index = 91, .length = 2},
-  [51] = {.index = 93, .length = 1},
-  [52] = {.index = 94, .length = 1},
-  [53] = {.index = 95, .length = 4},
-  [54] = {.index = 99, .length = 2},
-  [55] = {.index = 101, .length = 3},
-  [56] = {.index = 104, .length = 2},
-  [57] = {.index = 106, .length = 3},
-  [58] = {.index = 109, .length = 2},
-  [59] = {.index = 111, .length = 4},
-  [60] = {.index = 115, .length = 4},
-  [61] = {.index = 119, .length = 3},
-  [62] = {.index = 122, .length = 3},
-  [63] = {.index = 125, .length = 3},
-  [64] = {.index = 128, .length = 5},
-  [65] = {.index = 133, .length = 3},
-  [66] = {.index = 136, .length = 4},
-  [67] = {.index = 140, .length = 4},
-  [68] = {.index = 144, .length = 4},
-  [69] = {.index = 148, .length = 5},
+  [14] = {.index = 20, .length = 2},
+  [15] = {.index = 22, .length = 2},
+  [16] = {.index = 24, .length = 1},
+  [17] = {.index = 25, .length = 1},
+  [18] = {.index = 26, .length = 1},
+  [19] = {.index = 27, .length = 2},
+  [20] = {.index = 29, .length = 2},
+  [21] = {.index = 31, .length = 2},
+  [22] = {.index = 33, .length = 3},
+  [23] = {.index = 36, .length = 1},
+  [24] = {.index = 37, .length = 2},
+  [25] = {.index = 39, .length = 1},
+  [26] = {.index = 40, .length = 2},
+  [27] = {.index = 42, .length = 2},
+  [28] = {.index = 44, .length = 3},
+  [29] = {.index = 47, .length = 3},
+  [30] = {.index = 50, .length = 3},
+  [31] = {.index = 53, .length = 2},
+  [32] = {.index = 55, .length = 2},
+  [33] = {.index = 57, .length = 3},
+  [34] = {.index = 60, .length = 2},
+  [35] = {.index = 62, .length = 2},
+  [36] = {.index = 64, .length = 3},
+  [37] = {.index = 67, .length = 2},
+  [38] = {.index = 69, .length = 2},
+  [39] = {.index = 71, .length = 1},
+  [40] = {.index = 72, .length = 4},
+  [41] = {.index = 76, .length = 4},
+  [42] = {.index = 80, .length = 1},
+  [43] = {.index = 81, .length = 3},
+  [44] = {.index = 84, .length = 2},
+  [45] = {.index = 86, .length = 1},
+  [46] = {.index = 87, .length = 3},
+  [47] = {.index = 90, .length = 3},
+  [48] = {.index = 93, .length = 3},
+  [49] = {.index = 96, .length = 2},
+  [50] = {.index = 98, .length = 2},
+  [51] = {.index = 100, .length = 1},
+  [52] = {.index = 101, .length = 1},
+  [53] = {.index = 102, .length = 5},
+  [54] = {.index = 107, .length = 2},
+  [55] = {.index = 109, .length = 3},
+  [56] = {.index = 112, .length = 2},
+  [57] = {.index = 114, .length = 3},
+  [58] = {.index = 117, .length = 2},
+  [59] = {.index = 119, .length = 4},
+  [60] = {.index = 123, .length = 4},
+  [61] = {.index = 127, .length = 3},
+  [62] = {.index = 130, .length = 3},
+  [63] = {.index = 133, .length = 3},
+  [64] = {.index = 136, .length = 5},
+  [65] = {.index = 141, .length = 3},
+  [66] = {.index = 144, .length = 4},
+  [67] = {.index = 148, .length = 4},
+  [68] = {.index = 152, .length = 4},
+  [69] = {.index = 156, .length = 5},
 };
 
 static const TSFieldMapEntry ts_field_map_entries[] = {
@@ -1016,189 +1018,197 @@ static const TSFieldMapEntry ts_field_map_entries[] = {
   [19] =
     {field_body, 1},
   [20] =
+    {field_end, 1},
     {field_intro, 0},
-  [21] =
-    {field_if_intro, 0},
   [22] =
-    {field_function, 0},
-  [23] =
-    {field_arguments, 0},
+    {field_end, 1},
+    {field_if_intro, 0},
   [24] =
-    {field_expression, 1},
+    {field_function, 0},
   [25] =
+    {field_arguments, 0},
+  [26] =
+    {field_expression, 1},
+  [27] =
     {field_key, 0},
     {field_value, 2},
-  [27] =
+  [29] =
     {field_attribute, 2},
     {field_object, 0},
-  [29] =
+  [31] =
     {field_key, 2},
     {field_object, 0},
-  [31] =
+  [33] =
     {field_left, 0},
     {field_operator, 1},
     {field_right, 2},
-  [34] =
+  [36] =
     {field_elements, 1},
-  [35] =
+  [37] =
     {field_elements, 0, .inherited = true},
     {field_elements, 1, .inherited = true},
-  [37] =
+  [39] =
     {field_heredoc_marker, 0},
-  [38] =
+  [40] =
     {field_body, 2},
     {field_type, 0},
-  [40] =
+  [42] =
     {field_labels, 1},
     {field_type, 0},
-  [42] =
-    {field_body, 1},
-    {field_intro, 0},
   [44] =
+    {field_body, 1},
+    {field_end, 2},
+    {field_intro, 0},
+  [47] =
+    {field_end, 2},
     {field_if_body, 1},
     {field_if_intro, 0},
-  [46] =
+  [50] =
     {field_else_intro, 1},
+    {field_end, 2},
     {field_if_intro, 0},
-  [48] =
+  [53] =
     {field_arguments, 0},
     {field_expansion, 1},
-  [50] =
+  [55] =
     {field_arguments, 0},
     {field_arguments, 1, .inherited = true},
-  [52] =
+  [57] =
     {field_arguments, 2, .inherited = true},
     {field_expansion, 2, .inherited = true},
     {field_function, 0},
-  [55] =
+  [60] =
     {field_intro, 1},
     {field_value, 2},
-  [57] =
+  [62] =
     {field_body, 2},
     {field_heredoc_marker, 0},
-  [59] =
+  [64] =
     {field_body, 3},
     {field_labels, 1},
     {field_type, 0},
-  [62] =
+  [67] =
     {field_expression, 2},
     {field_strip_marker_start, 1},
-  [64] =
+  [69] =
     {field_expression, 1},
     {field_strip_marker_end, 2},
-  [66] =
+  [71] =
     {field_condition, 2},
-  [67] =
+  [72] =
     {field_else_intro, 2},
+    {field_end, 3},
     {field_if_body, 1},
     {field_if_intro, 0},
-  [70] =
+  [76] =
     {field_else_body, 2},
     {field_else_intro, 1},
+    {field_end, 3},
     {field_if_intro, 0},
-  [73] =
+  [80] =
     {field_arguments, 1},
-  [74] =
+  [81] =
     {field_arguments, 0},
     {field_arguments, 1, .inherited = true},
     {field_expansion, 2},
-  [77] =
+  [84] =
     {field_arguments, 0, .inherited = true},
     {field_arguments, 1, .inherited = true},
-  [79] =
+  [86] =
     {field_condition, 1},
-  [80] =
+  [87] =
     {field_condition, 3, .inherited = true},
     {field_intro, 1},
     {field_value, 2},
-  [83] =
+  [90] =
     {field_alternative, 4},
     {field_condition, 0},
     {field_consequence, 2},
-  [86] =
+  [93] =
     {field_expression, 2},
     {field_strip_marker_end, 3},
     {field_strip_marker_start, 1},
-  [89] =
+  [96] =
     {field_condition, 2},
     {field_strip_marker_end, 3},
-  [91] =
+  [98] =
     {field_condition, 3},
     {field_strip_marker_start, 1},
-  [93] =
+  [100] =
     {field_strip_marker_start, 1},
-  [94] =
+  [101] =
     {field_strip_marker_end, 2},
-  [95] =
+  [102] =
     {field_else_body, 3},
     {field_else_intro, 2},
+    {field_end, 4},
     {field_if_body, 1},
     {field_if_intro, 0},
-  [99] =
+  [107] =
     {field_collection, 3},
     {field_value, 1},
-  [101] =
+  [109] =
     {field_intro, 1},
     {field_key, 2},
     {field_value, 4},
-  [104] =
+  [112] =
     {field_collection, 4},
     {field_value, 2},
-  [106] =
+  [114] =
     {field_condition, 3},
     {field_strip_marker_end, 4},
     {field_strip_marker_start, 1},
-  [109] =
+  [117] =
     {field_strip_marker_end, 3},
     {field_strip_marker_start, 1},
-  [111] =
+  [119] =
     {field_grouping, 5},
     {field_intro, 1},
     {field_key, 2},
     {field_value, 4},
-  [115] =
+  [123] =
     {field_condition, 5, .inherited = true},
     {field_intro, 1},
     {field_key, 2},
     {field_value, 4},
-  [119] =
+  [127] =
     {field_collection, 4},
     {field_strip_marker_end, 5},
     {field_value, 2},
-  [122] =
+  [130] =
     {field_collection, 5},
     {field_strip_marker_start, 1},
     {field_value, 3},
-  [125] =
+  [133] =
     {field_collection, 5},
     {field_key, 1},
     {field_value, 3},
-  [128] =
+  [136] =
     {field_condition, 6, .inherited = true},
     {field_grouping, 5},
     {field_intro, 1},
     {field_key, 2},
     {field_value, 4},
-  [133] =
+  [141] =
     {field_collection, 6},
     {field_key, 2},
     {field_value, 4},
-  [136] =
+  [144] =
     {field_collection, 5},
     {field_strip_marker_end, 6},
     {field_strip_marker_start, 1},
     {field_value, 3},
-  [140] =
+  [148] =
     {field_collection, 6},
     {field_key, 2},
     {field_strip_marker_end, 7},
     {field_value, 4},
-  [144] =
+  [152] =
     {field_collection, 7},
     {field_key, 3},
     {field_strip_marker_start, 1},
     {field_value, 5},
-  [148] =
+  [156] =
     {field_collection, 7},
     {field_key, 3},
     {field_strip_marker_end, 8},

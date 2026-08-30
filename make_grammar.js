@@ -337,7 +337,7 @@ module.exports = function make_grammar(dialect) {
         seq(
           field("intro", $.template_for_intro),
           field("body", optional($._template)),
-          $.template_for_end,
+          field("end", $.template_for_end),
         ),
 
       template_for_intro: ($) =>
@@ -378,7 +378,7 @@ module.exports = function make_grammar(dialect) {
               field("else_body", optional($._template)),
             ),
           ),
-          $.template_if_end,
+          field("end", $.template_if_end),
         ),
 
       template_if_intro: ($) =>

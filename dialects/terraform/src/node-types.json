@@ -933,6 +933,16 @@
           }
         ]
       },
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "template_for_end",
+            "named": true
+          }
+        ]
+      },
       "intro": {
         "multiple": false,
         "required": true,
@@ -943,16 +953,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "template_for_end",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -1097,6 +1097,16 @@
           }
         ]
       },
+      "end": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "template_if_end",
+            "named": true
+          }
+        ]
+      },
       "if_body": {
         "multiple": true,
         "required": false,
@@ -1125,16 +1135,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "template_if_end",
-          "named": true
-        }
-      ]
     }
   },
   {

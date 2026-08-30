@@ -1607,8 +1607,12 @@
           }
         },
         {
-          "type": "SYMBOL",
-          "name": "template_for_end"
+          "type": "FIELD",
+          "name": "end",
+          "content": {
+            "type": "SYMBOL",
+            "name": "template_for_end"
+          }
         }
       ]
     },
@@ -1825,8 +1829,12 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "template_if_end"
+          "type": "FIELD",
+          "name": "end",
+          "content": {
+            "type": "SYMBOL",
+            "name": "template_if_end"
+          }
         }
       ]
     },
