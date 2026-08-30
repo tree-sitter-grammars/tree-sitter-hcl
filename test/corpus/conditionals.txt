@@ -34,11 +34,11 @@ foo = ( true ? false : true ) ? "yes" : "no"
             (bool_lit)
             (bool_lit)
             (bool_lit)))
-        (string_lit
+        (quoted_template
           (quoted_template_start)
           (template_literal)
           (quoted_template_end))
-        (string_lit
+        (quoted_template
           (quoted_template_start)
           (template_literal)
           (quoted_template_end))))))
@@ -60,11 +60,11 @@ foo =  true ? false : true  ? "yes" : "no"
           (bool_lit)
           (bool_lit)
           (bool_lit))
-        (string_lit
+        (quoted_template
           (quoted_template_start)
           (template_literal)
           (quoted_template_end))
-        (string_lit
+        (quoted_template
           (quoted_template_start)
           (template_literal)
           (quoted_template_end))))))

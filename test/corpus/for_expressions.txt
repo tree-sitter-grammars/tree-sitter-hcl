@@ -14,11 +14,11 @@ foo = [for v in ["a", "b"]: v]
         (for_intro
           (identifier)
           (tuple
-            (string_lit
+            (quoted_template
               (quoted_template_start)
               (template_literal)
               (quoted_template_end))
-            (string_lit
+            (quoted_template
               (quoted_template_start)
               (template_literal)
               (quoted_template_end))))
@@ -41,11 +41,11 @@ foo = [for i, v in ["a", "b"]: i]
           (identifier)
           (identifier)
           (tuple
-            (string_lit
+            (quoted_template
               (quoted_template_start)
               (template_literal)
               (quoted_template_end))
-            (string_lit
+            (quoted_template
               (quoted_template_start)
               (template_literal)
               (quoted_template_end))))
@@ -68,15 +68,15 @@ foo = [for i, v in ["a", "b", "c"]: v if pred(i)]
           (identifier)
           (identifier)
           (tuple
-            (string_lit
+            (quoted_template
               (quoted_template_start)
               (template_literal)
               (quoted_template_end))
-            (string_lit
+            (quoted_template
               (quoted_template_start)
               (template_literal)
               (quoted_template_end))
-            (string_lit
+            (quoted_template
               (quoted_template_start)
               (template_literal)
               (quoted_template_end))))
@@ -102,11 +102,11 @@ foo = {for i, v in ["a", "b"]: v => i}
           (identifier)
           (identifier)
           (tuple
-            (string_lit
+            (quoted_template
               (quoted_template_start)
               (template_literal)
               (quoted_template_end))
-            (string_lit
+            (quoted_template
               (quoted_template_start)
               (template_literal)
               (quoted_template_end))))
@@ -130,11 +130,11 @@ foo = {for i, v in ["a", "b"]: v => i...}
           (identifier)
           (identifier)
           (tuple
-            (string_lit
+            (quoted_template
               (quoted_template_start)
               (template_literal)
               (quoted_template_end))
-            (string_lit
+            (quoted_template
               (quoted_template_start)
               (template_literal)
               (quoted_template_end))))

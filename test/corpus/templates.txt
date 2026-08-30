@@ -104,7 +104,7 @@ foo = "%%{ for a in b } %%{ endfor }"
 1:0  - 1:37       attributes: attribute
 1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
-1:6  - 1:37         value: string_lit
+1:6  - 1:37         value: quoted_template
 1:6  - 1:7            quoted_template_start `\"`
 1:7  - 1:36           body: template_literal `%%{ for a in b } %%{ endfor }`
 1:36 - 1:37           quoted_template_end `\"`
@@ -303,7 +303,7 @@ foo = "${ " ~ " }"
 1:6  - 1:7            quoted_template_start `\"`
 1:7  - 1:17           body: template_interpolation
 1:7  - 1:9              template_interpolation_start `${`
-1:10 - 1:15             body: string_lit
+1:10 - 1:15             body: quoted_template
 1:10 - 1:11               quoted_template_start `\"`
 1:11 - 1:14               body: template_literal ` ~ `
 1:14 - 1:15               quoted_template_end `\"`
@@ -367,7 +367,7 @@ foo = "hello ${~ "world" ~} hello"
 1:13 - 1:27           body: template_interpolation
 1:13 - 1:15             template_interpolation_start `${`
 1:15 - 1:16             strip_marker_start: strip_marker `~`
-1:17 - 1:24             body: string_lit
+1:17 - 1:24             body: quoted_template
 1:17 - 1:18               quoted_template_start `\"`
 1:18 - 1:23               body: template_literal `world`
 1:23 - 1:24               quoted_template_end `\"`
@@ -422,7 +422,7 @@ foo = "hello $${ world"
 1:0  - 1:23       attributes: attribute
 1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
-1:6  - 1:23         value: string_lit
+1:6  - 1:23         value: quoted_template
 1:6  - 1:7            quoted_template_start `\"`
 1:7  - 1:22           body: template_literal `hello $${ world`
 1:22 - 1:23           quoted_template_end `\"`
@@ -847,7 +847,7 @@ EOM
 3:16 - 8:3              value: object
 3:16 - 3:17               "{"
 4:4  - 7:6                elements: object_elem
-4:4  - 4:17                 key: string_lit
+4:4  - 4:17                 key: quoted_template
 4:4  - 4:5                    quoted_template_start `\"`
 4:5  - 4:16                   body: template_literal `description`
 4:16 - 4:17                   quoted_template_end `\"`

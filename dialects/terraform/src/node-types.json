@@ -120,10 +120,6 @@
       {
         "type": "numeric_lit",
         "named": true
-      },
-      {
-        "type": "string_lit",
-        "named": true
       }
     ]
   },

@@ -27,7 +27,7 @@ foo = bar("foo")
       (identifier)
       (function_call
         (identifier)
-        (string_lit
+        (quoted_template
           (quoted_template_start)
           (template_literal)
           (quoted_template_end))))))
@@ -67,15 +67,15 @@ foo = bar(
       (identifier)
       (function_call
         (identifier)
-        (string_lit
+        (quoted_template
           (quoted_template_start)
           (template_literal)
           (quoted_template_end))
-        (string_lit
+        (quoted_template
           (quoted_template_start)
           (template_literal)
           (quoted_template_end))
-        (string_lit
+        (quoted_template
           (quoted_template_start)
           (template_literal)
           (quoted_template_end))))))
@@ -94,7 +94,7 @@ foo = provider::time::rfc3339_parse("2023-07-25T23:43:16Z")
       (identifier)
       (function_call
         (identifier)
-        (string_lit
+        (quoted_template
           (quoted_template_start)
           (template_literal)
           (quoted_template_end))))))
@@ -118,7 +118,7 @@ foo = "prefix-${func("bar")}"
           (template_interpolation_start)
           (function_call
             (identifier)
-            (string_lit
+            (quoted_template
               (quoted_template_start)
               (template_literal)
               (quoted_template_end)))

@@ -10,7 +10,7 @@ foo = "bar"
   (body
     (attribute
       (identifier)
-      (string_lit
+      (quoted_template
         (quoted_template_start)
         (template_literal)
         (quoted_template_end)))))

@@ -13,7 +13,7 @@ foo = [1, 2, "foo"]
       (tuple
         (numeric_lit)
         (numeric_lit)
-        (string_lit
+        (quoted_template
           (quoted_template_start)
           (template_literal)
           (quoted_template_end))))))
@@ -37,7 +37,7 @@ foo = [
       (tuple
         (numeric_lit)
         (numeric_lit)
-        (string_lit
+        (quoted_template
           (quoted_template_start)
           (template_literal)
           (quoted_template_end))))))
@@ -88,11 +88,11 @@ foo = {1: 2, "foo"="bar"}
           (numeric_lit)
           (numeric_lit))
         (object_elem
-          (string_lit
+          (quoted_template
             (quoted_template_start)
             (template_literal)
             (quoted_template_end))
-          (string_lit
+          (quoted_template
             (quoted_template_start)
             (template_literal)
             (quoted_template_end)))))))
@@ -117,11 +117,11 @@ foo = {
           (numeric_lit)
           (numeric_lit))
         (object_elem
-          (string_lit
+          (quoted_template
             (quoted_template_start)
             (template_literal)
             (quoted_template_end))
-          (string_lit
+          (quoted_template
             (quoted_template_start)
             (template_literal)
             (quoted_template_end)))))))
@@ -175,11 +175,11 @@ foo = { 1: 2,
           (numeric_lit)
           (numeric_lit))
         (object_elem
-          (string_lit
+          (quoted_template
             (quoted_template_start)
             (template_literal)
             (quoted_template_end))
-          (string_lit
+          (quoted_template
             (quoted_template_start)
             (template_literal)
             (quoted_template_end)))))))
@@ -202,13 +202,13 @@ foo = {
       (object
         (object_elem
           (identifier)
-          (string_lit
+          (quoted_template
             (quoted_template_start)
             (template_literal)
             (quoted_template_end)))
         (object_elem
           (identifier)
-          (string_lit
+          (quoted_template
             (quoted_template_start)
             (template_literal)
             (quoted_template_end)))))))
@@ -242,13 +242,13 @@ worker_groups = [
         (object
           (object_elem
             (identifier)
-            (string_lit
+            (quoted_template
               (quoted_template_start)
               (template_literal)
               (quoted_template_end)))
           (object_elem
             (identifier)
-            (string_lit
+            (quoted_template
               (quoted_template_start)
               (template_literal)
               (quoted_template_end)))
@@ -266,13 +266,13 @@ worker_groups = [
         (object
           (object_elem
             (identifier)
-            (string_lit
+            (quoted_template
               (quoted_template_start)
               (template_literal)
               (quoted_template_end)))
           (object_elem
             (identifier)
-            (string_lit
+            (quoted_template
               (quoted_template_start)
               (template_literal)
               (quoted_template_end)))

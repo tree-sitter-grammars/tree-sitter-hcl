@@ -67,7 +67,7 @@ block_1 "strlit1" "strlit2" {
       (body
         (attribute
           (identifier)
-          (string_lit
+          (quoted_template
             (quoted_template_start)
             (template_literal)
             (quoted_template_end)))))))
@@ -150,10 +150,10 @@ locals { timestamp = regex_replace(timestamp(), "[- TZ:]", "") }
             (identifier)
             (function_call
               (identifier))
-            (string_lit
+            (quoted_template
               (quoted_template_start)
               (template_literal)
               (quoted_template_end))
-            (string_lit
+            (quoted_template
               (quoted_template_start)
               (quoted_template_end))))))))

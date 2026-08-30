@@ -11,11 +11,11 @@ top level object
 (config_file
   (object
     (object_elem
-      (string_lit
+      (quoted_template
         (quoted_template_start)
         (template_literal)
         (quoted_template_end))
-      (string_lit
+      (quoted_template
         (quoted_template_start)
         (template_literal)
         (quoted_template_end)))))

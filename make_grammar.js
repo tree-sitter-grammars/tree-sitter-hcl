@@ -15,10 +15,6 @@ module.exports = function make_grammar(dialect) {
     binary_comp: 3,
     binary_and: 2,
     binary_or: 1,
-
-    // if possible prefer string_literals to quoted templates
-    string_lit: 2,
-    quoted_template: 1,
   };
 
   return grammar({
@@ -104,7 +100,7 @@ module.exports = function make_grammar(dialect) {
       parenthesized_expression: ($) => seq("(", $.expression, ")"),
 
       literal_value: ($) =>
-        choice($.numeric_lit, $.bool_lit, $.null_lit, $.string_lit),
+        choice($.numeric_lit, $.bool_lit, $.null_lit),
 
       numeric_lit: ($) =>
         choice(/[0-9]+(\.[0-9]+)?([eE][-+]?[0-9]+)?/, /0x[0-9a-zA-Z]+/),
@@ -114,13 +110,10 @@ module.exports = function make_grammar(dialect) {
       null_lit: ($) => "null",
 
       string_lit: ($) =>
-        prec(
-          PREC.string_lit,
-          seq(
-            $.quoted_template_start,
-            field("body", optional($.template_literal)),
-            $.quoted_template_end,
-          ),
+        seq(
+          $.quoted_template_start,
+          field("body", optional($.template_literal)),
+          $.quoted_template_end,
         ),
 
       collection_value: ($) => choice($.tuple, $.object),
@@ -299,13 +292,10 @@ module.exports = function make_grammar(dialect) {
       template_expr: ($) => choice($.quoted_template, $.heredoc_template),
 
       quoted_template: ($) =>
-        prec(
-          PREC.quoted_template,
-          seq(
-            $.quoted_template_start,
-            field("body", optional($._template)),
-            $.quoted_template_end,
-          ),
+        seq(
+          $.quoted_template_start,
+          field("body", optional($._template)),
+          $.quoted_template_end,
         ),
 
       heredoc_template: ($) =>
