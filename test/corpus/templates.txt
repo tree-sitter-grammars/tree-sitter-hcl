@@ -8,7 +8,7 @@ foo = "${ var.bar }"
 --------------------------------------------------------------------------------
 
 0:0  - 2:0    config_file
-1:0  - 1:20     body
+1:0  - 1:20     body: body
 1:0  - 1:20       attributes: attribute
 1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
@@ -33,7 +33,7 @@ foo = "%{ for a in b } prefix-${a} %{ endfor }"
 --------------------------------------------------------------------------------
 
 0:0  - 2:0    config_file
-1:0  - 1:47     body
+1:0  - 1:47     body: body
 1:0  - 1:47       attributes: attribute
 1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
@@ -69,7 +69,7 @@ foo = "%{ for a in b } %%{ endfor } %{ endfor }"
 --------------------------------------------------------------------------------
 
 0:0  - 2:0    config_file
-1:0  - 1:48     body
+1:0  - 1:48     body: body
 1:0  - 1:48       attributes: attribute
 1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
@@ -100,7 +100,7 @@ foo = "%%{ for a in b } %%{ endfor }"
 --------------------------------------------------------------------------------
 
 0:0  - 2:0    config_file
-1:0  - 1:37     body
+1:0  - 1:37     body: body
 1:0  - 1:37       attributes: attribute
 1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
@@ -119,7 +119,7 @@ foo = "%{     for a in b   } %{      endfor    }"
 --------------------------------------------------------------------------------
 
 0:0  - 2:0    config_file
-1:0  - 1:49     body
+1:0  - 1:49     body: body
 1:0  - 1:49       attributes: attribute
 1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
@@ -156,7 +156,7 @@ EOF
 --------------------------------------------------------------------------------
 
 0:0  - 8:0    config_file
-1:0  - 7:3      body
+1:0  - 7:3      body: body
 1:0  - 7:3        attributes: attribute
 1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
@@ -204,7 +204,7 @@ END
 --------------------------------------------------------------------------------
 
 0:0  - 3:0    config_file
-1:0  - 2:3      body
+1:0  - 2:3      body: body
 1:0  - 2:3        attributes: attribute
 1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
@@ -225,7 +225,7 @@ foo = <<END
 --------------------------------------------------------------------------------
 
 0:0  - 3:0    config_file
-1:0  - 2:7      body
+1:0  - 2:7      body: body
 1:0  - 2:7        attributes: attribute
 1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
@@ -248,7 +248,7 @@ foo = <<END
 --------------------------------------------------------------------------------
 
 0:0  - 4:0    config_file
-1:0  - 3:7      body
+1:0  - 3:7      body: body
 1:0  - 3:7        attributes: attribute
 1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
@@ -273,7 +273,7 @@ END
 --------------------------------------------------------------------------------
 
 0:0  - 4:0    config_file
-1:0  - 3:3      body
+1:0  - 3:3      body: body
 1:0  - 3:3        attributes: attribute
 1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
@@ -295,7 +295,7 @@ foo = "${ " ~ " }"
 --------------------------------------------------------------------------------
 
 0:0  - 2:0    config_file
-1:0  - 1:18     body
+1:0  - 1:18     body: body
 1:0  - 1:18       attributes: attribute
 1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
@@ -320,7 +320,7 @@ foo = "p-${ foo("v-${a.b}") }"
 --------------------------------------------------------------------------------
 
 0:0  - 2:0    config_file
-1:0  - 1:30     body
+1:0  - 1:30     body: body
 1:0  - 1:30       attributes: attribute
 1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
@@ -357,7 +357,7 @@ foo = "hello ${~ "world" ~} hello"
 --------------------------------------------------------------------------------
 
 0:0  - 2:0    config_file
-1:0  - 1:34     body
+1:0  - 1:34     body: body
 1:0  - 1:34       attributes: attribute
 1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
@@ -386,7 +386,7 @@ foo = "${ {a=b}[a] }"
 --------------------------------------------------------------------------------
 
 0:0  - 2:0    config_file
-1:0  - 1:21     body
+1:0  - 1:21     body: body
 1:0  - 1:21       attributes: attribute
 1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
@@ -420,7 +420,7 @@ foo = "hello $${ world"
 --------------------------------------------------------------------------------
 
 0:0  - 2:0    config_file
-1:0  - 1:23     body
+1:0  - 1:23     body: body
 1:0  - 1:23       attributes: attribute
 1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
@@ -442,7 +442,7 @@ END
 --------------------------------------------------------------------------------
 
 0:0  - 5:0    config_file
-1:0  - 4:3      body
+1:0  - 4:3      body: body
 1:0  - 4:3        attributes: attribute
 1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
@@ -466,7 +466,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 --------------------------------------------------------------------------------
 
 0:0   - 3:0     config_file
-1:0   - 2:312     body
+1:0   - 2:312     body: body
 1:0   - 2:312       attributes: attribute
 1:0   - 1:3           name: identifier `foo`
 1:4   - 1:5           "="
@@ -486,7 +486,7 @@ foo = "%{if cond} foo %{else} bar %{endif}"
 --------------------------------------------------------------------------------
 
 0:0  - 2:0    config_file
-1:0  - 1:43     body
+1:0  - 1:43     body: body
 1:0  - 1:43       attributes: attribute
 1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
@@ -520,7 +520,7 @@ foo = "%{for a in b} x %{for c in a} ${c} %{endfor} %{endfor}"
 --------------------------------------------------------------------------------
 
 0:0  - 2:0    config_file
-1:0  - 1:62     body
+1:0  - 1:62     body: body
 1:0  - 1:62       attributes: attribute
 1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
@@ -570,7 +570,7 @@ foo = "%{if a} %{if b} y %{else} x %{endif} %{endif}"
 --------------------------------------------------------------------------------
 
 0:0  - 2:0    config_file
-1:0  - 1:53     body
+1:0  - 1:53     body: body
 1:0  - 1:53       attributes: attribute
 1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
@@ -616,7 +616,7 @@ foo = "%{if a} %{else} %{endif}"
 --------------------------------------------------------------------------------
 
 0:0  - 2:0    config_file
-1:0  - 1:32     body
+1:0  - 1:32     body: body
 1:0  - 1:32       attributes: attribute
 1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
@@ -650,7 +650,7 @@ foo = "%{for a in b} %{endfor}"
 --------------------------------------------------------------------------------
 
 0:0  - 2:0    config_file
-1:0  - 1:31     body
+1:0  - 1:31     body: body
 1:0  - 1:31       attributes: attribute
 1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
@@ -685,7 +685,7 @@ EOF
 --------------------------------------------------------------------------------
 
 0:0  - 6:0    config_file
-1:0  - 5:3      body
+1:0  - 5:3      body: body
 1:0  - 5:3        attributes: attribute
 1:0  - 1:4          name: identifier `tpl6`
 1:5  - 1:6          "="
@@ -759,7 +759,7 @@ EOF
 --------------------------------------------------------------------------------
 
 0:0  - 7:0    config_file
-1:0  - 6:3      body
+1:0  - 6:3      body: body
 1:0  - 6:3        attributes: attribute
 1:0  - 1:4          name: identifier `tpl6`
 1:5  - 1:6          "="
@@ -838,7 +838,7 @@ EOM
 --------------------------------------------------------------------------------
 
 0:0  - 11:0   config_file
-1:0  - 9:1      body
+1:0  - 9:1      body: body
 1:0  - 9:1        blocks: block
 1:0  - 1:6          type: identifier `locals`
 1:7  - 1:8          block_start

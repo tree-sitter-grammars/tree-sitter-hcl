@@ -460,20 +460,21 @@
     "type": "config_file",
     "named": true,
     "root": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "body",
-          "named": true
-        },
-        {
-          "type": "object",
-          "named": true
-        }
-      ]
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "body",
+            "named": true
+          },
+          {
+            "type": "object",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
