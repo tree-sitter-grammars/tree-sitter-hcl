@@ -177,10 +177,10 @@ module.exports = function make_grammar(dialect) {
       splat: ($) => choice($.attr_splat, $.full_splat),
 
       attr_splat: ($) =>
-        prec.right(seq(field("object", $.expression), ".*")),
+        prec.right(seq(field("object", $.expr_term), ".*")),
 
       full_splat: ($) =>
-        prec.right(seq(field("object", $.expression), "[*]")),
+        prec.right(seq(field("object", $.expr_term), "[*]")),
 
       for_expr: ($) => choice($.for_tuple_expr, $.for_object_expr),
 

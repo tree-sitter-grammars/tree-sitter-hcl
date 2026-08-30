@@ -703,7 +703,7 @@
             "name": "object",
             "content": {
               "type": "SYMBOL",
-              "name": "expression"
+              "name": "expr_term"
             }
           },
           {
@@ -724,7 +724,7 @@
             "name": "object",
             "content": {
               "type": "SYMBOL",
-              "name": "expression"
+              "name": "expr_term"
             }
           },
           {
