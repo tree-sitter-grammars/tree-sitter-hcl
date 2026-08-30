@@ -12,9 +12,7 @@ block {
   (body
     (block
       (identifier)
-      (block_start)
-      (comment)
-      (block_end))))
+      (comment))))
 
 ================================================================================
 multiline comment in empty block body
@@ -32,9 +30,7 @@ block {
   (body
     (block
       (identifier)
-      (block_start)
-      (comment)
-      (block_end))))
+      (comment))))
 
 ================================================================================
 multiline comment above attribute in block body
@@ -53,13 +49,11 @@ block {
   (body
     (block
       (identifier)
-      (block_start)
       (comment)
       (body
         (attribute
           (identifier)
-          (identifier)))
-      (block_end))))
+          (identifier))))))
 
 ================================================================================
 comment above first attribute in block body
@@ -76,13 +70,11 @@ block {
   (body
     (block
       (identifier)
-      (block_start)
       (comment)
       (body
         (attribute
           (identifier)
-          (identifier)))
-      (block_end))))
+          (identifier))))))
 
 ================================================================================
 comment after last attribute in block body
@@ -99,13 +91,11 @@ block {
   (body
     (block
       (identifier)
-      (block_start)
       (body
         (attribute
           (identifier)
           (identifier)))
-      (comment)
-      (block_end))))
+      (comment))))
 
 ================================================================================
 comment between attributes in block body
@@ -123,7 +113,6 @@ block {
   (body
     (block
       (identifier)
-      (block_start)
       (body
         (attribute
           (identifier)
@@ -131,8 +120,7 @@ block {
         (comment)
         (attribute
           (identifier)
-          (identifier)))
-      (block_end))))
+          (identifier))))))
 
 ================================================================================
 comment at end of file

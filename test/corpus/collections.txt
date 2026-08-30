@@ -11,14 +11,12 @@ foo = [1, 2, "foo"]
     (attribute
       (identifier)
       (tuple
-        (tuple_start)
         (numeric_lit)
         (numeric_lit)
         (string_lit
           (quoted_template_start)
           (template_literal)
-          (quoted_template_end))
-        (tuple_end)))))
+          (quoted_template_end))))))
 
 ================================================================================
 multiline tuple
@@ -37,14 +35,12 @@ foo = [
     (attribute
       (identifier)
       (tuple
-        (tuple_start)
         (numeric_lit)
         (numeric_lit)
         (string_lit
           (quoted_template_start)
           (template_literal)
-          (quoted_template_end))
-        (tuple_end)))))
+          (quoted_template_end))))))
 
 ================================================================================
 empty tuple
@@ -58,9 +54,7 @@ foo = []
   (body
     (attribute
       (identifier)
-      (tuple
-        (tuple_start)
-        (tuple_end)))))
+      (tuple))))
 
 ================================================================================
 multiline empty tuple
@@ -75,9 +69,7 @@ foo = [
   (body
     (attribute
       (identifier)
-      (tuple
-        (tuple_start)
-        (tuple_end)))))
+      (tuple))))
 
 ================================================================================
 object
@@ -92,7 +84,6 @@ foo = {1: 2, "foo"="bar"}
     (attribute
       (identifier)
       (object
-        (object_start)
         (object_elem
           (numeric_lit)
           (numeric_lit))
@@ -104,8 +95,7 @@ foo = {1: 2, "foo"="bar"}
           (string_lit
             (quoted_template_start)
             (template_literal)
-            (quoted_template_end)))
-        (object_end)))))
+            (quoted_template_end)))))))
 
 ================================================================================
 multiline object
@@ -123,7 +113,6 @@ foo = {
     (attribute
       (identifier)
       (object
-        (object_start)
         (object_elem
           (numeric_lit)
           (numeric_lit))
@@ -135,8 +124,7 @@ foo = {
           (string_lit
             (quoted_template_start)
             (template_literal)
-            (quoted_template_end)))
-        (object_end)))))
+            (quoted_template_end)))))))
 
 ================================================================================
 empty object
@@ -150,9 +138,7 @@ foo = { }
   (body
     (attribute
       (identifier)
-      (object
-        (object_start)
-        (object_end)))))
+      (object))))
 
 ================================================================================
 multiline empty object
@@ -167,9 +153,7 @@ foo = {
   (body
     (attribute
       (identifier)
-      (object
-        (object_start)
-        (object_end)))))
+      (object))))
 
 ================================================================================
 multiline object weird newlines
@@ -187,7 +171,6 @@ foo = { 1: 2,
     (attribute
       (identifier)
       (object
-        (object_start)
         (object_elem
           (numeric_lit)
           (numeric_lit))
@@ -199,8 +182,7 @@ foo = { 1: 2,
           (string_lit
             (quoted_template_start)
             (template_literal)
-            (quoted_template_end)))
-        (object_end)))))
+            (quoted_template_end)))))))
 
 ================================================================================
 complex object
@@ -218,7 +200,6 @@ foo = {
     (attribute
       (identifier)
       (object
-        (object_start)
         (object_elem
           (identifier)
           (string_lit
@@ -230,8 +211,7 @@ foo = {
           (string_lit
             (quoted_template_start)
             (template_literal)
-            (quoted_template_end)))
-        (object_end)))))
+            (quoted_template_end)))))))
 
 ================================================================================
 complex from real world
@@ -259,9 +239,7 @@ worker_groups = [
     (attribute
       (identifier)
       (tuple
-        (tuple_start)
         (object
-          (object_start)
           (object_elem
             (identifier)
             (string_lit
@@ -280,16 +258,12 @@ worker_groups = [
           (object_elem
             (identifier)
             (tuple
-              (tuple_start)
               (get_attr
                 (get_attr
                   (identifier)
                   (identifier))
-                (identifier))
-              (tuple_end)))
-          (object_end))
+                (identifier)))))
         (object
-          (object_start)
           (object_elem
             (identifier)
             (string_lit
@@ -305,15 +279,11 @@ worker_groups = [
           (object_elem
             (identifier)
             (tuple
-              (tuple_start)
               (get_attr
                 (get_attr
                   (identifier)
                   (identifier))
-                (identifier))
-              (tuple_end)))
+                (identifier))))
           (object_elem
             (identifier)
-            (numeric_lit))
-          (object_end))
-        (tuple_end)))))
+            (numeric_lit)))))))

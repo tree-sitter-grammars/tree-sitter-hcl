@@ -396,14 +396,12 @@ foo = "${ {a=b}[a] }"
 1:7  - 1:9              template_interpolation_start `${`
 1:10 - 1:18             body: bracket_index
 1:10 - 1:15               object: object
-1:10 - 1:11                 object_start
-1:10 - 1:11                   "{"
+1:10 - 1:11                 "{"
 1:11 - 1:14                 elements: object_elem
 1:11 - 1:12                   key: identifier `a`
 1:12 - 1:13                   "="
 1:13 - 1:14                   value: identifier `b`
-1:14 - 1:15                 object_end
-1:14 - 1:15                   "}"
+1:14 - 1:15                 "}"
 1:15 - 1:16               "["
 1:16 - 1:17               key: identifier `a`
 1:17 - 1:18               "]"
@@ -841,15 +839,13 @@ EOM
 1:0  - 9:1      body: body
 1:0  - 9:1        blocks: block
 1:0  - 1:6          type: identifier `locals`
-1:7  - 1:8          block_start
-1:7  - 1:8            "{"
+1:7  - 1:8          "{"
 3:2  - 8:3          body: body
 3:2  - 8:3            attributes: attribute
 3:2  - 3:13             name: identifier `annotations`
 3:14 - 3:15             "="
 3:16 - 8:3              value: object
-3:16 - 3:17               object_start
-3:16 - 3:17                 "{"
+3:16 - 3:17               "{"
 4:4  - 7:6                elements: object_elem
 4:4  - 4:17                 key: string_lit
 4:4  - 4:5                    quoted_template_start `\"`
@@ -868,8 +864,6 @@ EOM
 6:0  - 6:3                      heredoc_identifier `EOM`
 7:4  - 7:5                    ","
 7:5  - 7:6                    ")"
-8:2  - 8:3                object_end
-8:2  - 8:3                  "}"
-9:0  - 9:1          block_end
-9:0  - 9:1            "}"
+8:2  - 8:3                "}"
+9:0  - 9:1          "}"
 

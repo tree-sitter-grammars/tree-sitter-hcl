@@ -294,8 +294,7 @@ locals {
 1:0  - 3:1      body: body
 1:0  - 3:1        blocks: block
 1:0  - 1:6          type: identifier `locals`
-1:7  - 1:8          block_start
-1:7  - 1:8            "{"
+1:7  - 1:8          "{"
 2:2  - 2:49         body: body
 2:2  - 2:49           attributes: attribute
 2:2  - 2:12             name: identifier `is_percent`
@@ -314,5 +313,4 @@ locals {
 2:42 - 2:43               ":"
 2:44 - 2:49               alternative: bool_lit
 2:44 - 2:49                 "false"
-3:0  - 3:1          block_end
-3:0  - 3:1            "}"
+3:0  - 3:1          "}"

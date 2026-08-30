@@ -67,13 +67,10 @@ module.exports = function make_grammar(dialect) {
         seq(
           field("type", $.identifier),
           field("labels", repeat(choice($.string_lit, $.identifier))),
-          $.block_start,
+          "{",
           field("body", optional($.body)),
-          $.block_end,
+          "}",
         ),
-
-      block_start: ($) => "{",
-      block_end: ($) => "}",
 
       identifier: ($) =>
         token(
@@ -129,10 +126,7 @@ module.exports = function make_grammar(dialect) {
 
       _comma: ($) => ",",
 
-      tuple: ($) => seq($.tuple_start, optional($._tuple_elems), $.tuple_end),
-
-      tuple_start: ($) => "[",
-      tuple_end: ($) => "]",
+      tuple: ($) => seq("[", optional($._tuple_elems), "]"),
 
       _tuple_elems: ($) =>
         seq(
@@ -141,11 +135,7 @@ module.exports = function make_grammar(dialect) {
           optional($._comma),
         ),
 
-      object: ($) =>
-        seq($.object_start, optional($._object_elems), $.object_end),
-
-      object_start: ($) => "{",
-      object_end: ($) => "}",
+      object: ($) => seq("{", optional($._object_elems), "}"),
 
       _object_elems: ($) =>
         seq(
@@ -201,23 +191,23 @@ module.exports = function make_grammar(dialect) {
 
       for_tuple_expr: ($) =>
         seq(
-          $.tuple_start,
+          "[",
           field("intro", $.for_intro),
           field("value", $.expression),
           optional($._for_cond),
-          $.tuple_end,
+          "]",
         ),
 
       for_object_expr: ($) =>
         seq(
-          $.object_start,
+          "{",
           field("intro", $.for_intro),
           field("key", $.expression),
           "=>",
           field("value", $.expression),
           field("expansion", optional($.ellipsis)),
           optional($._for_cond),
-          $.object_end,
+          "}",
         ),
 
       for_intro: ($) =>

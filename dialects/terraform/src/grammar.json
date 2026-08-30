@@ -113,8 +113,8 @@
           }
         },
         {
-          "type": "SYMBOL",
-          "name": "block_start"
+          "type": "STRING",
+          "value": "{"
         },
         {
           "type": "FIELD",
@@ -133,18 +133,10 @@
           }
         },
         {
-          "type": "SYMBOL",
-          "name": "block_end"
+          "type": "STRING",
+          "value": "}"
         }
       ]
-    },
-    "block_start": {
-      "type": "STRING",
-      "value": "{"
-    },
-    "block_end": {
-      "type": "STRING",
-      "value": "}"
     },
     "identifier": {
       "type": "TOKEN",
@@ -404,8 +396,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "tuple_start"
+          "type": "STRING",
+          "value": "["
         },
         {
           "type": "CHOICE",
@@ -420,18 +412,10 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "tuple_end"
+          "type": "STRING",
+          "value": "]"
         }
       ]
-    },
-    "tuple_start": {
-      "type": "STRING",
-      "value": "["
-    },
-    "tuple_end": {
-      "type": "STRING",
-      "value": "]"
     },
     "_tuple_elems": {
       "type": "SEQ",
@@ -482,8 +466,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "object_start"
+          "type": "STRING",
+          "value": "{"
         },
         {
           "type": "CHOICE",
@@ -498,18 +482,10 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "object_end"
+          "type": "STRING",
+          "value": "}"
         }
       ]
-    },
-    "object_start": {
-      "type": "STRING",
-      "value": "{"
-    },
-    "object_end": {
-      "type": "STRING",
-      "value": "}"
     },
     "_object_elems": {
       "type": "SEQ",
@@ -779,8 +755,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "tuple_start"
+          "type": "STRING",
+          "value": "["
         },
         {
           "type": "FIELD",
@@ -811,8 +787,8 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "tuple_end"
+          "type": "STRING",
+          "value": "]"
         }
       ]
     },
@@ -820,8 +796,8 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "object_start"
+          "type": "STRING",
+          "value": "{"
         },
         {
           "type": "FIELD",
@@ -880,8 +856,8 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "object_end"
+          "type": "STRING",
+          "value": "}"
         }
       ]
     },
