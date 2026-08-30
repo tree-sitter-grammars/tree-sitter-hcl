@@ -43,7 +43,7 @@ provider "kubernetes" {
           (function_call
             (identifier)
             (get_attr
-              (index
+              (legacy_index
                 (get_attr
                   (get_attr
                     (get_attr
@@ -51,7 +51,7 @@ provider "kubernetes" {
                       (identifier))
                     (identifier))
                   (identifier))
-                (legacy_index))
+                (legacy_index_key))
               (identifier)))))
       (block_end))))
 
@@ -118,12 +118,11 @@ resource "azurerm_storage_blob" "proxy_cert" {
                 (quoted_template_start)
                 (quoted_template_end)))
             (get_attr
-              (index
+              (bracket_index
                 (get_attr
                   (identifier)
                   (identifier))
-                (new_index
-                  (numeric_lit)))
+                (numeric_lit))
               (identifier))
             (get_attr
               (identifier)
@@ -139,12 +138,11 @@ resource "azurerm_storage_blob" "proxy_cert" {
                 (quoted_template_start)
                 (quoted_template_end)))
             (get_attr
-              (index
+              (bracket_index
                 (get_attr
                   (identifier)
                   (identifier))
-                (new_index
-                  (numeric_lit)))
+                (numeric_lit))
               (identifier))
             (get_attr
               (identifier)
@@ -274,12 +272,11 @@ resource "azurerm_storage_blob" "proxy_cert" {
         (attribute
           (identifier)
           (get_attr
-            (index
+            (bracket_index
               (get_attr
                 (identifier)
                 (identifier))
-              (new_index
-                (numeric_lit)))
+              (numeric_lit))
             (identifier)))
         (attribute
           (identifier)
@@ -338,12 +335,11 @@ resource "azurerm_storage_blob" "proxy_cert" {
         (attribute
           (identifier)
           (get_attr
-            (index
+            (bracket_index
               (get_attr
                 (identifier)
                 (identifier))
-              (new_index
-                (numeric_lit)))
+              (numeric_lit))
             (identifier)))
         (attribute
           (identifier)
@@ -405,14 +401,13 @@ locals {
                 (get_attr
                   (identifier)
                   (identifier))
-                (index
+                (bracket_index
                   (get_attr
                     (get_attr
                       (identifier)
                       (identifier))
                     (identifier))
-                  (new_index
-                    (numeric_lit)))
+                  (numeric_lit))
                 (get_attr
                   (get_attr
                     (identifier)

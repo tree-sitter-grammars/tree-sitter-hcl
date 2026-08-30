@@ -595,6 +595,19 @@
       ]
     },
     "index": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "bracket_index"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "legacy_index"
+        }
+      ]
+    },
+    "bracket_index": {
       "type": "PREC",
       "value": 9,
       "content": {
@@ -609,54 +622,57 @@
             }
           },
           {
+            "type": "STRING",
+            "value": "["
+          },
+          {
             "type": "FIELD",
-            "name": "index",
+            "name": "key",
             "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "new_index"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "legacy_index"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "expression"
             }
+          },
+          {
+            "type": "STRING",
+            "value": "]"
           }
         ]
       }
     },
-    "new_index": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "["
-        },
-        {
-          "type": "SYMBOL",
-          "name": "expression"
-        },
-        {
-          "type": "STRING",
-          "value": "]"
-        }
-      ]
-    },
     "legacy_index": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "."
-        },
-        {
-          "type": "PATTERN",
-          "value": "[0-9]+"
-        }
-      ]
+      "type": "PREC",
+      "value": 9,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "object",
+            "content": {
+              "type": "SYMBOL",
+              "name": "expr_term"
+            }
+          },
+          {
+            "type": "STRING",
+            "value": "."
+          },
+          {
+            "type": "FIELD",
+            "name": "key",
+            "content": {
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "[0-9]+"
+              },
+              "named": true,
+              "value": "legacy_index_key"
+            }
+          }
+        ]
+      }
     },
     "get_attr": {
       "type": "PREC",
@@ -2116,6 +2132,7 @@
     "expr_term",
     "literal_value",
     "collection_value",
+    "index",
     "splat",
     "for_expr",
     "template_directive",

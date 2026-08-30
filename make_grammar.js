@@ -42,6 +42,7 @@ module.exports = function make_grammar(dialect) {
       $.expr_term,
       $.literal_value,
       $.collection_value,
+      $.index,
       $.splat,
       $.for_expr,
       $.template_directive,
@@ -160,17 +161,23 @@ module.exports = function make_grammar(dialect) {
           field("value", $.expression),
         ),
 
-      index: ($) =>
+      index: ($) => choice($.bracket_index, $.legacy_index),
+
+      bracket_index: ($) =>
+        prec(
+          PREC.index,
+          seq(field("object", $.expr_term), "[", field("key", $.expression), "]"),
+        ),
+
+      legacy_index: ($) =>
         prec(
           PREC.index,
           seq(
             field("object", $.expr_term),
-            field("index", choice($.new_index, $.legacy_index)),
+            ".",
+            field("key", alias(/[0-9]+/, $.legacy_index_key)),
           ),
         ),
-
-      new_index: ($) => seq("[", $.expression, "]"),
-      legacy_index: ($) => seq(".", /[0-9]+/),
 
       get_attr: ($) =>
         prec(

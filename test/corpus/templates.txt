@@ -394,7 +394,7 @@ foo = "${ {a=b}[a] }"
 1:6  - 1:7            quoted_template_start `\"`
 1:7  - 1:20           body: template_interpolation
 1:7  - 1:9              template_interpolation_start `${`
-1:10 - 1:18             body: index
+1:10 - 1:18             body: bracket_index
 1:10 - 1:15               object: object
 1:10 - 1:11                 object_start
 1:10 - 1:11                   "{"
@@ -404,10 +404,9 @@ foo = "${ {a=b}[a] }"
 1:13 - 1:14                   value: identifier `b`
 1:14 - 1:15                 object_end
 1:14 - 1:15                   "}"
-1:15 - 1:18               index: new_index
-1:15 - 1:16                 "["
-1:16 - 1:17                 identifier `a`
-1:17 - 1:18                 "]"
+1:15 - 1:16               "["
+1:16 - 1:17               key: identifier `a`
+1:17 - 1:18               "]"
 1:19 - 1:20             template_interpolation_end `}`
 1:20 - 1:21           quoted_template_end `\"`
 
