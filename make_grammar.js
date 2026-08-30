@@ -216,22 +216,18 @@ module.exports = function make_grammar(dialect) {
       for_intro: ($) =>
         seq(
           "for",
-          field(
-            "left",
-            choice(
-              alias($.identifier, $.for_initializer_single),
-              $.for_initializer_pair,
+          choice(
+            field("value", $.identifier),
+            seq(
+              field("key", $.identifier),
+              ",",
+              field("value", $.identifier),
             ),
           ),
           "in",
-          field("right", $.expression),
+          field("collection", $.expression),
           ":",
         ),
-
-      // for_initializer_single: ($) => $.identifier,
-
-      for_initializer_pair: ($) =>
-        seq(field("left", $.identifier), ",", field("right", $.identifier)),
 
       _for_cond: ($) => seq("if", field("condition", $.expression)),
 

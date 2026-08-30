@@ -13,7 +13,7 @@ foo = [for v in ["a", "b"]: v]
       (for_tuple_expr
         (tuple_start)
         (for_intro
-          (for_initializer_single)
+          (identifier)
           (tuple
             (tuple_start)
             (string_lit
@@ -43,9 +43,8 @@ foo = [for i, v in ["a", "b"]: i]
       (for_tuple_expr
         (tuple_start)
         (for_intro
-          (for_initializer_pair
-            (identifier)
-            (identifier))
+          (identifier)
+          (identifier)
           (tuple
             (tuple_start)
             (string_lit
@@ -75,9 +74,8 @@ foo = [for i, v in ["a", "b", "c"]: v if pred(i)]
       (for_tuple_expr
         (tuple_start)
         (for_intro
-          (for_initializer_pair
-            (identifier)
-            (identifier))
+          (identifier)
+          (identifier)
           (tuple
             (tuple_start)
             (string_lit
@@ -114,9 +112,8 @@ foo = {for i, v in ["a", "b"]: v => i}
       (for_object_expr
         (object_start)
         (for_intro
-          (for_initializer_pair
-            (identifier)
-            (identifier))
+          (identifier)
+          (identifier)
           (tuple
             (tuple_start)
             (string_lit
@@ -147,9 +144,8 @@ foo = {for i, v in ["a", "b"]: v => i...}
       (for_object_expr
         (object_start)
         (for_intro
-          (for_initializer_pair
-            (identifier)
-            (identifier))
+          (identifier)
+          (identifier)
           (tuple
             (tuple_start)
             (string_lit
