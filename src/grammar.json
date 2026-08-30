@@ -1433,7 +1433,7 @@
       "members": [
         {
           "type": "FIELD",
-          "name": "heredoc_marker",
+          "name": "marker",
           "content": {
             "type": "SYMBOL",
             "name": "heredoc_start"

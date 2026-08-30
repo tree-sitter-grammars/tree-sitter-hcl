@@ -161,7 +161,7 @@ EOF
 1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
 1:6  - 7:3          value: heredoc_template
-1:6  - 1:8            heredoc_marker: heredoc_start
+1:6  - 1:8            marker: heredoc_start
 1:6  - 1:8              "<<"
 1:8  - 1:11           start_identifier: heredoc_identifier `EOF`
 2:0  - 6:12           body: template_for
@@ -209,7 +209,7 @@ END
 1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
 1:6  - 2:3          value: heredoc_template
-1:6  - 1:8            heredoc_marker: heredoc_start
+1:6  - 1:8            marker: heredoc_start
 1:6  - 1:8              "<<"
 1:8  - 1:11           start_identifier: heredoc_identifier `END`
 2:0  - 2:3            end_identifier: heredoc_identifier `END`
@@ -230,7 +230,7 @@ foo = <<END
 1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
 1:6  - 2:7          value: heredoc_template
-1:6  - 1:8            heredoc_marker: heredoc_start
+1:6  - 1:8            marker: heredoc_start
 1:6  - 1:8              "<<"
 1:8  - 1:11           start_identifier: heredoc_identifier `END`
 2:0  - 2:4            body: template_literal `    `
@@ -253,7 +253,7 @@ foo = <<END
 1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
 1:6  - 3:7          value: heredoc_template
-1:6  - 1:8            heredoc_marker: heredoc_start
+1:6  - 1:8            marker: heredoc_start
 1:6  - 1:8              "<<"
 1:8  - 1:11           start_identifier: heredoc_identifier `END`
 2:0  - 3:4            body: template_literal
@@ -278,7 +278,7 @@ END
 1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
 1:6  - 3:3          value: heredoc_template
-1:6  - 1:8            heredoc_marker: heredoc_start
+1:6  - 1:8            marker: heredoc_start
 1:6  - 1:8              "<<"
 1:8  - 1:11           start_identifier: heredoc_identifier `END`
 2:0  - 3:0            body: template_literal
@@ -445,7 +445,7 @@ END
 1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
 1:6  - 4:3          value: heredoc_template
-1:6  - 1:8            heredoc_marker: heredoc_start
+1:6  - 1:8            marker: heredoc_start
 1:6  - 1:8              "<<"
 1:8  - 1:11           start_identifier: heredoc_identifier `END`
 2:0  - 4:0            body: template_literal
@@ -469,7 +469,7 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 1:0   - 1:3           name: identifier `foo`
 1:4   - 1:5           "="
 1:6   - 2:312         value: heredoc_template
-1:6   - 1:8             heredoc_marker: heredoc_start
+1:6   - 1:8             marker: heredoc_start
 1:6   - 1:8               "<<"
 1:8   - 1:320           start_identifier: heredoc_identifier `XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`
 2:0   - 2:312           end_identifier: heredoc_identifier `XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`
@@ -688,7 +688,7 @@ EOF
 1:0  - 1:4          name: identifier `tpl6`
 1:5  - 1:6          "="
 1:7  - 5:3          value: heredoc_template
-1:7  - 1:10           heredoc_marker: heredoc_start
+1:7  - 1:10           marker: heredoc_start
 1:7  - 1:10             "<<-"
 1:10 - 1:13           start_identifier: heredoc_identifier `EOF`
 2:0  - 2:2            body: template_literal `  `
@@ -762,7 +762,7 @@ EOF
 1:0  - 1:4          name: identifier `tpl6`
 1:5  - 1:6          "="
 1:7  - 6:3          value: heredoc_template
-1:7  - 1:10           heredoc_marker: heredoc_start
+1:7  - 1:10           marker: heredoc_start
 1:7  - 1:10             "<<-"
 1:10 - 1:13           start_identifier: heredoc_identifier `EOF`
 2:0  - 2:2            body: template_literal `  `
@@ -856,7 +856,7 @@ EOM
 4:20 - 4:27                   function: identifier `replace`
 4:27 - 4:28                   "("
 4:28 - 6:3                    arguments: heredoc_template
-4:28 - 4:30                     heredoc_marker: heredoc_start
+4:28 - 4:30                     marker: heredoc_start
 4:28 - 4:30                       "<<"
 4:30 - 4:33                     start_identifier: heredoc_identifier `EOM`
 5:0  - 6:0                      body: template_literal
