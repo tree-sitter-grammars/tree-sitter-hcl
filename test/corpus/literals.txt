@@ -10,9 +10,9 @@ pi = 0x314F
 0:0  - 2:0    config_file
 1:0  - 1:11     body
 1:0  - 1:11       attributes: attribute
-1:0  - 1:2          left: identifier `pi`
+1:0  - 1:2          name: identifier `pi`
 1:3  - 1:4          "="
-1:5  - 1:11         right: numeric_lit `0x314F`
+1:5  - 1:11         value: numeric_lit `0x314F`
 
 ================================================================================
 numeric literal zero
@@ -26,9 +26,9 @@ pi = 0
 0:0 - 2:0   config_file
 1:0 - 1:6     body
 1:0 - 1:6       attributes: attribute
-1:0 - 1:2         left: identifier `pi`
+1:0 - 1:2         name: identifier `pi`
 1:3 - 1:4         "="
-1:5 - 1:6         right: numeric_lit `0`
+1:5 - 1:6         value: numeric_lit `0`
 
 ================================================================================
 numeric literal single digit integer
@@ -42,9 +42,9 @@ pi = 3
 0:0 - 2:0   config_file
 1:0 - 1:6     body
 1:0 - 1:6       attributes: attribute
-1:0 - 1:2         left: identifier `pi`
+1:0 - 1:2         name: identifier `pi`
 1:3 - 1:4         "="
-1:5 - 1:6         right: numeric_lit `3`
+1:5 - 1:6         value: numeric_lit `3`
 
 ================================================================================
 numeric literal multi-digit integer
@@ -58,9 +58,9 @@ pi = 123
 0:0 - 2:0   config_file
 1:0 - 1:8     body
 1:0 - 1:8       attributes: attribute
-1:0 - 1:2         left: identifier `pi`
+1:0 - 1:2         name: identifier `pi`
 1:3 - 1:4         "="
-1:5 - 1:8         right: numeric_lit `123`
+1:5 - 1:8         value: numeric_lit `123`
 
 ================================================================================
 numeric literal integer with leading zero
@@ -74,9 +74,9 @@ pi = 007
 0:0 - 2:0   config_file
 1:0 - 1:8     body
 1:0 - 1:8       attributes: attribute
-1:0 - 1:2         left: identifier `pi`
+1:0 - 1:2         name: identifier `pi`
 1:3 - 1:4         "="
-1:5 - 1:8         right: numeric_lit `007`
+1:5 - 1:8         value: numeric_lit `007`
 
 ================================================================================
 numeric literal decimal
@@ -90,9 +90,9 @@ pi = 3.14
 0:0 - 2:0   config_file
 1:0 - 1:9     body
 1:0 - 1:9       attributes: attribute
-1:0 - 1:2         left: identifier `pi`
+1:0 - 1:2         name: identifier `pi`
 1:3 - 1:4         "="
-1:5 - 1:9         right: numeric_lit `3.14`
+1:5 - 1:9         value: numeric_lit `3.14`
 
 ================================================================================
 numeric literal decimal mantissa with positive signed exponent lowercase e
@@ -106,9 +106,9 @@ big_pi = 3.14e+10
 0:0  - 2:0    config_file
 1:0  - 1:17     body
 1:0  - 1:17       attributes: attribute
-1:0  - 1:6          left: identifier `big_pi`
+1:0  - 1:6          name: identifier `big_pi`
 1:7  - 1:8          "="
-1:9  - 1:17         right: numeric_lit `3.14e+10`
+1:9  - 1:17         value: numeric_lit `3.14e+10`
 
 ================================================================================
 numeric literal decimal mantissa with positive signed exponent uppercase E
@@ -122,9 +122,9 @@ big_pi = 3.14E+10
 0:0  - 2:0    config_file
 1:0  - 1:17     body
 1:0  - 1:17       attributes: attribute
-1:0  - 1:6          left: identifier `big_pi`
+1:0  - 1:6          name: identifier `big_pi`
 1:7  - 1:8          "="
-1:9  - 1:17         right: numeric_lit `3.14E+10`
+1:9  - 1:17         value: numeric_lit `3.14E+10`
 
 ================================================================================
 numeric literal decimal mantissa with negative signed exponent lowercase e
@@ -138,9 +138,9 @@ small_pi = 3.14e-10
 0:0  - 2:0    config_file
 1:0  - 1:19     body
 1:0  - 1:19       attributes: attribute
-1:0  - 1:8          left: identifier `small_pi`
+1:0  - 1:8          name: identifier `small_pi`
 1:9  - 1:10         "="
-1:11 - 1:19         right: numeric_lit `3.14e-10`
+1:11 - 1:19         value: numeric_lit `3.14e-10`
 
 ================================================================================
 numeric literal decimal mantissa with negative signed exponent uppercase E
@@ -154,9 +154,9 @@ small_pi = 3.14E-10
 0:0  - 2:0    config_file
 1:0  - 1:19     body
 1:0  - 1:19       attributes: attribute
-1:0  - 1:8          left: identifier `small_pi`
+1:0  - 1:8          name: identifier `small_pi`
 1:9  - 1:10         "="
-1:11 - 1:19         right: numeric_lit `3.14E-10`
+1:11 - 1:19         value: numeric_lit `3.14E-10`
 
 ================================================================================
 numeric literal decimal mantissa with unsigned exponent
@@ -170,9 +170,9 @@ pi = 3.14e2
 0:0  - 2:0    config_file
 1:0  - 1:11     body
 1:0  - 1:11       attributes: attribute
-1:0  - 1:2          left: identifier `pi`
+1:0  - 1:2          name: identifier `pi`
 1:3  - 1:4          "="
-1:5  - 1:11         right: numeric_lit `3.14e2`
+1:5  - 1:11         value: numeric_lit `3.14e2`
 
 ================================================================================
 numeric literal integer mantissa with unsigned exponent lowercase e
@@ -186,9 +186,9 @@ pi = 1e2
 0:0 - 2:0   config_file
 1:0 - 1:8     body
 1:0 - 1:8       attributes: attribute
-1:0 - 1:2         left: identifier `pi`
+1:0 - 1:2         name: identifier `pi`
 1:3 - 1:4         "="
-1:5 - 1:8         right: numeric_lit `1e2`
+1:5 - 1:8         value: numeric_lit `1e2`
 
 ================================================================================
 numeric literal integer mantissa with unsigned exponent uppercase E
@@ -202,9 +202,9 @@ pi = 1E2
 0:0 - 2:0   config_file
 1:0 - 1:8     body
 1:0 - 1:8       attributes: attribute
-1:0 - 1:2         left: identifier `pi`
+1:0 - 1:2         name: identifier `pi`
 1:3 - 1:4         "="
-1:5 - 1:8         right: numeric_lit `1E2`
+1:5 - 1:8         value: numeric_lit `1E2`
 
 ================================================================================
 numeric literal integer mantissa with positive signed exponent
@@ -218,9 +218,9 @@ pi = 1e+10
 0:0  - 2:0    config_file
 1:0  - 1:10     body
 1:0  - 1:10       attributes: attribute
-1:0  - 1:2          left: identifier `pi`
+1:0  - 1:2          name: identifier `pi`
 1:3  - 1:4          "="
-1:5  - 1:10         right: numeric_lit `1e+10`
+1:5  - 1:10         value: numeric_lit `1e+10`
 
 ================================================================================
 numeric literal integer mantissa with negative signed exponent
@@ -234,9 +234,9 @@ pi = 1e-10
 0:0  - 2:0    config_file
 1:0  - 1:10     body
 1:0  - 1:10       attributes: attribute
-1:0  - 1:2          left: identifier `pi`
+1:0  - 1:2          name: identifier `pi`
 1:3  - 1:4          "="
-1:5  - 1:10         right: numeric_lit `1e-10`
+1:5  - 1:10         value: numeric_lit `1e-10`
 
 ================================================================================
 numeric literal followed by attribute access with no attribute name
@@ -250,9 +250,9 @@ pi = 1.
 0:0 - 2:0   •config_file
 1:0 - 2:0     •body
 1:0 - 2:0       attributes: •attribute
-1:0 - 1:2          left: identifier `pi`
+1:0 - 1:2          name: identifier `pi`
 1:3 - 1:4          "="
-1:5 - 2:0         right: •get_attr
+1:5 - 2:0         value: •get_attr
 1:5 - 1:6            object: numeric_lit `1`
 1:6 - 1:7            "."
 2:0 - 2:0           attribute: •identifier

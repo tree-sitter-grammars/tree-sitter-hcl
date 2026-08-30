@@ -10,9 +10,9 @@ foo = "${ var.bar }"
 0:0  - 2:0    config_file
 1:0  - 1:20     body
 1:0  - 1:20       attributes: attribute
-1:0  - 1:3          left: identifier `foo`
+1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
-1:6  - 1:20         right: quoted_template
+1:6  - 1:20         value: quoted_template
 1:6  - 1:7            quoted_template_start `\"`
 1:7  - 1:19           body: template_interpolation
 1:7  - 1:9              template_interpolation_start `${`
@@ -35,9 +35,9 @@ foo = "%{ for a in b } prefix-${a} %{ endfor }"
 0:0  - 2:0    config_file
 1:0  - 1:47     body
 1:0  - 1:47       attributes: attribute
-1:0  - 1:3          left: identifier `foo`
+1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
-1:6  - 1:47         right: quoted_template
+1:6  - 1:47         value: quoted_template
 1:6  - 1:7            quoted_template_start `\"`
 1:7  - 1:46           body: template_for
 1:7  - 1:22             start: template_for_start
@@ -71,9 +71,9 @@ foo = "%{ for a in b } %%{ endfor } %{ endfor }"
 0:0  - 2:0    config_file
 1:0  - 1:48     body
 1:0  - 1:48       attributes: attribute
-1:0  - 1:3          left: identifier `foo`
+1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
-1:6  - 1:48         right: quoted_template
+1:6  - 1:48         value: quoted_template
 1:6  - 1:7            quoted_template_start `\"`
 1:7  - 1:47           body: template_for
 1:7  - 1:22             start: template_for_start
@@ -102,9 +102,9 @@ foo = "%%{ for a in b } %%{ endfor }"
 0:0  - 2:0    config_file
 1:0  - 1:37     body
 1:0  - 1:37       attributes: attribute
-1:0  - 1:3          left: identifier `foo`
+1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
-1:6  - 1:37         right: string_lit
+1:6  - 1:37         value: string_lit
 1:6  - 1:7            quoted_template_start `\"`
 1:7  - 1:36           body: template_literal `%%{ for a in b } %%{ endfor }`
 1:36 - 1:37           quoted_template_end `\"`
@@ -121,9 +121,9 @@ foo = "%{     for a in b   } %{      endfor    }"
 0:0  - 2:0    config_file
 1:0  - 1:49     body
 1:0  - 1:49       attributes: attribute
-1:0  - 1:3          left: identifier `foo`
+1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
-1:6  - 1:49         right: quoted_template
+1:6  - 1:49         value: quoted_template
 1:6  - 1:7            quoted_template_start `\"`
 1:7  - 1:48           body: template_for
 1:7  - 1:28             start: template_for_start
@@ -158,9 +158,9 @@ EOF
 0:0  - 8:0    config_file
 1:0  - 7:3      body
 1:0  - 7:3        attributes: attribute
-1:0  - 1:3          left: identifier `foo`
+1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
-1:6  - 7:3          right: heredoc_template
+1:6  - 7:3          value: heredoc_template
 1:6  - 1:8            heredoc_marker: heredoc_start
 1:6  - 1:8              "<<"
 1:8  - 1:11           heredoc_identifier `EOF`
@@ -206,9 +206,9 @@ END
 0:0  - 3:0    config_file
 1:0  - 2:3      body
 1:0  - 2:3        attributes: attribute
-1:0  - 1:3          left: identifier `foo`
+1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
-1:6  - 2:3          right: heredoc_template
+1:6  - 2:3          value: heredoc_template
 1:6  - 1:8            heredoc_marker: heredoc_start
 1:6  - 1:8              "<<"
 1:8  - 1:11           heredoc_identifier `END`
@@ -227,9 +227,9 @@ foo = <<END
 0:0  - 3:0    config_file
 1:0  - 2:7      body
 1:0  - 2:7        attributes: attribute
-1:0  - 1:3          left: identifier `foo`
+1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
-1:6  - 2:7          right: heredoc_template
+1:6  - 2:7          value: heredoc_template
 1:6  - 1:8            heredoc_marker: heredoc_start
 1:6  - 1:8              "<<"
 1:8  - 1:11           heredoc_identifier `END`
@@ -250,9 +250,9 @@ foo = <<END
 0:0  - 4:0    config_file
 1:0  - 3:7      body
 1:0  - 3:7        attributes: attribute
-1:0  - 1:3          left: identifier `foo`
+1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
-1:6  - 3:7          right: heredoc_template
+1:6  - 3:7          value: heredoc_template
 1:6  - 1:8            heredoc_marker: heredoc_start
 1:6  - 1:8              "<<"
 1:8  - 1:11           heredoc_identifier `END`
@@ -275,9 +275,9 @@ END
 0:0  - 4:0    config_file
 1:0  - 3:3      body
 1:0  - 3:3        attributes: attribute
-1:0  - 1:3          left: identifier `foo`
+1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
-1:6  - 3:3          right: heredoc_template
+1:6  - 3:3          value: heredoc_template
 1:6  - 1:8            heredoc_marker: heredoc_start
 1:6  - 1:8              "<<"
 1:8  - 1:11           heredoc_identifier `END`
@@ -297,9 +297,9 @@ foo = "${ " ~ " }"
 0:0  - 2:0    config_file
 1:0  - 1:18     body
 1:0  - 1:18       attributes: attribute
-1:0  - 1:3          left: identifier `foo`
+1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
-1:6  - 1:18         right: quoted_template
+1:6  - 1:18         value: quoted_template
 1:6  - 1:7            quoted_template_start `\"`
 1:7  - 1:17           body: template_interpolation
 1:7  - 1:9              template_interpolation_start `${`
@@ -322,9 +322,9 @@ foo = "p-${ foo("v-${a.b}") }"
 0:0  - 2:0    config_file
 1:0  - 1:30     body
 1:0  - 1:30       attributes: attribute
-1:0  - 1:3          left: identifier `foo`
+1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
-1:6  - 1:30         right: quoted_template
+1:6  - 1:30         value: quoted_template
 1:6  - 1:7            quoted_template_start `\"`
 1:7  - 1:9            body: template_literal `p-`
 1:9  - 1:29           body: template_interpolation
@@ -359,9 +359,9 @@ foo = "hello ${~ "world" ~} hello"
 0:0  - 2:0    config_file
 1:0  - 1:34     body
 1:0  - 1:34       attributes: attribute
-1:0  - 1:3          left: identifier `foo`
+1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
-1:6  - 1:34         right: quoted_template
+1:6  - 1:34         value: quoted_template
 1:6  - 1:7            quoted_template_start `\"`
 1:7  - 1:13           body: template_literal `hello `
 1:13 - 1:27           body: template_interpolation
@@ -388,9 +388,9 @@ foo = "${ {a=b}[a] }"
 0:0  - 2:0    config_file
 1:0  - 1:21     body
 1:0  - 1:21       attributes: attribute
-1:0  - 1:3          left: identifier `foo`
+1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
-1:6  - 1:21         right: quoted_template
+1:6  - 1:21         value: quoted_template
 1:6  - 1:7            quoted_template_start `\"`
 1:7  - 1:20           body: template_interpolation
 1:7  - 1:9              template_interpolation_start `${`
@@ -423,9 +423,9 @@ foo = "hello $${ world"
 0:0  - 2:0    config_file
 1:0  - 1:23     body
 1:0  - 1:23       attributes: attribute
-1:0  - 1:3          left: identifier `foo`
+1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
-1:6  - 1:23         right: string_lit
+1:6  - 1:23         value: string_lit
 1:6  - 1:7            quoted_template_start `\"`
 1:7  - 1:22           body: template_literal `hello $${ world`
 1:22 - 1:23           quoted_template_end `\"`
@@ -445,9 +445,9 @@ END
 0:0  - 5:0    config_file
 1:0  - 4:3      body
 1:0  - 4:3        attributes: attribute
-1:0  - 1:3          left: identifier `foo`
+1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
-1:6  - 4:3          right: heredoc_template
+1:6  - 4:3          value: heredoc_template
 1:6  - 1:8            heredoc_marker: heredoc_start
 1:6  - 1:8              "<<"
 1:8  - 1:11           heredoc_identifier `END`
@@ -469,9 +469,9 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 0:0   - 3:0     config_file
 1:0   - 2:312     body
 1:0   - 2:312       attributes: attribute
-1:0   - 1:3           left: identifier `foo`
+1:0   - 1:3           name: identifier `foo`
 1:4   - 1:5           "="
-1:6   - 2:312         right: heredoc_template
+1:6   - 2:312         value: heredoc_template
 1:6   - 1:8             heredoc_marker: heredoc_start
 1:6   - 1:8               "<<"
 1:8   - 1:320           heredoc_identifier `XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`
@@ -489,9 +489,9 @@ foo = "%{if cond} foo %{else} bar %{endif}"
 0:0  - 2:0    config_file
 1:0  - 1:43     body
 1:0  - 1:43       attributes: attribute
-1:0  - 1:3          left: identifier `foo`
+1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
-1:6  - 1:43         right: quoted_template
+1:6  - 1:43         value: quoted_template
 1:6  - 1:7            quoted_template_start `\"`
 1:7  - 1:42           body: template_if
 1:7  - 1:17             if_intro: template_if_intro
@@ -523,9 +523,9 @@ foo = "%{for a in b} x %{for c in a} ${c} %{endfor} %{endfor}"
 0:0  - 2:0    config_file
 1:0  - 1:62     body
 1:0  - 1:62       attributes: attribute
-1:0  - 1:3          left: identifier `foo`
+1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
-1:6  - 1:62         right: quoted_template
+1:6  - 1:62         value: quoted_template
 1:6  - 1:7            quoted_template_start `\"`
 1:7  - 1:61           body: template_for
 1:7  - 1:20             start: template_for_start
@@ -573,9 +573,9 @@ foo = "%{if a} %{if b} y %{else} x %{endif} %{endif}"
 0:0  - 2:0    config_file
 1:0  - 1:53     body
 1:0  - 1:53       attributes: attribute
-1:0  - 1:3          left: identifier `foo`
+1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
-1:6  - 1:53         right: quoted_template
+1:6  - 1:53         value: quoted_template
 1:6  - 1:7            quoted_template_start `\"`
 1:7  - 1:52           body: template_if
 1:7  - 1:14             if_intro: template_if_intro
@@ -619,9 +619,9 @@ foo = "%{if a} %{else} %{endif}"
 0:0  - 2:0    config_file
 1:0  - 1:32     body
 1:0  - 1:32       attributes: attribute
-1:0  - 1:3          left: identifier `foo`
+1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
-1:6  - 1:32         right: quoted_template
+1:6  - 1:32         value: quoted_template
 1:6  - 1:7            quoted_template_start `\"`
 1:7  - 1:31           body: template_if
 1:7  - 1:14             if_intro: template_if_intro
@@ -653,9 +653,9 @@ foo = "%{for a in b} %{endfor}"
 0:0  - 2:0    config_file
 1:0  - 1:31     body
 1:0  - 1:31       attributes: attribute
-1:0  - 1:3          left: identifier `foo`
+1:0  - 1:3          name: identifier `foo`
 1:4  - 1:5          "="
-1:6  - 1:31         right: quoted_template
+1:6  - 1:31         value: quoted_template
 1:6  - 1:7            quoted_template_start `\"`
 1:7  - 1:30           body: template_for
 1:7  - 1:20             start: template_for_start
@@ -688,9 +688,9 @@ EOF
 0:0  - 6:0    config_file
 1:0  - 5:3      body
 1:0  - 5:3        attributes: attribute
-1:0  - 1:4          left: identifier `tpl6`
+1:0  - 1:4          name: identifier `tpl6`
 1:5  - 1:6          "="
-1:7  - 5:3          right: heredoc_template
+1:7  - 5:3          value: heredoc_template
 1:7  - 1:10           heredoc_marker: heredoc_start
 1:7  - 1:10             "<<-"
 1:10 - 1:13           heredoc_identifier `EOF`
@@ -762,9 +762,9 @@ EOF
 0:0  - 7:0    config_file
 1:0  - 6:3      body
 1:0  - 6:3        attributes: attribute
-1:0  - 1:4          left: identifier `tpl6`
+1:0  - 1:4          name: identifier `tpl6`
 1:5  - 1:6          "="
-1:7  - 6:3          right: heredoc_template
+1:7  - 6:3          value: heredoc_template
 1:7  - 1:10           heredoc_marker: heredoc_start
 1:7  - 1:10             "<<-"
 1:10 - 1:13           heredoc_identifier `EOF`
@@ -846,9 +846,9 @@ EOM
 1:7  - 1:8            "{"
 3:2  - 8:3          body: body
 3:2  - 8:3            attributes: attribute
-3:2  - 3:13             left: identifier `annotations`
+3:2  - 3:13             name: identifier `annotations`
 3:14 - 3:15             "="
-3:16 - 8:3              right: object
+3:16 - 8:3              value: object
 3:16 - 3:17               object_start
 3:16 - 3:17                 "{"
 4:4  - 7:6                elements: object_elem

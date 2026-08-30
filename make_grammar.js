@@ -60,7 +60,7 @@ module.exports = function make_grammar(dialect) {
         ),
 
       attribute: ($) =>
-        seq(field("left", $.identifier), "=", field("right", $.expression)),
+        seq(field("name", $.identifier), "=", field("value", $.expression)),
 
       block: ($) =>
         seq(

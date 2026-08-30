@@ -179,7 +179,7 @@
     "type": "attribute",
     "named": true,
     "fields": {
-      "left": {
+      "name": {
         "multiple": false,
         "required": true,
         "types": [
@@ -189,7 +189,7 @@
           }
         ]
       },
-      "right": {
+      "value": {
         "multiple": false,
         "required": true,
         "types": [

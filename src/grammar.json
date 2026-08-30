@@ -57,7 +57,7 @@
       "members": [
         {
           "type": "FIELD",
-          "name": "left",
+          "name": "name",
           "content": {
             "type": "SYMBOL",
             "name": "identifier"
@@ -69,7 +69,7 @@
         },
         {
           "type": "FIELD",
-          "name": "right",
+          "name": "value",
           "content": {
             "type": "SYMBOL",
             "name": "expression"
