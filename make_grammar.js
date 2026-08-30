@@ -157,7 +157,7 @@ module.exports = function make_grammar(dialect) {
         seq(
           field("key", $.expression),
           choice("=", ":"),
-          field("val", $.expression),
+          field("value", $.expression),
         ),
 
       index: ($) =>

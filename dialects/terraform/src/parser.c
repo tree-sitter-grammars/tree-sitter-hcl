@@ -13,7 +13,7 @@
 #define ALIAS_COUNT 1
 #define TOKEN_COUNT 56
 #define EXTERNAL_TOKEN_COUNT 8
-#define FIELD_COUNT 33
+#define FIELD_COUNT 32
 #define MAX_ALIAS_SEQUENCE_LENGTH 10
 #define MAX_RESERVED_WORD_SET_SIZE 0
 #define PRODUCTION_ID_COUNT 69
@@ -938,8 +938,7 @@ enum ts_field_identifiers {
   field_strip_marker_end = 29,
   field_strip_marker_start = 30,
   field_type = 31,
-  field_val = 32,
-  field_value = 33,
+  field_value = 32,
 };
 
 static const char * const ts_field_names[] = {
@@ -975,7 +974,6 @@ static const char * const ts_field_names[] = {
   [field_strip_marker_end] = "strip_marker_end",
   [field_strip_marker_start] = "strip_marker_start",
   [field_type] = "type",
-  [field_val] = "val",
   [field_value] = "value",
 };
 
@@ -1101,7 +1099,7 @@ static const TSFieldMapEntry ts_field_map_entries[] = {
     {field_function, 0},
   [29] =
     {field_key, 0},
-    {field_val, 2},
+    {field_value, 2},
   [31] =
     {field_attribute, 2},
     {field_object, 0},

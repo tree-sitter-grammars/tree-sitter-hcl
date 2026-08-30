@@ -586,7 +586,7 @@
         },
         {
           "type": "FIELD",
-          "name": "val",
+          "name": "value",
           "content": {
             "type": "SYMBOL",
             "name": "expression"

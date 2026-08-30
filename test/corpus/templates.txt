@@ -401,7 +401,7 @@ foo = "${ {a=b}[a] }"
 1:11 - 1:14                 elements: object_elem
 1:11 - 1:12                   key: identifier `a`
 1:12 - 1:13                   "="
-1:13 - 1:14                   val: identifier `b`
+1:13 - 1:14                   value: identifier `b`
 1:14 - 1:15                 object_end
 1:14 - 1:15                   "}"
 1:15 - 1:18               index: new_index
@@ -857,7 +857,7 @@ EOM
 4:5  - 4:16                   body: template_literal `description`
 4:16 - 4:17                   quoted_template_end `\"`
 4:18 - 4:19                 "="
-4:20 - 7:6                  val: function_call
+4:20 - 7:6                  value: function_call
 4:20 - 4:27                   function: identifier `replace`
 4:27 - 4:28                   "("
 4:28 - 6:3                    arguments: heredoc_template
