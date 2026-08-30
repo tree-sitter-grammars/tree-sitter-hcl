@@ -13,7 +13,7 @@
 #define ALIAS_COUNT 0
 #define TOKEN_COUNT 56
 #define EXTERNAL_TOKEN_COUNT 8
-#define FIELD_COUNT 30
+#define FIELD_COUNT 31
 #define MAX_ALIAS_SEQUENCE_LENGTH 10
 #define MAX_RESERVED_WORD_SET_SIZE 0
 #define PRODUCTION_ID_COUNT 69
@@ -866,22 +866,23 @@ enum ts_field_identifiers {
   field_else_intro = 12,
   field_expansion = 13,
   field_function = 14,
-  field_heredoc_marker = 15,
-  field_if_body = 16,
-  field_if_intro = 17,
-  field_intro = 18,
-  field_key = 19,
-  field_labels = 20,
-  field_left = 21,
-  field_name = 22,
-  field_object = 23,
-  field_operand = 24,
-  field_operator = 25,
-  field_right = 26,
-  field_strip_marker_end = 27,
-  field_strip_marker_start = 28,
-  field_type = 29,
-  field_value = 30,
+  field_grouping = 15,
+  field_heredoc_marker = 16,
+  field_if_body = 17,
+  field_if_intro = 18,
+  field_intro = 19,
+  field_key = 20,
+  field_labels = 21,
+  field_left = 22,
+  field_name = 23,
+  field_object = 24,
+  field_operand = 25,
+  field_operator = 26,
+  field_right = 27,
+  field_strip_marker_end = 28,
+  field_strip_marker_start = 29,
+  field_type = 30,
+  field_value = 31,
 };
 
 static const char * const ts_field_names[] = {
@@ -900,6 +901,7 @@ static const char * const ts_field_names[] = {
   [field_else_intro] = "else_intro",
   [field_expansion] = "expansion",
   [field_function] = "function",
+  [field_grouping] = "grouping",
   [field_heredoc_marker] = "heredoc_marker",
   [field_if_body] = "if_body",
   [field_if_intro] = "if_intro",
@@ -1158,7 +1160,7 @@ static const TSFieldMapEntry ts_field_map_entries[] = {
     {field_strip_marker_end, 3},
     {field_strip_marker_start, 1},
   [110] =
-    {field_expansion, 5},
+    {field_grouping, 5},
     {field_intro, 1},
     {field_key, 2},
     {field_value, 4},
@@ -1181,7 +1183,7 @@ static const TSFieldMapEntry ts_field_map_entries[] = {
     {field_value, 3},
   [127] =
     {field_condition, 6, .inherited = true},
-    {field_expansion, 5},
+    {field_grouping, 5},
     {field_intro, 1},
     {field_key, 2},
     {field_value, 4},

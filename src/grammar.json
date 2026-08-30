@@ -829,7 +829,7 @@
         },
         {
           "type": "FIELD",
-          "name": "expansion",
+          "name": "grouping",
           "content": {
             "type": "CHOICE",
             "members": [

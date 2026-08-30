@@ -503,7 +503,7 @@
           }
         ]
       },
-      "expansion": {
+      "grouping": {
         "multiple": false,
         "required": false,
         "types": [
