@@ -2626,11 +2626,15 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       ACCEPT_TOKEN(aux_sym_numeric_lit_token1);
       if (lookahead == '.') ADVANCE(40);
       if (lookahead == 'x') ADVANCE(42);
+      if (lookahead == 'E' ||
+          lookahead == 'e') ADVANCE(39);
       if (('0' <= lookahead && lookahead <= '9')) ADVANCE(65);
       END_STATE();
     case 65:
       ACCEPT_TOKEN(aux_sym_numeric_lit_token1);
       if (lookahead == '.') ADVANCE(40);
+      if (lookahead == 'E' ||
+          lookahead == 'e') ADVANCE(39);
       if (('0' <= lookahead && lookahead <= '9')) ADVANCE(65);
       END_STATE();
     case 66:

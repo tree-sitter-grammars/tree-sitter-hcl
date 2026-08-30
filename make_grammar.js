@@ -108,7 +108,7 @@ module.exports = function make_grammar(dialect) {
         choice($.numeric_lit, $.bool_lit, $.null_lit, $.string_lit),
 
       numeric_lit: ($) =>
-        choice(/[0-9]+(\.[0-9]+([eE][-+]?[0-9]+)?)?/, /0x[0-9a-zA-Z]+/),
+        choice(/[0-9]+(\.[0-9]+)?([eE][-+]?[0-9]+)?/, /0x[0-9a-zA-Z]+/),
 
       bool_lit: ($) => choice("true", "false"),
 
