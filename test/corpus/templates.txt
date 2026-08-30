@@ -163,7 +163,7 @@ EOF
 1:6  - 7:3          value: heredoc_template
 1:6  - 1:8            heredoc_marker: heredoc_start
 1:6  - 1:8              "<<"
-1:8  - 1:11           heredoc_identifier `EOF`
+1:8  - 1:11           start_identifier: heredoc_identifier `EOF`
 2:0  - 6:12           body: template_for
 2:0  - 2:16             intro: template_for_intro
 2:0  - 2:2                template_directive_start `%{`
@@ -191,7 +191,7 @@ EOF
 6:11 - 6:12               template_directive_end `}`
 6:12 - 7:0            body: template_literal
 6:12 - 6:13             `\n`
-7:0  - 7:3            heredoc_identifier `EOF`
+7:0  - 7:3            end_identifier: heredoc_identifier `EOF`
 
 ================================================================================
 empty heredoc template
@@ -211,8 +211,8 @@ END
 1:6  - 2:3          value: heredoc_template
 1:6  - 1:8            heredoc_marker: heredoc_start
 1:6  - 1:8              "<<"
-1:8  - 1:11           heredoc_identifier `END`
-2:0  - 2:3            heredoc_identifier `END`
+1:8  - 1:11           start_identifier: heredoc_identifier `END`
+2:0  - 2:3            end_identifier: heredoc_identifier `END`
 
 ================================================================================
 empty heredoc template with whitespace before ending marker
@@ -232,9 +232,9 @@ foo = <<END
 1:6  - 2:7          value: heredoc_template
 1:6  - 1:8            heredoc_marker: heredoc_start
 1:6  - 1:8              "<<"
-1:8  - 1:11           heredoc_identifier `END`
+1:8  - 1:11           start_identifier: heredoc_identifier `END`
 2:0  - 2:4            body: template_literal `    `
-2:4  - 2:7            heredoc_identifier `END`
+2:4  - 2:7            end_identifier: heredoc_identifier `END`
 
 ================================================================================
 heredoc template with whitespace before ending marker
@@ -255,11 +255,11 @@ foo = <<END
 1:6  - 3:7          value: heredoc_template
 1:6  - 1:8            heredoc_marker: heredoc_start
 1:6  - 1:8              "<<"
-1:8  - 1:11           heredoc_identifier `END`
+1:8  - 1:11           start_identifier: heredoc_identifier `END`
 2:0  - 3:4            body: template_literal
 2:0  - 2:10             `    hello\n`
 3:0  - 3:4              `    `
-3:4  - 3:7            heredoc_identifier `END`
+3:4  - 3:7            end_identifier: heredoc_identifier `END`
 
 ================================================================================
 heredoc with fake ending
@@ -280,10 +280,10 @@ END
 1:6  - 3:3          value: heredoc_template
 1:6  - 1:8            heredoc_marker: heredoc_start
 1:6  - 1:8              "<<"
-1:8  - 1:11           heredoc_identifier `END`
+1:8  - 1:11           start_identifier: heredoc_identifier `END`
 2:0  - 3:0            body: template_literal
 2:0  - 2:14             `  END    not!\n`
-3:0  - 3:3            heredoc_identifier `END`
+3:0  - 3:3            end_identifier: heredoc_identifier `END`
 
 ================================================================================
 quoted template expression with escaped strings and fake strip marker
@@ -447,11 +447,11 @@ END
 1:6  - 4:3          value: heredoc_template
 1:6  - 1:8            heredoc_marker: heredoc_start
 1:6  - 1:8              "<<"
-1:8  - 1:11           heredoc_identifier `END`
+1:8  - 1:11           start_identifier: heredoc_identifier `END`
 2:0  - 4:0            body: template_literal
 2:0  - 2:26             `    contains fake endings\n`
 3:0  - 3:25             `    END (ineligible) END\n`
-4:0  - 4:3            heredoc_identifier `END`
+4:0  - 4:3            end_identifier: heredoc_identifier `END`
 
 ================================================================================
 heredoc with identifier that does not fit into the serialization buffer (should not crash)
@@ -471,8 +471,8 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 1:6   - 2:312         value: heredoc_template
 1:6   - 1:8             heredoc_marker: heredoc_start
 1:6   - 1:8               "<<"
-1:8   - 1:320           heredoc_identifier `XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`
-2:0   - 2:312           heredoc_identifier `XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`
+1:8   - 1:320           start_identifier: heredoc_identifier `XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`
+2:0   - 2:312           end_identifier: heredoc_identifier `XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`
 
 ================================================================================
 template if directive in quoted template
@@ -690,7 +690,7 @@ EOF
 1:7  - 5:3          value: heredoc_template
 1:7  - 1:10           heredoc_marker: heredoc_start
 1:7  - 1:10             "<<-"
-1:10 - 1:13           heredoc_identifier `EOF`
+1:10 - 1:13           start_identifier: heredoc_identifier `EOF`
 2:0  - 2:2            body: template_literal `  `
 2:2  - 4:14           body: template_for
 2:2  - 2:21             intro: template_for_intro
@@ -740,7 +740,7 @@ EOF
 4:13 - 4:14               template_directive_end `}`
 4:14 - 5:0            body: template_literal
 4:14 - 4:15             `\n`
-5:0  - 5:3            heredoc_identifier `EOF`
+5:0  - 5:3            end_identifier: heredoc_identifier `EOF`
 
 ================================================================================
 template parenthesis in heredoc for directive with nested if 2
@@ -764,7 +764,7 @@ EOF
 1:7  - 6:3          value: heredoc_template
 1:7  - 1:10           heredoc_marker: heredoc_start
 1:7  - 1:10             "<<-"
-1:10 - 1:13           heredoc_identifier `EOF`
+1:10 - 1:13           start_identifier: heredoc_identifier `EOF`
 2:0  - 2:2            body: template_literal `  `
 2:2  - 5:14           body: template_for
 2:2  - 2:21             intro: template_for_intro
@@ -815,7 +815,7 @@ EOF
 5:13 - 5:14               template_directive_end `}`
 5:14 - 6:0            body: template_literal
 5:14 - 5:15             `\n`
-6:0  - 6:3            heredoc_identifier `EOF`
+6:0  - 6:3            end_identifier: heredoc_identifier `EOF`
 
 ================================================================================
 heredoc with single character that matches start of heredoc identifer
@@ -858,10 +858,10 @@ EOM
 4:28 - 6:3                    arguments: heredoc_template
 4:28 - 4:30                     heredoc_marker: heredoc_start
 4:28 - 4:30                       "<<"
-4:30 - 4:33                     heredoc_identifier `EOM`
+4:30 - 4:33                     start_identifier: heredoc_identifier `EOM`
 5:0  - 6:0                      body: template_literal
 5:0  - 5:4                        ` \tE\n`
-6:0  - 6:3                      heredoc_identifier `EOM`
+6:0  - 6:3                      end_identifier: heredoc_identifier `EOM`
 7:4  - 7:5                    ","
 7:5  - 7:6                    ")"
 8:2  - 8:3                "}"

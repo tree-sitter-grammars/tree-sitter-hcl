@@ -692,6 +692,16 @@
           }
         ]
       },
+      "end_identifier": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "heredoc_identifier",
+            "named": true
+          }
+        ]
+      },
       "heredoc_marker": {
         "multiple": false,
         "required": true,
@@ -701,17 +711,17 @@
             "named": true
           }
         ]
+      },
+      "start_identifier": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "heredoc_identifier",
+            "named": true
+          }
+        ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "heredoc_identifier",
-          "named": true
-        }
-      ]
     }
   },
   {

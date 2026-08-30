@@ -13,7 +13,7 @@
 #define ALIAS_COUNT 0
 #define TOKEN_COUNT 56
 #define EXTERNAL_TOKEN_COUNT 8
-#define FIELD_COUNT 33
+#define FIELD_COUNT 35
 #define MAX_ALIAS_SEQUENCE_LENGTH 10
 #define MAX_RESERVED_WORD_SET_SIZE 0
 #define PRODUCTION_ID_COUNT 70
@@ -852,26 +852,28 @@ enum ts_field_identifiers {
   field_else_body = 11,
   field_else_intro = 12,
   field_end = 13,
-  field_expansion = 14,
-  field_expression = 15,
-  field_function = 16,
-  field_grouping = 17,
-  field_heredoc_marker = 18,
-  field_if_body = 19,
-  field_if_intro = 20,
-  field_intro = 21,
-  field_key = 22,
-  field_labels = 23,
-  field_left = 24,
-  field_name = 25,
-  field_object = 26,
-  field_operand = 27,
-  field_operator = 28,
-  field_right = 29,
-  field_strip_marker_end = 30,
-  field_strip_marker_start = 31,
-  field_type = 32,
-  field_value = 33,
+  field_end_identifier = 14,
+  field_expansion = 15,
+  field_expression = 16,
+  field_function = 17,
+  field_grouping = 18,
+  field_heredoc_marker = 19,
+  field_if_body = 20,
+  field_if_intro = 21,
+  field_intro = 22,
+  field_key = 23,
+  field_labels = 24,
+  field_left = 25,
+  field_name = 26,
+  field_object = 27,
+  field_operand = 28,
+  field_operator = 29,
+  field_right = 30,
+  field_start_identifier = 31,
+  field_strip_marker_end = 32,
+  field_strip_marker_start = 33,
+  field_type = 34,
+  field_value = 35,
 };
 
 static const char * const ts_field_names[] = {
@@ -889,6 +891,7 @@ static const char * const ts_field_names[] = {
   [field_else_body] = "else_body",
   [field_else_intro] = "else_intro",
   [field_end] = "end",
+  [field_end_identifier] = "end_identifier",
   [field_expansion] = "expansion",
   [field_expression] = "expression",
   [field_function] = "function",
@@ -905,6 +908,7 @@ static const char * const ts_field_names[] = {
   [field_operand] = "operand",
   [field_operator] = "operator",
   [field_right] = "right",
+  [field_start_identifier] = "start_identifier",
   [field_strip_marker_end] = "strip_marker_end",
   [field_strip_marker_start] = "strip_marker_start",
   [field_type] = "type",
@@ -936,51 +940,51 @@ static const TSMapSlice ts_field_map_slices[PRODUCTION_ID_COUNT] = {
   [22] = {.index = 33, .length = 3},
   [23] = {.index = 36, .length = 1},
   [24] = {.index = 37, .length = 2},
-  [25] = {.index = 39, .length = 1},
-  [26] = {.index = 40, .length = 2},
-  [27] = {.index = 42, .length = 2},
-  [28] = {.index = 44, .length = 3},
-  [29] = {.index = 47, .length = 3},
-  [30] = {.index = 50, .length = 3},
-  [31] = {.index = 53, .length = 2},
-  [32] = {.index = 55, .length = 2},
-  [33] = {.index = 57, .length = 3},
-  [34] = {.index = 60, .length = 2},
-  [35] = {.index = 62, .length = 2},
-  [36] = {.index = 64, .length = 3},
-  [37] = {.index = 67, .length = 2},
-  [38] = {.index = 69, .length = 2},
-  [39] = {.index = 71, .length = 1},
-  [40] = {.index = 72, .length = 4},
-  [41] = {.index = 76, .length = 4},
-  [42] = {.index = 80, .length = 1},
-  [43] = {.index = 81, .length = 3},
-  [44] = {.index = 84, .length = 2},
-  [45] = {.index = 86, .length = 1},
-  [46] = {.index = 87, .length = 3},
-  [47] = {.index = 90, .length = 3},
-  [48] = {.index = 93, .length = 3},
-  [49] = {.index = 96, .length = 2},
-  [50] = {.index = 98, .length = 2},
-  [51] = {.index = 100, .length = 1},
-  [52] = {.index = 101, .length = 1},
-  [53] = {.index = 102, .length = 5},
-  [54] = {.index = 107, .length = 2},
-  [55] = {.index = 109, .length = 3},
-  [56] = {.index = 112, .length = 2},
-  [57] = {.index = 114, .length = 3},
-  [58] = {.index = 117, .length = 2},
-  [59] = {.index = 119, .length = 4},
-  [60] = {.index = 123, .length = 4},
-  [61] = {.index = 127, .length = 3},
-  [62] = {.index = 130, .length = 3},
-  [63] = {.index = 133, .length = 3},
-  [64] = {.index = 136, .length = 5},
-  [65] = {.index = 141, .length = 3},
-  [66] = {.index = 144, .length = 4},
-  [67] = {.index = 148, .length = 4},
-  [68] = {.index = 152, .length = 4},
-  [69] = {.index = 156, .length = 5},
+  [25] = {.index = 39, .length = 3},
+  [26] = {.index = 42, .length = 2},
+  [27] = {.index = 44, .length = 2},
+  [28] = {.index = 46, .length = 3},
+  [29] = {.index = 49, .length = 3},
+  [30] = {.index = 52, .length = 3},
+  [31] = {.index = 55, .length = 2},
+  [32] = {.index = 57, .length = 2},
+  [33] = {.index = 59, .length = 3},
+  [34] = {.index = 62, .length = 2},
+  [35] = {.index = 64, .length = 4},
+  [36] = {.index = 68, .length = 3},
+  [37] = {.index = 71, .length = 2},
+  [38] = {.index = 73, .length = 2},
+  [39] = {.index = 75, .length = 1},
+  [40] = {.index = 76, .length = 4},
+  [41] = {.index = 80, .length = 4},
+  [42] = {.index = 84, .length = 1},
+  [43] = {.index = 85, .length = 3},
+  [44] = {.index = 88, .length = 2},
+  [45] = {.index = 90, .length = 1},
+  [46] = {.index = 91, .length = 3},
+  [47] = {.index = 94, .length = 3},
+  [48] = {.index = 97, .length = 3},
+  [49] = {.index = 100, .length = 2},
+  [50] = {.index = 102, .length = 2},
+  [51] = {.index = 104, .length = 1},
+  [52] = {.index = 105, .length = 1},
+  [53] = {.index = 106, .length = 5},
+  [54] = {.index = 111, .length = 2},
+  [55] = {.index = 113, .length = 3},
+  [56] = {.index = 116, .length = 2},
+  [57] = {.index = 118, .length = 3},
+  [58] = {.index = 121, .length = 2},
+  [59] = {.index = 123, .length = 4},
+  [60] = {.index = 127, .length = 4},
+  [61] = {.index = 131, .length = 3},
+  [62] = {.index = 134, .length = 3},
+  [63] = {.index = 137, .length = 3},
+  [64] = {.index = 140, .length = 5},
+  [65] = {.index = 145, .length = 3},
+  [66] = {.index = 148, .length = 4},
+  [67] = {.index = 152, .length = 4},
+  [68] = {.index = 156, .length = 4},
+  [69] = {.index = 160, .length = 5},
 };
 
 static const TSFieldMapEntry ts_field_map_entries[] = {
@@ -1048,167 +1052,171 @@ static const TSFieldMapEntry ts_field_map_entries[] = {
     {field_elements, 0, .inherited = true},
     {field_elements, 1, .inherited = true},
   [39] =
+    {field_end_identifier, 2},
     {field_heredoc_marker, 0},
-  [40] =
+    {field_start_identifier, 1},
+  [42] =
     {field_body, 2},
     {field_type, 0},
-  [42] =
+  [44] =
     {field_labels, 1},
     {field_type, 0},
-  [44] =
+  [46] =
     {field_body, 1},
     {field_end, 2},
     {field_intro, 0},
-  [47] =
+  [49] =
     {field_end, 2},
     {field_if_body, 1},
     {field_if_intro, 0},
-  [50] =
+  [52] =
     {field_else_intro, 1},
     {field_end, 2},
     {field_if_intro, 0},
-  [53] =
-    {field_arguments, 0},
-    {field_expansion, 1},
   [55] =
     {field_arguments, 0},
-    {field_arguments, 1, .inherited = true},
+    {field_expansion, 1},
   [57] =
+    {field_arguments, 0},
+    {field_arguments, 1, .inherited = true},
+  [59] =
     {field_arguments, 2, .inherited = true},
     {field_expansion, 2, .inherited = true},
     {field_function, 0},
-  [60] =
+  [62] =
     {field_intro, 1},
     {field_value, 2},
-  [62] =
-    {field_body, 2},
-    {field_heredoc_marker, 0},
   [64] =
+    {field_body, 2},
+    {field_end_identifier, 3},
+    {field_heredoc_marker, 0},
+    {field_start_identifier, 1},
+  [68] =
     {field_body, 3},
     {field_labels, 1},
     {field_type, 0},
-  [67] =
+  [71] =
     {field_expression, 2},
     {field_strip_marker_start, 1},
-  [69] =
+  [73] =
     {field_expression, 1},
     {field_strip_marker_end, 2},
-  [71] =
+  [75] =
     {field_condition, 2},
-  [72] =
+  [76] =
     {field_else_intro, 2},
     {field_end, 3},
     {field_if_body, 1},
     {field_if_intro, 0},
-  [76] =
+  [80] =
     {field_else_body, 2},
     {field_else_intro, 1},
     {field_end, 3},
     {field_if_intro, 0},
-  [80] =
+  [84] =
     {field_arguments, 1},
-  [81] =
+  [85] =
     {field_arguments, 0},
     {field_arguments, 1, .inherited = true},
     {field_expansion, 2},
-  [84] =
+  [88] =
     {field_arguments, 0, .inherited = true},
     {field_arguments, 1, .inherited = true},
-  [86] =
+  [90] =
     {field_condition, 1},
-  [87] =
+  [91] =
     {field_condition, 3, .inherited = true},
     {field_intro, 1},
     {field_value, 2},
-  [90] =
+  [94] =
     {field_alternative, 4},
     {field_condition, 0},
     {field_consequence, 2},
-  [93] =
+  [97] =
     {field_expression, 2},
     {field_strip_marker_end, 3},
     {field_strip_marker_start, 1},
-  [96] =
+  [100] =
     {field_condition, 2},
     {field_strip_marker_end, 3},
-  [98] =
+  [102] =
     {field_condition, 3},
     {field_strip_marker_start, 1},
-  [100] =
+  [104] =
     {field_strip_marker_start, 1},
-  [101] =
+  [105] =
     {field_strip_marker_end, 2},
-  [102] =
+  [106] =
     {field_else_body, 3},
     {field_else_intro, 2},
     {field_end, 4},
     {field_if_body, 1},
     {field_if_intro, 0},
-  [107] =
+  [111] =
     {field_collection, 3},
     {field_value, 1},
-  [109] =
+  [113] =
     {field_intro, 1},
     {field_key, 2},
     {field_value, 4},
-  [112] =
+  [116] =
     {field_collection, 4},
     {field_value, 2},
-  [114] =
+  [118] =
     {field_condition, 3},
     {field_strip_marker_end, 4},
     {field_strip_marker_start, 1},
-  [117] =
+  [121] =
     {field_strip_marker_end, 3},
     {field_strip_marker_start, 1},
-  [119] =
+  [123] =
     {field_grouping, 5},
     {field_intro, 1},
     {field_key, 2},
     {field_value, 4},
-  [123] =
+  [127] =
     {field_condition, 5, .inherited = true},
     {field_intro, 1},
     {field_key, 2},
     {field_value, 4},
-  [127] =
+  [131] =
     {field_collection, 4},
     {field_strip_marker_end, 5},
     {field_value, 2},
-  [130] =
+  [134] =
     {field_collection, 5},
     {field_strip_marker_start, 1},
     {field_value, 3},
-  [133] =
+  [137] =
     {field_collection, 5},
     {field_key, 1},
     {field_value, 3},
-  [136] =
+  [140] =
     {field_condition, 6, .inherited = true},
     {field_grouping, 5},
     {field_intro, 1},
     {field_key, 2},
     {field_value, 4},
-  [141] =
+  [145] =
     {field_collection, 6},
     {field_key, 2},
     {field_value, 4},
-  [144] =
+  [148] =
     {field_collection, 5},
     {field_strip_marker_end, 6},
     {field_strip_marker_start, 1},
     {field_value, 3},
-  [148] =
+  [152] =
     {field_collection, 6},
     {field_key, 2},
     {field_strip_marker_end, 7},
     {field_value, 4},
-  [152] =
+  [156] =
     {field_collection, 7},
     {field_key, 3},
     {field_strip_marker_start, 1},
     {field_value, 5},
-  [156] =
+  [160] =
     {field_collection, 7},
     {field_key, 3},
     {field_strip_marker_end, 8},

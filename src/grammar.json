@@ -1440,8 +1440,12 @@
           }
         },
         {
-          "type": "SYMBOL",
-          "name": "heredoc_identifier"
+          "type": "FIELD",
+          "name": "start_identifier",
+          "content": {
+            "type": "SYMBOL",
+            "name": "heredoc_identifier"
+          }
         },
         {
           "type": "FIELD",
@@ -1460,8 +1464,12 @@
           }
         },
         {
-          "type": "SYMBOL",
-          "name": "heredoc_identifier"
+          "type": "FIELD",
+          "name": "end_identifier",
+          "content": {
+            "type": "SYMBOL",
+            "name": "heredoc_identifier"
+          }
         }
       ]
     },

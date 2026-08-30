@@ -302,9 +302,9 @@ module.exports = function make_grammar(dialect) {
       heredoc_template: ($) =>
         seq(
           field("heredoc_marker", $.heredoc_start),
-          $.heredoc_identifier,
+          field("start_identifier", $.heredoc_identifier),
           field("body", optional($._template)),
-          $.heredoc_identifier,
+          field("end_identifier", $.heredoc_identifier),
         ),
 
       heredoc_start: ($) => choice("<<", "<<-"),
