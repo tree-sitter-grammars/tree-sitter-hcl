@@ -28,33 +28,28 @@
       ]
     },
     "body": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "REPEAT1",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "FIELD",
-                "name": "attributes",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "attribute"
-                }
-              },
-              {
-                "type": "FIELD",
-                "name": "blocks",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "block"
-                }
-              }
-            ]
+      "type": "REPEAT1",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "attributes",
+            "content": {
+              "type": "SYMBOL",
+              "name": "attribute"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "blocks",
+            "content": {
+              "type": "SYMBOL",
+              "name": "block"
+            }
           }
-        }
-      ]
+        ]
+      }
     },
     "attribute": {
       "type": "SEQ",
@@ -233,39 +228,24 @@
           "type": "PREC_RIGHT",
           "value": 8,
           "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "index"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "index"
           }
         },
         {
           "type": "PREC_RIGHT",
           "value": 8,
           "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "get_attr"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "get_attr"
           }
         },
         {
           "type": "PREC_RIGHT",
           "value": 8,
           "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "splat"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "splat"
           }
         },
         {

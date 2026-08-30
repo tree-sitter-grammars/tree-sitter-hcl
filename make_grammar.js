@@ -51,10 +51,8 @@ module.exports = function make_grammar(dialect) {
       config_file: ($) => optional(field("body", choice($.body, $.object))),
 
       body: ($) =>
-        choice(
-          repeat1(
-            choice(field("attributes", $.attribute), field("blocks", $.block)),
-          ),
+        repeat1(
+          choice(field("attributes", $.attribute), field("blocks", $.block)),
         ),
 
       attribute: ($) =>
@@ -91,9 +89,9 @@ module.exports = function make_grammar(dialect) {
           $.function_call,
           $.for_expr,
           $.operation,
-          prec.right(PREC.expr, seq($.index)),
-          prec.right(PREC.expr, seq($.get_attr)),
-          prec.right(PREC.expr, seq($.splat)),
+          prec.right(PREC.expr, $.index),
+          prec.right(PREC.expr, $.get_attr),
+          prec.right(PREC.expr, $.splat),
           $.parenthesized_expression,
         ),
 
