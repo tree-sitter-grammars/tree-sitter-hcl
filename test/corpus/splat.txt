@@ -87,3 +87,39 @@ foo = bar[*][*].a.b.c[d]
             (identifier))
           (identifier))
         (identifier)))))
+
+================================================================================
+attr splat binds tighter than conditional
+================================================================================
+
+foo = a ? b : c.*
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (conditional
+        (identifier)
+        (identifier)
+        (attr_splat
+          (identifier))))))
+
+================================================================================
+full splat binds tighter than conditional
+================================================================================
+
+foo = a ? b : c[*]
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (conditional
+        (identifier)
+        (identifier)
+        (full_splat
+          (identifier))))))
