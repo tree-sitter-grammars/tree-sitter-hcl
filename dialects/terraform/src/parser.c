@@ -1138,8 +1138,8 @@ static const TSFieldMapEntry ts_field_map_entries[] = {
     {field_expansion, 2, .inherited = true},
     {field_function, 0},
   [56] =
-    {field_body, 2},
     {field_intro, 1},
+    {field_value, 2},
   [58] =
     {field_body, 2},
     {field_heredoc_marker, 0},
@@ -1178,9 +1178,9 @@ static const TSFieldMapEntry ts_field_map_entries[] = {
   [82] =
     {field_condition, 1},
   [83] =
-    {field_body, 2},
     {field_condition, 3, .inherited = true},
     {field_intro, 1},
+    {field_value, 2},
   [86] =
     {field_body, 2},
     {field_strip_marker_end, 3},

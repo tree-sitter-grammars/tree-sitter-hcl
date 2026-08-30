@@ -566,16 +566,6 @@
     "type": "for_tuple_expr",
     "named": true,
     "fields": {
-      "body": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "expression",
-            "named": true
-          }
-        ]
-      },
       "condition": {
         "multiple": false,
         "required": false,
@@ -592,6 +582,16 @@
         "types": [
           {
             "type": "for_intro",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
             "named": true
           }
         ]
