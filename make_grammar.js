@@ -97,7 +97,8 @@ module.exports = function make_grammar(dialect) {
           $.parenthesized_expression,
         ),
 
-      parenthesized_expression: ($) => seq("(", $.expression, ")"),
+      parenthesized_expression: ($) =>
+        seq("(", field("expression", $.expression), ")"),
 
       literal_value: ($) =>
         choice($.numeric_lit, $.bool_lit, $.null_lit),
