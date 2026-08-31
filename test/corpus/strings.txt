@@ -10,11 +10,9 @@ foo = ""
   (body
     (attribute
       (identifier)
-      (expression
-        (literal_value
-          (string_lit
-            (quoted_template_start)
-            (quoted_template_end)))))))
+      (quoted_template
+        (quoted_template_start)
+        (quoted_template_end)))))
 
 ================================================================================
 unescaped tab
@@ -28,12 +26,10 @@ foo = "foo	bar"
   (body
     (attribute
       (identifier)
-      (expression
-        (literal_value
-          (string_lit
-            (quoted_template_start)
-            (template_literal)
-            (quoted_template_end)))))))
+      (quoted_template
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end)))))
 
 ================================================================================
 escaped backslash at end
@@ -47,12 +43,10 @@ foo = "foo\\"
   (body
     (attribute
       (identifier)
-      (expression
-        (literal_value
-          (string_lit
-            (quoted_template_start)
-            (template_literal)
-            (quoted_template_end)))))))
+      (quoted_template
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end)))))
 
 ================================================================================
 string literal escaped template interpolation
@@ -66,12 +60,10 @@ foo = "$${foo.bar}"
   (body
     (attribute
       (identifier)
-      (expression
-        (literal_value
-          (string_lit
-            (quoted_template_start)
-            (template_literal)
-            (quoted_template_end)))))))
+      (quoted_template
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end)))))
 
 ================================================================================
 template chars but no template 1
@@ -85,12 +77,10 @@ foo = "$$$"
   (body
     (attribute
       (identifier)
-      (expression
-        (literal_value
-          (string_lit
-            (quoted_template_start)
-            (template_literal)
-            (quoted_template_end)))))))
+      (quoted_template
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end)))))
 
 ================================================================================
 template chars but no template 2
@@ -104,12 +94,10 @@ foo = "100%"
   (body
     (attribute
       (identifier)
-      (expression
-        (literal_value
-          (string_lit
-            (quoted_template_start)
-            (template_literal)
-            (quoted_template_end)))))))
+      (quoted_template
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end)))))
 
 ================================================================================
 template chars but no template 3
@@ -123,12 +111,10 @@ foo = "%\n\t"
   (body
     (attribute
       (identifier)
-      (expression
-        (literal_value
-          (string_lit
-            (quoted_template_start)
-            (template_literal)
-            (quoted_template_end)))))))
+      (quoted_template
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end)))))
 
 ================================================================================
 template chars but no template 4
@@ -142,12 +128,10 @@ foo = "%%\n\t"
   (body
     (attribute
       (identifier)
-      (expression
-        (literal_value
-          (string_lit
-            (quoted_template_start)
-            (template_literal)
-            (quoted_template_end)))))))
+      (quoted_template
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end)))))
 
 ================================================================================
 template chars but no template 5
@@ -161,12 +145,10 @@ foo = "$$"
   (body
     (attribute
       (identifier)
-      (expression
-        (literal_value
-          (string_lit
-            (quoted_template_start)
-            (template_literal)
-            (quoted_template_end)))))))
+      (quoted_template
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end)))))
 
 ================================================================================
 template chars but no template 6
@@ -180,12 +162,10 @@ foo = "%%{\n\t"
   (body
     (attribute
       (identifier)
-      (expression
-        (literal_value
-          (string_lit
-            (quoted_template_start)
-            (template_literal)
-            (quoted_template_end)))))))
+      (quoted_template
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end)))))
 
 ================================================================================
 escaped template
@@ -199,9 +179,138 @@ foo = "$${ var.bar }"
   (body
     (attribute
       (identifier)
-      (expression
-        (literal_value
-          (string_lit
-            (quoted_template_start)
-            (template_literal)
-            (quoted_template_end)))))))
+      (quoted_template
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end)))))
+
+================================================================================
+escaped quote in string
+:cst
+================================================================================
+
+foo = "hello, \"world\"!"
+
+--------------------------------------------------------------------------------
+
+0:0  - 2:0    config_file
+1:0  - 1:25     body: body
+1:0  - 1:25       attributes: attribute
+1:0  - 1:3          name: identifier `foo`
+1:4  - 1:5          "="
+1:6  - 1:25         value: quoted_template
+1:6  - 1:7            quoted_template_start `\"`
+1:7  - 1:24           body: template_literal `hello, \\\"world\\\"!`
+1:24 - 1:25           quoted_template_end `\"`
+
+================================================================================
+trailing unescaped double dollar
+:cst
+================================================================================
+
+foo = "hello $$"
+
+--------------------------------------------------------------------------------
+
+0:0  - 2:0    config_file
+1:0  - 1:16     body: body
+1:0  - 1:16       attributes: attribute
+1:0  - 1:3          name: identifier `foo`
+1:4  - 1:5          "="
+1:6  - 1:16         value: quoted_template
+1:6  - 1:7            quoted_template_start `\"`
+1:7  - 1:15           body: template_literal `hello $$`
+1:15 - 1:16           quoted_template_end `\"`
+
+================================================================================
+trailing unescaped double percent
+:cst
+================================================================================
+
+foo = "hello %%"
+
+--------------------------------------------------------------------------------
+
+0:0  - 2:0    config_file
+1:0  - 1:16     body: body
+1:0  - 1:16       attributes: attribute
+1:0  - 1:3          name: identifier `foo`
+1:4  - 1:5          "="
+1:6  - 1:16         value: quoted_template
+1:6  - 1:7            quoted_template_start `\"`
+1:7  - 1:15           body: template_literal `hello %%`
+1:15 - 1:16           quoted_template_end `\"`
+
+================================================================================
+single trailing unescaped dollar sign
+:cst
+================================================================================
+
+foo = "hello $"
+
+--------------------------------------------------------------------------------
+
+0:0  - 2:0    config_file
+1:0  - 1:15     body: body
+1:0  - 1:15       attributes: attribute
+1:0  - 1:3          name: identifier `foo`
+1:4  - 1:5          "="
+1:6  - 1:15         value: quoted_template
+1:6  - 1:7            quoted_template_start `\"`
+1:7  - 1:14           body: template_literal `hello $`
+1:14 - 1:15           quoted_template_end `\"`
+
+================================================================================
+escaped directive open followed by literal braces
+:cst
+================================================================================
+
+foo = "hello %%{world}"
+
+--------------------------------------------------------------------------------
+
+0:0  - 2:0    config_file
+1:0  - 1:23     body: body
+1:0  - 1:23       attributes: attribute
+1:0  - 1:3          name: identifier `foo`
+1:4  - 1:5          "="
+1:6  - 1:23         value: quoted_template
+1:6  - 1:7            quoted_template_start `\"`
+1:7  - 1:22           body: template_literal `hello %%{world}`
+1:22 - 1:23           quoted_template_end `\"`
+
+================================================================================
+bug report: ternary after unescaped percent literal
+:cst
+================================================================================
+
+locals {
+  is_percent = percent_sign == "%" ? true : false
+}
+
+--------------------------------------------------------------------------------
+
+0:0  - 4:0    config_file
+1:0  - 3:1      body: body
+1:0  - 3:1        blocks: block
+1:0  - 1:6          type: identifier `locals`
+1:7  - 1:8          "{"
+2:2  - 2:49         body: body
+2:2  - 2:49           attributes: attribute
+2:2  - 2:12             name: identifier `is_percent`
+2:13 - 2:14             "="
+2:15 - 2:49             value: conditional
+2:15 - 2:34               condition: binary_operation
+2:15 - 2:27                 left: identifier `percent_sign`
+2:28 - 2:30                 "=="
+2:31 - 2:34                 right: quoted_template
+2:31 - 2:32                   quoted_template_start `\"`
+2:32 - 2:33                   body: template_literal `%`
+2:33 - 2:34                   quoted_template_end `\"`
+2:35 - 2:36               "?"
+2:37 - 2:41               consequence: bool_lit
+2:37 - 2:41                 "true"
+2:42 - 2:43               ":"
+2:44 - 2:49               alternative: bool_lit
+2:44 - 2:49                 "false"
+3:0  - 3:1          "}"

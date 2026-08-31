@@ -6,10 +6,12 @@ on:
     paths:
       - src/scanner.c
       - dialects/*/src/scanner.c
+      - fuzz/corpus/**
   pull_request:
     paths:
       - src/scanner.c
       - dialects/*/src/scanner.c
+      - fuzz/corpus/**
 
 jobs:
   fuzz:
@@ -26,3 +28,4 @@ jobs:
         uses: tree-sitter/fuzz-action@v4
         with:
           directory: ${{matrix.directory}}
+          corpus: fuzz/corpus

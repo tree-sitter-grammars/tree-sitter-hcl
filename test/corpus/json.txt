@@ -10,18 +10,12 @@ top level object
 
 (config_file
   (object
-    (object_start)
     (object_elem
-      (expression
-        (literal_value
-          (string_lit
-            (quoted_template_start)
-            (template_literal)
-            (quoted_template_end))))
-      (expression
-        (literal_value
-          (string_lit
-            (quoted_template_start)
-            (template_literal)
-            (quoted_template_end)))))
-    (object_end)))
+      (quoted_template
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end))
+      (quoted_template
+        (quoted_template_start)
+        (template_literal)
+        (quoted_template_end)))))

@@ -10,23 +10,13 @@ foo = [1, 2, "foo"]
   (body
     (attribute
       (identifier)
-      (expression
-        (collection_value
-          (tuple
-            (tuple_start)
-            (expression
-              (literal_value
-                (numeric_lit)))
-            (expression
-              (literal_value
-                (numeric_lit)))
-            (expression
-              (literal_value
-                (string_lit
-                  (quoted_template_start)
-                  (template_literal)
-                  (quoted_template_end))))
-            (tuple_end)))))))
+      (tuple
+        (numeric_lit)
+        (numeric_lit)
+        (quoted_template
+          (quoted_template_start)
+          (template_literal)
+          (quoted_template_end))))))
 
 ================================================================================
 multiline tuple
@@ -44,23 +34,13 @@ foo = [
   (body
     (attribute
       (identifier)
-      (expression
-        (collection_value
-          (tuple
-            (tuple_start)
-            (expression
-              (literal_value
-                (numeric_lit)))
-            (expression
-              (literal_value
-                (numeric_lit)))
-            (expression
-              (literal_value
-                (string_lit
-                  (quoted_template_start)
-                  (template_literal)
-                  (quoted_template_end))))
-            (tuple_end)))))))
+      (tuple
+        (numeric_lit)
+        (numeric_lit)
+        (quoted_template
+          (quoted_template_start)
+          (template_literal)
+          (quoted_template_end))))))
 
 ================================================================================
 empty tuple
@@ -74,11 +54,7 @@ foo = []
   (body
     (attribute
       (identifier)
-      (expression
-        (collection_value
-          (tuple
-            (tuple_start)
-            (tuple_end)))))))
+      (tuple))))
 
 ================================================================================
 multiline empty tuple
@@ -93,11 +69,7 @@ foo = [
   (body
     (attribute
       (identifier)
-      (expression
-        (collection_value
-          (tuple
-            (tuple_start)
-            (tuple_end)))))))
+      (tuple))))
 
 ================================================================================
 object
@@ -111,31 +83,19 @@ foo = {1: 2, "foo"="bar"}
   (body
     (attribute
       (identifier)
-      (expression
-        (collection_value
-          (object
-            (object_start)
-            (object_elem
-              (expression
-                (literal_value
-                  (numeric_lit)))
-              (expression
-                (literal_value
-                  (numeric_lit))))
-            (object_elem
-              (expression
-                (literal_value
-                  (string_lit
-                    (quoted_template_start)
-                    (template_literal)
-                    (quoted_template_end))))
-              (expression
-                (literal_value
-                  (string_lit
-                    (quoted_template_start)
-                    (template_literal)
-                    (quoted_template_end)))))
-            (object_end)))))))
+      (object
+        (object_elem
+          (numeric_lit)
+          (numeric_lit))
+        (object_elem
+          (quoted_template
+            (quoted_template_start)
+            (template_literal)
+            (quoted_template_end))
+          (quoted_template
+            (quoted_template_start)
+            (template_literal)
+            (quoted_template_end)))))))
 
 ================================================================================
 multiline object
@@ -152,31 +112,19 @@ foo = {
   (body
     (attribute
       (identifier)
-      (expression
-        (collection_value
-          (object
-            (object_start)
-            (object_elem
-              (expression
-                (literal_value
-                  (numeric_lit)))
-              (expression
-                (literal_value
-                  (numeric_lit))))
-            (object_elem
-              (expression
-                (literal_value
-                  (string_lit
-                    (quoted_template_start)
-                    (template_literal)
-                    (quoted_template_end))))
-              (expression
-                (literal_value
-                  (string_lit
-                    (quoted_template_start)
-                    (template_literal)
-                    (quoted_template_end)))))
-            (object_end)))))))
+      (object
+        (object_elem
+          (numeric_lit)
+          (numeric_lit))
+        (object_elem
+          (quoted_template
+            (quoted_template_start)
+            (template_literal)
+            (quoted_template_end))
+          (quoted_template
+            (quoted_template_start)
+            (template_literal)
+            (quoted_template_end)))))))
 
 ================================================================================
 empty object
@@ -190,11 +138,7 @@ foo = { }
   (body
     (attribute
       (identifier)
-      (expression
-        (collection_value
-          (object
-            (object_start)
-            (object_end)))))))
+      (object))))
 
 ================================================================================
 multiline empty object
@@ -209,11 +153,7 @@ foo = {
   (body
     (attribute
       (identifier)
-      (expression
-        (collection_value
-          (object
-            (object_start)
-            (object_end)))))))
+      (object))))
 
 ================================================================================
 multiline object weird newlines
@@ -230,31 +170,19 @@ foo = { 1: 2,
   (body
     (attribute
       (identifier)
-      (expression
-        (collection_value
-          (object
-            (object_start)
-            (object_elem
-              (expression
-                (literal_value
-                  (numeric_lit)))
-              (expression
-                (literal_value
-                  (numeric_lit))))
-            (object_elem
-              (expression
-                (literal_value
-                  (string_lit
-                    (quoted_template_start)
-                    (template_literal)
-                    (quoted_template_end))))
-              (expression
-                (literal_value
-                  (string_lit
-                    (quoted_template_start)
-                    (template_literal)
-                    (quoted_template_end)))))
-            (object_end)))))))
+      (object
+        (object_elem
+          (numeric_lit)
+          (numeric_lit))
+        (object_elem
+          (quoted_template
+            (quoted_template_start)
+            (template_literal)
+            (quoted_template_end))
+          (quoted_template
+            (quoted_template_start)
+            (template_literal)
+            (quoted_template_end)))))))
 
 ================================================================================
 complex object
@@ -271,31 +199,19 @@ foo = {
   (body
     (attribute
       (identifier)
-      (expression
-        (collection_value
-          (object
-            (object_start)
-            (object_elem
-              (expression
-                (variable_expr
-                  (identifier)))
-              (expression
-                (literal_value
-                  (string_lit
-                    (quoted_template_start)
-                    (template_literal)
-                    (quoted_template_end)))))
-            (object_elem
-              (expression
-                (variable_expr
-                  (identifier)))
-              (expression
-                (literal_value
-                  (string_lit
-                    (quoted_template_start)
-                    (template_literal)
-                    (quoted_template_end)))))
-            (object_end)))))))
+      (object
+        (object_elem
+          (identifier)
+          (quoted_template
+            (quoted_template_start)
+            (template_literal)
+            (quoted_template_end)))
+        (object_elem
+          (identifier)
+          (quoted_template
+            (quoted_template_start)
+            (template_literal)
+            (quoted_template_end)))))))
 
 ================================================================================
 complex from real world
@@ -322,104 +238,52 @@ worker_groups = [
   (body
     (attribute
       (identifier)
-      (expression
-        (collection_value
-          (tuple
-            (tuple_start)
-            (expression
-              (collection_value
-                (object
-                  (object_start)
-                  (object_elem
-                    (expression
-                      (variable_expr
-                        (identifier)))
-                    (expression
-                      (literal_value
-                        (string_lit
-                          (quoted_template_start)
-                          (template_literal)
-                          (quoted_template_end)))))
-                  (object_elem
-                    (expression
-                      (variable_expr
-                        (identifier)))
-                    (expression
-                      (literal_value
-                        (string_lit
-                          (quoted_template_start)
-                          (template_literal)
-                          (quoted_template_end)))))
-                  (object_elem
-                    (expression
-                      (variable_expr
-                        (identifier)))
-                    (expression
-                      (literal_value
-                        (numeric_lit))))
-                  (object_elem
-                    (expression
-                      (variable_expr
-                        (identifier)))
-                    (expression
-                      (collection_value
-                        (tuple
-                          (tuple_start)
-                          (expression
-                            (variable_expr
-                              (identifier))
-                            (get_attr
-                              (identifier))
-                            (get_attr
-                              (identifier)))
-                          (tuple_end)))))
-                  (object_end))))
-            (expression
-              (collection_value
-                (object
-                  (object_start)
-                  (object_elem
-                    (expression
-                      (variable_expr
-                        (identifier)))
-                    (expression
-                      (literal_value
-                        (string_lit
-                          (quoted_template_start)
-                          (template_literal)
-                          (quoted_template_end)))))
-                  (object_elem
-                    (expression
-                      (variable_expr
-                        (identifier)))
-                    (expression
-                      (literal_value
-                        (string_lit
-                          (quoted_template_start)
-                          (template_literal)
-                          (quoted_template_end)))))
-                  (object_elem
-                    (expression
-                      (variable_expr
-                        (identifier)))
-                    (expression
-                      (collection_value
-                        (tuple
-                          (tuple_start)
-                          (expression
-                            (variable_expr
-                              (identifier))
-                            (get_attr
-                              (identifier))
-                            (get_attr
-                              (identifier)))
-                          (tuple_end)))))
-                  (object_elem
-                    (expression
-                      (variable_expr
-                        (identifier)))
-                    (expression
-                      (literal_value
-                        (numeric_lit))))
-                  (object_end))))
-            (tuple_end)))))))
+      (tuple
+        (object
+          (object_elem
+            (identifier)
+            (quoted_template
+              (quoted_template_start)
+              (template_literal)
+              (quoted_template_end)))
+          (object_elem
+            (identifier)
+            (quoted_template
+              (quoted_template_start)
+              (template_literal)
+              (quoted_template_end)))
+          (object_elem
+            (identifier)
+            (numeric_lit))
+          (object_elem
+            (identifier)
+            (tuple
+              (get_attr
+                (get_attr
+                  (identifier)
+                  (identifier))
+                (identifier)))))
+        (object
+          (object_elem
+            (identifier)
+            (quoted_template
+              (quoted_template_start)
+              (template_literal)
+              (quoted_template_end)))
+          (object_elem
+            (identifier)
+            (quoted_template
+              (quoted_template_start)
+              (template_literal)
+              (quoted_template_end)))
+          (object_elem
+            (identifier)
+            (tuple
+              (get_attr
+                (get_attr
+                  (identifier)
+                  (identifier))
+                (identifier))))
+          (object_elem
+            (identifier)
+            (numeric_lit)))))))

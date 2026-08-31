@@ -10,11 +10,9 @@ foo = bar.baz
   (body
     (attribute
       (identifier)
-      (expression
-        (variable_expr
-          (identifier))
-        (get_attr
-          (identifier))))))
+      (get_attr
+        (identifier)
+        (identifier)))))
 
 ================================================================================
 get index
@@ -28,14 +26,9 @@ foo = bar[1]
   (body
     (attribute
       (identifier)
-      (expression
-        (variable_expr
-          (identifier))
-        (index
-          (new_index
-            (expression
-              (literal_value
-                (numeric_lit)))))))))
+      (bracket_index
+        (identifier)
+        (numeric_lit)))))
 
 ================================================================================
 attr splat
@@ -49,13 +42,10 @@ foo = bar.*.foo
   (body
     (attribute
       (identifier)
-      (expression
-        (variable_expr
-          (identifier))
-        (splat
-          (attr_splat
-            (get_attr
-              (identifier))))))))
+      (attr_splat
+        (identifier)
+        (get_attr_step
+          (identifier))))))
 
 ================================================================================
 full splat
@@ -69,13 +59,10 @@ foo = bar[*].foo
   (body
     (attribute
       (identifier)
-      (expression
-        (variable_expr
-          (identifier))
-        (splat
-          (full_splat
-            (get_attr
-              (identifier))))))))
+      (full_splat
+        (identifier)
+        (get_attr_step
+          (identifier))))))
 
 ================================================================================
 full splat repeated
@@ -89,21 +76,353 @@ foo = bar[*][*].a.b.c[d]
   (body
     (attribute
       (identifier)
-      (expression
-        (variable_expr
+      (full_splat
+        (identifier)
+        (full_splat_step
+          (get_attr_step
+            (identifier))
+          (get_attr_step
+            (identifier))
+          (get_attr_step
+            (identifier))
+          (index_step
+            (identifier)))))))
+
+================================================================================
+attr splat binds tighter than conditional
+================================================================================
+
+foo = a ? b : c.*
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (conditional
+        (identifier)
+        (identifier)
+        (attr_splat
+          (identifier))))))
+
+================================================================================
+full splat binds tighter than conditional
+================================================================================
+
+foo = a ? b : c[*]
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (conditional
+        (identifier)
+        (identifier)
+        (full_splat
+          (identifier))))))
+
+================================================================================
+attr splat owns trailing attribute step
+================================================================================
+
+foo = a.*.bar
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (attr_splat
+        (identifier)
+        (get_attr_step
+          (identifier))))))
+
+================================================================================
+attr splat with trailing index stays outside
+================================================================================
+
+foo = a.*.bar[0]
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (bracket_index
+        (attr_splat
+          (identifier)
+          (get_attr_step
+            (identifier)))
+        (numeric_lit)))))
+
+================================================================================
+full splat owns trailing attribute step
+================================================================================
+
+foo = a[*].bar
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (full_splat
+        (identifier)
+        (get_attr_step
+          (identifier))))))
+
+================================================================================
+full splat owns trailing attribute and index steps
+================================================================================
+
+foo = a[*].bar[0].baz
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (full_splat
+        (identifier)
+        (get_attr_step
           (identifier))
-        (splat
-          (full_splat))
-        (splat
-          (full_splat
-            (get_attr
-              (identifier))
-            (get_attr
-              (identifier))
-            (get_attr
-              (identifier))
-            (index
-              (new_index
-                (expression
-                  (variable_expr
-                    (identifier)))))))))))
+        (index_step
+          (numeric_lit))
+        (get_attr_step
+          (identifier))))))
+
+================================================================================
+bare attr splat
+================================================================================
+
+foo = a.*
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (attr_splat
+        (identifier)))))
+
+================================================================================
+bare full splat
+================================================================================
+
+foo = a[*]
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (full_splat
+        (identifier)))))
+
+================================================================================
+attr splat owns legacy dotted index step
+================================================================================
+
+foo = a.*.0
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (attr_splat
+        (identifier)
+        (legacy_index_step
+          (legacy_index_key))))))
+
+================================================================================
+full splat owns legacy dotted index step
+================================================================================
+
+foo = a[*].0
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (full_splat
+        (identifier)
+        (legacy_index_step
+          (legacy_index_key))))))
+
+================================================================================
+nested full splat owns trailing traversal
+================================================================================
+
+foo = a[*][*].b.c[d]
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (full_splat
+        (identifier)
+        (full_splat_step
+          (get_attr_step
+            (identifier))
+          (get_attr_step
+            (identifier))
+          (index_step
+            (identifier)))))))
+
+================================================================================
+full splat then attribute then nested full splat
+================================================================================
+
+foo = a[*].b[*].c
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (full_splat
+        (identifier)
+        (get_attr_step
+          (identifier))
+        (full_splat_step
+          (get_attr_step
+            (identifier)))))))
+
+================================================================================
+nested attr splat inside full splat
+================================================================================
+
+foo = a[*].*.b
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (full_splat
+        (identifier)
+        (attr_splat_step
+          (get_attr_step
+            (identifier)))))))
+
+================================================================================
+attr splat then full splat nests via object
+================================================================================
+
+foo = a.*.b[*]
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (full_splat
+        (attr_splat
+          (identifier)
+          (get_attr_step
+            (identifier)))))))
+
+================================================================================
+attr splat chained onto an attr splat (invalid HCL, structurally representable)
+================================================================================
+
+foo = a.*.*
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (attr_splat
+        (attr_splat
+          (identifier))))))
+
+================================================================================
+parenthesized splat is a valid attr splat object
+================================================================================
+
+foo = (a.*).*
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (attr_splat
+        (parenthesized_expression
+          (attr_splat
+            (identifier)))))))
+
+================================================================================
+attr splat step chained onto an attr splat step (invalid HCL, structurally representable)
+================================================================================
+
+foo = a[*].*.*
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (full_splat
+        (identifier)
+        (attr_splat_step)
+        (attr_splat_step)))))
+
+================================================================================
+attr splat step followed by index continuation
+================================================================================
+
+foo = a[*].*[0]
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (full_splat
+        (identifier)
+        (attr_splat_step)
+        (index_step
+          (numeric_lit))))))
+
+================================================================================
+attr splat step, index step, then another attr splat step
+================================================================================
+
+foo = a[*].*[0].*
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (full_splat
+        (identifier)
+        (attr_splat_step)
+        (index_step
+          (numeric_lit))
+        (attr_splat_step)))))

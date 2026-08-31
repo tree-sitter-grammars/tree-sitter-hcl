@@ -1,169 +1,148 @@
 ================================================================================
 simple quoted template expression
+:cst
 ================================================================================
 
 foo = "${ var.bar }"
 
 --------------------------------------------------------------------------------
 
-(config_file
-  (body
-    (attribute
-      (identifier)
-      (expression
-        (template_expr
-          (quoted_template
-            (quoted_template_start)
-            (template_interpolation
-              (template_interpolation_start)
-              (expression
-                (variable_expr
-                  (identifier))
-                (get_attr
-                  (identifier)))
-              (template_interpolation_end))
-            (quoted_template_end)))))))
-
-================================================================================
-empty template interpolation
-================================================================================
-
-foo = "${}"
-
---------------------------------------------------------------------------------
-
-(config_file
-  (body
-    (attribute
-      (identifier)
-      (expression
-        (template_expr
-          (quoted_template
-            (quoted_template_start)
-            (template_interpolation
-              (template_interpolation_start)
-              (template_interpolation_end))
-            (quoted_template_end)))))))
+0:0  - 2:0    config_file
+1:0  - 1:20     body: body
+1:0  - 1:20       attributes: attribute
+1:0  - 1:3          name: identifier `foo`
+1:4  - 1:5          "="
+1:6  - 1:20         value: quoted_template
+1:6  - 1:7            quoted_template_start `\"`
+1:7  - 1:19           body: template_interpolation
+1:7  - 1:9              template_interpolation_start `${`
+1:10 - 1:17             expression: get_attr
+1:10 - 1:13               object: identifier `var`
+1:13 - 1:14               "."
+1:14 - 1:17               attribute: identifier `bar`
+1:18 - 1:19             template_interpolation_end `}`
+1:19 - 1:20           quoted_template_end `\"`
 
 ================================================================================
 template for expression in quoted template
+:cst
 ================================================================================
 
 foo = "%{ for a in b } prefix-${a} %{ endfor }"
 
 --------------------------------------------------------------------------------
 
-(config_file
-  (body
-    (attribute
-      (identifier)
-      (expression
-        (template_expr
-          (quoted_template
-            (quoted_template_start)
-            (template_directive
-              (template_for
-                (template_for_start
-                  (template_directive_start)
-                  (identifier)
-                  (expression
-                    (variable_expr
-                      (identifier)))
-                  (template_directive_end))
-                (template_literal)
-                (template_interpolation
-                  (template_interpolation_start)
-                  (expression
-                    (variable_expr
-                      (identifier)))
-                  (template_interpolation_end))
-                (template_for_end
-                  (template_directive_start)
-                  (template_directive_end))))
-            (quoted_template_end)))))))
+0:0  - 2:0    config_file
+1:0  - 1:47     body: body
+1:0  - 1:47       attributes: attribute
+1:0  - 1:3          name: identifier `foo`
+1:4  - 1:5          "="
+1:6  - 1:47         value: quoted_template
+1:6  - 1:7            quoted_template_start `\"`
+1:7  - 1:46           body: template_for
+1:7  - 1:22             intro: template_for_intro
+1:7  - 1:9                template_directive_start `%{`
+1:10 - 1:13               "for"
+1:14 - 1:15               value: identifier `a`
+1:16 - 1:18               "in"
+1:19 - 1:20               collection: identifier `b`
+1:21 - 1:22               template_directive_end `}`
+1:22 - 1:30             body: template_literal ` prefix-`
+1:30 - 1:34             body: template_interpolation
+1:30 - 1:32               template_interpolation_start `${`
+1:32 - 1:33               expression: identifier `a`
+1:33 - 1:34               template_interpolation_end `}`
+1:34 - 1:35             body: template_literal ` `
+1:35 - 1:46             end: template_for_end
+1:35 - 1:37               template_directive_start `%{`
+1:38 - 1:44               "endfor"
+1:45 - 1:46               template_directive_end `}`
+1:46 - 1:47           quoted_template_end `\"`
 
 ================================================================================
 escaped template for directive
+:cst
 ================================================================================
 
 foo = "%{ for a in b } %%{ endfor } %{ endfor }"
 
 --------------------------------------------------------------------------------
 
-(config_file
-  (body
-    (attribute
-      (identifier)
-      (expression
-        (template_expr
-          (quoted_template
-            (quoted_template_start)
-            (template_directive
-              (template_for
-                (template_for_start
-                  (template_directive_start)
-                  (identifier)
-                  (expression
-                    (variable_expr
-                      (identifier)))
-                  (template_directive_end))
-                (template_literal)
-                (template_for_end
-                  (template_directive_start)
-                  (template_directive_end))))
-            (quoted_template_end)))))))
+0:0  - 2:0    config_file
+1:0  - 1:48     body: body
+1:0  - 1:48       attributes: attribute
+1:0  - 1:3          name: identifier `foo`
+1:4  - 1:5          "="
+1:6  - 1:48         value: quoted_template
+1:6  - 1:7            quoted_template_start `\"`
+1:7  - 1:47           body: template_for
+1:7  - 1:22             intro: template_for_intro
+1:7  - 1:9                template_directive_start `%{`
+1:10 - 1:13               "for"
+1:14 - 1:15               value: identifier `a`
+1:16 - 1:18               "in"
+1:19 - 1:20               collection: identifier `b`
+1:21 - 1:22               template_directive_end `}`
+1:22 - 1:36             body: template_literal ` %%{ endfor } `
+1:36 - 1:47             end: template_for_end
+1:36 - 1:38               template_directive_start `%{`
+1:39 - 1:45               "endfor"
+1:46 - 1:47               template_directive_end `}`
+1:47 - 1:48           quoted_template_end `\"`
 
 ================================================================================
 escaped template for directive 2
+:cst
 ================================================================================
 
 foo = "%%{ for a in b } %%{ endfor }"
 
 --------------------------------------------------------------------------------
 
-(config_file
-  (body
-    (attribute
-      (identifier)
-      (expression
-        (literal_value
-          (string_lit
-            (quoted_template_start)
-            (template_literal)
-            (quoted_template_end)))))))
+0:0  - 2:0    config_file
+1:0  - 1:37     body: body
+1:0  - 1:37       attributes: attribute
+1:0  - 1:3          name: identifier `foo`
+1:4  - 1:5          "="
+1:6  - 1:37         value: quoted_template
+1:6  - 1:7            quoted_template_start `\"`
+1:7  - 1:36           body: template_literal `%%{ for a in b } %%{ endfor }`
+1:36 - 1:37           quoted_template_end `\"`
 
 ================================================================================
 template for directive with weird whitespace
+:cst
 ================================================================================
 
 foo = "%{     for a in b   } %{      endfor    }"
 
 --------------------------------------------------------------------------------
 
-(config_file
-  (body
-    (attribute
-      (identifier)
-      (expression
-        (template_expr
-          (quoted_template
-            (quoted_template_start)
-            (template_directive
-              (template_for
-                (template_for_start
-                  (template_directive_start)
-                  (identifier)
-                  (expression
-                    (variable_expr
-                      (identifier)))
-                  (template_directive_end))
-                (template_for_end
-                  (template_directive_start)
-                  (template_directive_end))))
-            (quoted_template_end)))))))
+0:0  - 2:0    config_file
+1:0  - 1:49     body: body
+1:0  - 1:49       attributes: attribute
+1:0  - 1:3          name: identifier `foo`
+1:4  - 1:5          "="
+1:6  - 1:49         value: quoted_template
+1:6  - 1:7            quoted_template_start `\"`
+1:7  - 1:48           body: template_for
+1:7  - 1:28             intro: template_for_intro
+1:7  - 1:9                template_directive_start `%{`
+1:14 - 1:17               "for"
+1:18 - 1:19               value: identifier `a`
+1:20 - 1:22               "in"
+1:23 - 1:24               collection: identifier `b`
+1:27 - 1:28               template_directive_end `}`
+1:28 - 1:29             body: template_literal ` `
+1:29 - 1:48             end: template_for_end
+1:29 - 1:31               template_directive_start `%{`
+1:37 - 1:43               "endfor"
+1:47 - 1:48               template_directive_end `}`
+1:48 - 1:49           quoted_template_end `\"`
 
 ================================================================================
 template for expression in heredoc template
+:cst
 ================================================================================
 
 foo = <<EOF
@@ -176,40 +155,47 @@ EOF
 
 --------------------------------------------------------------------------------
 
-(config_file
-  (body
-    (attribute
-      (identifier)
-      (expression
-        (template_expr
-          (heredoc_template
-            (heredoc_start)
-            (heredoc_identifier)
-            (template_directive
-              (template_for
-                (template_for_start
-                  (template_directive_start)
-                  (identifier)
-                  (expression
-                    (variable_expr
-                      (identifier)))
-                  (strip_marker)
-                  (template_directive_end))
-                (template_literal)
-                (template_interpolation
-                  (template_interpolation_start)
-                  (expression
-                    (variable_expr
-                      (identifier)))
-                  (template_interpolation_end))
-                (template_for_end
-                  (template_directive_start)
-                  (strip_marker)
-                  (template_directive_end))))
-            (heredoc_identifier)))))))
+0:0  - 8:0    config_file
+1:0  - 7:3      body: body
+1:0  - 7:3        attributes: attribute
+1:0  - 1:3          name: identifier `foo`
+1:4  - 1:5          "="
+1:6  - 7:3          value: heredoc_template
+1:6  - 1:8            marker: heredoc_start
+1:6  - 1:8              "<<"
+1:8  - 1:11           start_identifier: heredoc_identifier `EOF`
+2:0  - 6:12           body: template_for
+2:0  - 2:16             intro: template_for_intro
+2:0  - 2:2                template_directive_start `%{`
+2:3  - 2:6                "for"
+2:7  - 2:8                value: identifier `a`
+2:9  - 2:11               "in"
+2:12 - 2:13               collection: identifier `b`
+2:14 - 2:15               strip_marker_end: strip_marker `~`
+2:15 - 2:16               template_directive_end `}`
+2:16 - 4:7              body: template_literal
+2:16 - 2:17               `\n`
+3:16 - 3:1                `\n`
+4:16 - 4:7                `prefix-`
+4:7  - 4:11             body: template_interpolation
+4:7  - 4:9                template_interpolation_start `${`
+4:9  - 4:10               expression: identifier `a`
+4:10 - 4:11               template_interpolation_end `}`
+4:11 - 6:0              body: template_literal
+4:11 - 4:12               `\n`
+5:11 - 5:1                `\n`
+6:0  - 6:12             end: template_for_end
+6:0  - 6:2                template_directive_start `%{`
+6:2  - 6:3                strip_marker_start: strip_marker `~`
+6:4  - 6:10               "endfor"
+6:11 - 6:12               template_directive_end `}`
+6:12 - 7:0            body: template_literal
+6:12 - 6:13             `\n`
+7:0  - 7:3            end_identifier: heredoc_identifier `EOF`
 
 ================================================================================
 empty heredoc template
+:cst
 ================================================================================
 
 foo = <<END
@@ -217,19 +203,67 @@ END
 
 --------------------------------------------------------------------------------
 
-(config_file
-  (body
-    (attribute
-      (identifier)
-      (expression
-        (template_expr
-          (heredoc_template
-            (heredoc_start)
-            (heredoc_identifier)
-            (heredoc_identifier)))))))
+0:0  - 3:0    config_file
+1:0  - 2:3      body: body
+1:0  - 2:3        attributes: attribute
+1:0  - 1:3          name: identifier `foo`
+1:4  - 1:5          "="
+1:6  - 2:3          value: heredoc_template
+1:6  - 1:8            marker: heredoc_start
+1:6  - 1:8              "<<"
+1:8  - 1:11           start_identifier: heredoc_identifier `END`
+2:0  - 2:3            end_identifier: heredoc_identifier `END`
+
+================================================================================
+empty heredoc template with whitespace before ending marker
+:cst
+================================================================================
+
+foo = <<END
+    END
+
+--------------------------------------------------------------------------------
+
+0:0  - 3:0    config_file
+1:0  - 2:7      body: body
+1:0  - 2:7        attributes: attribute
+1:0  - 1:3          name: identifier `foo`
+1:4  - 1:5          "="
+1:6  - 2:7          value: heredoc_template
+1:6  - 1:8            marker: heredoc_start
+1:6  - 1:8              "<<"
+1:8  - 1:11           start_identifier: heredoc_identifier `END`
+2:0  - 2:4            body: template_literal `    `
+2:4  - 2:7            end_identifier: heredoc_identifier `END`
+
+================================================================================
+heredoc template with whitespace before ending marker
+:cst
+================================================================================
+
+foo = <<END
+    hello
+    END
+
+--------------------------------------------------------------------------------
+
+0:0  - 4:0    config_file
+1:0  - 3:7      body: body
+1:0  - 3:7        attributes: attribute
+1:0  - 1:3          name: identifier `foo`
+1:4  - 1:5          "="
+1:6  - 3:7          value: heredoc_template
+1:6  - 1:8            marker: heredoc_start
+1:6  - 1:8              "<<"
+1:8  - 1:11           start_identifier: heredoc_identifier `END`
+2:0  - 3:4            body: template_literal
+2:0  - 2:10             `    hello\n`
+3:0  - 3:4              `    `
+3:4  - 3:7            end_identifier: heredoc_identifier `END`
 
 ================================================================================
 heredoc with fake ending
+:cst
 ================================================================================
 
 foo = <<END
@@ -238,175 +272,164 @@ END
 
 --------------------------------------------------------------------------------
 
-(config_file
-  (body
-    (attribute
-      (identifier)
-      (expression
-        (template_expr
-          (heredoc_template
-            (heredoc_start)
-            (heredoc_identifier)
-            (template_literal)
-            (heredoc_identifier)))))))
+0:0  - 4:0    config_file
+1:0  - 3:3      body: body
+1:0  - 3:3        attributes: attribute
+1:0  - 1:3          name: identifier `foo`
+1:4  - 1:5          "="
+1:6  - 3:3          value: heredoc_template
+1:6  - 1:8            marker: heredoc_start
+1:6  - 1:8              "<<"
+1:8  - 1:11           start_identifier: heredoc_identifier `END`
+2:0  - 3:0            body: template_literal
+2:0  - 2:14             `  END    not!\n`
+3:0  - 3:3            end_identifier: heredoc_identifier `END`
 
 ================================================================================
 quoted template expression with escaped strings and fake strip marker
+:cst
 ================================================================================
 
 foo = "${ " ~ " }"
 
 --------------------------------------------------------------------------------
 
-(config_file
-  (body
-    (attribute
-      (identifier)
-      (expression
-        (template_expr
-          (quoted_template
-            (quoted_template_start)
-            (template_interpolation
-              (template_interpolation_start)
-              (expression
-                (literal_value
-                  (string_lit
-                    (quoted_template_start)
-                    (template_literal)
-                    (quoted_template_end))))
-              (template_interpolation_end))
-            (quoted_template_end)))))))
+0:0  - 2:0    config_file
+1:0  - 1:18     body: body
+1:0  - 1:18       attributes: attribute
+1:0  - 1:3          name: identifier `foo`
+1:4  - 1:5          "="
+1:6  - 1:18         value: quoted_template
+1:6  - 1:7            quoted_template_start `\"`
+1:7  - 1:17           body: template_interpolation
+1:7  - 1:9              template_interpolation_start `${`
+1:10 - 1:15             expression: quoted_template
+1:10 - 1:11               quoted_template_start `\"`
+1:11 - 1:14               body: template_literal ` ~ `
+1:14 - 1:15               quoted_template_end `\"`
+1:16 - 1:17             template_interpolation_end `}`
+1:17 - 1:18           quoted_template_end `\"`
 
 ================================================================================
 quoted template with nested quoted template
+:cst
 ================================================================================
 
 foo = "p-${ foo("v-${a.b}") }"
 
 --------------------------------------------------------------------------------
 
-(config_file
-  (body
-    (attribute
-      (identifier)
-      (expression
-        (template_expr
-          (quoted_template
-            (quoted_template_start)
-            (template_literal)
-            (template_interpolation
-              (template_interpolation_start)
-              (expression
-                (function_call
-                  (identifier)
-                  (function_arguments
-                    (expression
-                      (template_expr
-                        (quoted_template
-                          (quoted_template_start)
-                          (template_literal)
-                          (template_interpolation
-                            (template_interpolation_start)
-                            (expression
-                              (variable_expr
-                                (identifier))
-                              (get_attr
-                                (identifier)))
-                            (template_interpolation_end))
-                          (quoted_template_end)))))))
-              (template_interpolation_end))
-            (quoted_template_end)))))))
+0:0  - 2:0    config_file
+1:0  - 1:30     body: body
+1:0  - 1:30       attributes: attribute
+1:0  - 1:3          name: identifier `foo`
+1:4  - 1:5          "="
+1:6  - 1:30         value: quoted_template
+1:6  - 1:7            quoted_template_start `\"`
+1:7  - 1:9            body: template_literal `p-`
+1:9  - 1:29           body: template_interpolation
+1:9  - 1:11             template_interpolation_start `${`
+1:12 - 1:27             expression: function_call
+1:12 - 1:15               function: identifier `foo`
+1:15 - 1:16               "("
+1:16 - 1:26               arguments: quoted_template
+1:16 - 1:17                 quoted_template_start `\"`
+1:17 - 1:19                 body: template_literal `v-`
+1:19 - 1:25                 body: template_interpolation
+1:19 - 1:21                   template_interpolation_start `${`
+1:21 - 1:24                   expression: get_attr
+1:21 - 1:22                     object: identifier `a`
+1:22 - 1:23                     "."
+1:23 - 1:24                     attribute: identifier `b`
+1:24 - 1:25                   template_interpolation_end `}`
+1:25 - 1:26                 quoted_template_end `\"`
+1:26 - 1:27               ")"
+1:28 - 1:29             template_interpolation_end `}`
+1:29 - 1:30           quoted_template_end `\"`
 
 ================================================================================
 quoted template interpolation with strip markers
+:cst
 ================================================================================
 
 foo = "hello ${~ "world" ~} hello"
 
 --------------------------------------------------------------------------------
 
-(config_file
-  (body
-    (attribute
-      (identifier)
-      (expression
-        (template_expr
-          (quoted_template
-            (quoted_template_start)
-            (template_literal)
-            (template_interpolation
-              (template_interpolation_start)
-              (strip_marker)
-              (expression
-                (literal_value
-                  (string_lit
-                    (quoted_template_start)
-                    (template_literal)
-                    (quoted_template_end))))
-              (strip_marker)
-              (template_interpolation_end))
-            (template_literal)
-            (quoted_template_end)))))))
+0:0  - 2:0    config_file
+1:0  - 1:34     body: body
+1:0  - 1:34       attributes: attribute
+1:0  - 1:3          name: identifier `foo`
+1:4  - 1:5          "="
+1:6  - 1:34         value: quoted_template
+1:6  - 1:7            quoted_template_start `\"`
+1:7  - 1:13           body: template_literal `hello `
+1:13 - 1:27           body: template_interpolation
+1:13 - 1:15             template_interpolation_start `${`
+1:15 - 1:16             strip_marker_start: strip_marker `~`
+1:17 - 1:24             expression: quoted_template
+1:17 - 1:18               quoted_template_start `\"`
+1:18 - 1:23               body: template_literal `world`
+1:23 - 1:24               quoted_template_end `\"`
+1:25 - 1:26             strip_marker_end: strip_marker `~`
+1:26 - 1:27             template_interpolation_end `}`
+1:27 - 1:33           body: template_literal ` hello`
+1:33 - 1:34           quoted_template_end `\"`
 
 ================================================================================
 quoted template object expression in template
+:cst
 ================================================================================
 
 foo = "${ {a=b}[a] }"
 
 --------------------------------------------------------------------------------
 
-(config_file
-  (body
-    (attribute
-      (identifier)
-      (expression
-        (template_expr
-          (quoted_template
-            (quoted_template_start)
-            (template_interpolation
-              (template_interpolation_start)
-              (expression
-                (collection_value
-                  (object
-                    (object_start)
-                    (object_elem
-                      (expression
-                        (variable_expr
-                          (identifier)))
-                      (expression
-                        (variable_expr
-                          (identifier))))
-                    (object_end)))
-                (index
-                  (new_index
-                    (expression
-                      (variable_expr
-                        (identifier))))))
-              (template_interpolation_end))
-            (quoted_template_end)))))))
+0:0  - 2:0    config_file
+1:0  - 1:21     body: body
+1:0  - 1:21       attributes: attribute
+1:0  - 1:3          name: identifier `foo`
+1:4  - 1:5          "="
+1:6  - 1:21         value: quoted_template
+1:6  - 1:7            quoted_template_start `\"`
+1:7  - 1:20           body: template_interpolation
+1:7  - 1:9              template_interpolation_start `${`
+1:10 - 1:18             expression: bracket_index
+1:10 - 1:15               object: object
+1:10 - 1:11                 "{"
+1:11 - 1:14                 elements: object_elem
+1:11 - 1:12                   key: identifier `a`
+1:12 - 1:13                   "="
+1:13 - 1:14                   value: identifier `b`
+1:14 - 1:15                 "}"
+1:15 - 1:16               "["
+1:16 - 1:17               key: identifier `a`
+1:17 - 1:18               "]"
+1:19 - 1:20             template_interpolation_end `}`
+1:20 - 1:21           quoted_template_end `\"`
 
 ================================================================================
 escaped template interpolation start
+:cst
 ================================================================================
 
 foo = "hello $${ world"
 
 --------------------------------------------------------------------------------
 
-(config_file
-  (body
-    (attribute
-      (identifier)
-      (expression
-        (literal_value
-          (string_lit
-            (quoted_template_start)
-            (template_literal)
-            (quoted_template_end)))))))
+0:0  - 2:0    config_file
+1:0  - 1:23     body: body
+1:0  - 1:23       attributes: attribute
+1:0  - 1:3          name: identifier `foo`
+1:4  - 1:5          "="
+1:6  - 1:23         value: quoted_template
+1:6  - 1:7            quoted_template_start `\"`
+1:7  - 1:22           body: template_literal `hello $${ world`
+1:22 - 1:23           quoted_template_end `\"`
 
 ================================================================================
 tricky heredoc
+:cst
 ================================================================================
 
 foo = <<END
@@ -416,20 +439,23 @@ END
 
 --------------------------------------------------------------------------------
 
-(config_file
-  (body
-    (attribute
-      (identifier)
-      (expression
-        (template_expr
-          (heredoc_template
-            (heredoc_start)
-            (heredoc_identifier)
-            (template_literal)
-            (heredoc_identifier)))))))
+0:0  - 5:0    config_file
+1:0  - 4:3      body: body
+1:0  - 4:3        attributes: attribute
+1:0  - 1:3          name: identifier `foo`
+1:4  - 1:5          "="
+1:6  - 4:3          value: heredoc_template
+1:6  - 1:8            marker: heredoc_start
+1:6  - 1:8              "<<"
+1:8  - 1:11           start_identifier: heredoc_identifier `END`
+2:0  - 4:0            body: template_literal
+2:0  - 2:26             `    contains fake endings\n`
+3:0  - 3:25             `    END (ineligible) END\n`
+4:0  - 4:3            end_identifier: heredoc_identifier `END`
 
 ================================================================================
 heredoc with identifier that does not fit into the serialization buffer (should not crash)
+:cst
 ================================================================================
 
 foo = <<XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -437,209 +463,215 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 --------------------------------------------------------------------------------
 
-(config_file
-  (body
-    (attribute
-      (identifier)
-      (expression
-        (template_expr
-          (heredoc_template
-            (heredoc_start)
-            (heredoc_identifier)
-            (heredoc_identifier)))))))
+0:0   - 3:0     config_file
+1:0   - 2:312     body: body
+1:0   - 2:312       attributes: attribute
+1:0   - 1:3           name: identifier `foo`
+1:4   - 1:5           "="
+1:6   - 2:312         value: heredoc_template
+1:6   - 1:8             marker: heredoc_start
+1:6   - 1:8               "<<"
+1:8   - 1:320           start_identifier: heredoc_identifier `XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`
+2:0   - 2:312           end_identifier: heredoc_identifier `XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`
 
 ================================================================================
 template if directive in quoted template
+:cst
 ================================================================================
 
 foo = "%{if cond} foo %{else} bar %{endif}"
 
 --------------------------------------------------------------------------------
 
-(config_file
-  (body
-    (attribute
-      (identifier)
-      (expression
-        (template_expr
-          (quoted_template
-            (quoted_template_start)
-            (template_directive
-              (template_if
-                (template_if_intro
-                  (template_directive_start)
-                  (expression
-                    (variable_expr
-                      (identifier)))
-                  (template_directive_end))
-                (template_literal)
-                (template_else_intro
-                  (template_directive_start)
-                  (template_directive_end))
-                (template_literal)
-                (template_if_end
-                  (template_directive_start)
-                  (template_directive_end))))
-            (quoted_template_end)))))))
+0:0  - 2:0    config_file
+1:0  - 1:43     body: body
+1:0  - 1:43       attributes: attribute
+1:0  - 1:3          name: identifier `foo`
+1:4  - 1:5          "="
+1:6  - 1:43         value: quoted_template
+1:6  - 1:7            quoted_template_start `\"`
+1:7  - 1:42           body: template_if
+1:7  - 1:17             if_intro: template_if_intro
+1:7  - 1:9                template_directive_start `%{`
+1:9  - 1:11               "if"
+1:12 - 1:16               condition: identifier `cond`
+1:16 - 1:17               template_directive_end `}`
+1:17 - 1:22             if_body: template_literal ` foo `
+1:22 - 1:29             else_intro: template_else_intro
+1:22 - 1:24               template_directive_start `%{`
+1:24 - 1:28               "else"
+1:28 - 1:29               template_directive_end `}`
+1:29 - 1:34             else_body: template_literal ` bar `
+1:34 - 1:42             end: template_if_end
+1:34 - 1:36               template_directive_start `%{`
+1:36 - 1:41               "endif"
+1:41 - 1:42               template_directive_end `}`
+1:42 - 1:43           quoted_template_end `\"`
 
 ================================================================================
 template nested for directives with interlaced chunks
+:cst
 ================================================================================
 
 foo = "%{for a in b} x %{for c in a} ${c} %{endfor} %{endfor}"
 
 --------------------------------------------------------------------------------
 
-(config_file
-  (body
-    (attribute
-      (identifier)
-      (expression
-        (template_expr
-          (quoted_template
-            (quoted_template_start)
-            (template_directive
-              (template_for
-                (template_for_start
-                  (template_directive_start)
-                  (identifier)
-                  (expression
-                    (variable_expr
-                      (identifier)))
-                  (template_directive_end))
-                (template_literal)
-                (template_directive
-                  (template_for
-                    (template_for_start
-                      (template_directive_start)
-                      (identifier)
-                      (expression
-                        (variable_expr
-                          (identifier)))
-                      (template_directive_end))
-                    (template_interpolation
-                      (template_interpolation_start)
-                      (expression
-                        (variable_expr
-                          (identifier)))
-                      (template_interpolation_end))
-                    (template_for_end
-                      (template_directive_start)
-                      (template_directive_end))))
-                (template_for_end
-                  (template_directive_start)
-                  (template_directive_end))))
-            (quoted_template_end)))))))
+0:0  - 2:0    config_file
+1:0  - 1:62     body: body
+1:0  - 1:62       attributes: attribute
+1:0  - 1:3          name: identifier `foo`
+1:4  - 1:5          "="
+1:6  - 1:62         value: quoted_template
+1:6  - 1:7            quoted_template_start `\"`
+1:7  - 1:61           body: template_for
+1:7  - 1:20             intro: template_for_intro
+1:7  - 1:9                template_directive_start `%{`
+1:9  - 1:12               "for"
+1:13 - 1:14               value: identifier `a`
+1:15 - 1:17               "in"
+1:18 - 1:19               collection: identifier `b`
+1:19 - 1:20               template_directive_end `}`
+1:20 - 1:23             body: template_literal ` x `
+1:23 - 1:51             body: template_for
+1:23 - 1:36               intro: template_for_intro
+1:23 - 1:25                 template_directive_start `%{`
+1:25 - 1:28                 "for"
+1:29 - 1:30                 value: identifier `c`
+1:31 - 1:33                 "in"
+1:34 - 1:35                 collection: identifier `a`
+1:35 - 1:36                 template_directive_end `}`
+1:36 - 1:37               body: template_literal ` `
+1:37 - 1:41               body: template_interpolation
+1:37 - 1:39                 template_interpolation_start `${`
+1:39 - 1:40                 expression: identifier `c`
+1:40 - 1:41                 template_interpolation_end `}`
+1:41 - 1:42               body: template_literal ` `
+1:42 - 1:51               end: template_for_end
+1:42 - 1:44                 template_directive_start `%{`
+1:44 - 1:50                 "endfor"
+1:50 - 1:51                 template_directive_end `}`
+1:51 - 1:52             body: template_literal ` `
+1:52 - 1:61             end: template_for_end
+1:52 - 1:54               template_directive_start `%{`
+1:54 - 1:60               "endfor"
+1:60 - 1:61               template_directive_end `}`
+1:61 - 1:62           quoted_template_end `\"`
 
 ================================================================================
 template nested if directives with interlaced chunks
+:cst
 ================================================================================
 
 foo = "%{if a} %{if b} y %{else} x %{endif} %{endif}"
 
 --------------------------------------------------------------------------------
 
-(config_file
-  (body
-    (attribute
-      (identifier)
-      (expression
-        (template_expr
-          (quoted_template
-            (quoted_template_start)
-            (template_directive
-              (template_if
-                (template_if_intro
-                  (template_directive_start)
-                  (expression
-                    (variable_expr
-                      (identifier)))
-                  (template_directive_end))
-                (template_directive
-                  (template_if
-                    (template_if_intro
-                      (template_directive_start)
-                      (expression
-                        (variable_expr
-                          (identifier)))
-                      (template_directive_end))
-                    (template_literal)
-                    (template_else_intro
-                      (template_directive_start)
-                      (template_directive_end))
-                    (template_literal)
-                    (template_if_end
-                      (template_directive_start)
-                      (template_directive_end))))
-                (template_if_end
-                  (template_directive_start)
-                  (template_directive_end))))
-            (quoted_template_end)))))))
+0:0  - 2:0    config_file
+1:0  - 1:53     body: body
+1:0  - 1:53       attributes: attribute
+1:0  - 1:3          name: identifier `foo`
+1:4  - 1:5          "="
+1:6  - 1:53         value: quoted_template
+1:6  - 1:7            quoted_template_start `\"`
+1:7  - 1:52           body: template_if
+1:7  - 1:14             if_intro: template_if_intro
+1:7  - 1:9                template_directive_start `%{`
+1:9  - 1:11               "if"
+1:12 - 1:13               condition: identifier `a`
+1:13 - 1:14               template_directive_end `}`
+1:14 - 1:15             if_body: template_literal ` `
+1:15 - 1:43             if_body: template_if
+1:15 - 1:22               if_intro: template_if_intro
+1:15 - 1:17                 template_directive_start `%{`
+1:17 - 1:19                 "if"
+1:20 - 1:21                 condition: identifier `b`
+1:21 - 1:22                 template_directive_end `}`
+1:22 - 1:25               if_body: template_literal ` y `
+1:25 - 1:32               else_intro: template_else_intro
+1:25 - 1:27                 template_directive_start `%{`
+1:27 - 1:31                 "else"
+1:31 - 1:32                 template_directive_end `}`
+1:32 - 1:35               else_body: template_literal ` x `
+1:35 - 1:43               end: template_if_end
+1:35 - 1:37                 template_directive_start `%{`
+1:37 - 1:42                 "endif"
+1:42 - 1:43                 template_directive_end `}`
+1:43 - 1:44             if_body: template_literal ` `
+1:44 - 1:52             end: template_if_end
+1:44 - 1:46               template_directive_start `%{`
+1:46 - 1:51               "endif"
+1:51 - 1:52               template_directive_end `}`
+1:52 - 1:53           quoted_template_end `\"`
 
 ================================================================================
 template empty if else statement
+:cst
 ================================================================================
 
 foo = "%{if a} %{else} %{endif}"
 
 --------------------------------------------------------------------------------
 
-(config_file
-  (body
-    (attribute
-      (identifier)
-      (expression
-        (template_expr
-          (quoted_template
-            (quoted_template_start)
-            (template_directive
-              (template_if
-                (template_if_intro
-                  (template_directive_start)
-                  (expression
-                    (variable_expr
-                      (identifier)))
-                  (template_directive_end))
-                (template_else_intro
-                  (template_directive_start)
-                  (template_directive_end))
-                (template_if_end
-                  (template_directive_start)
-                  (template_directive_end))))
-            (quoted_template_end)))))))
+0:0  - 2:0    config_file
+1:0  - 1:32     body: body
+1:0  - 1:32       attributes: attribute
+1:0  - 1:3          name: identifier `foo`
+1:4  - 1:5          "="
+1:6  - 1:32         value: quoted_template
+1:6  - 1:7            quoted_template_start `\"`
+1:7  - 1:31           body: template_if
+1:7  - 1:14             if_intro: template_if_intro
+1:7  - 1:9                template_directive_start `%{`
+1:9  - 1:11               "if"
+1:12 - 1:13               condition: identifier `a`
+1:13 - 1:14               template_directive_end `}`
+1:14 - 1:15             if_body: template_literal ` `
+1:15 - 1:22             else_intro: template_else_intro
+1:15 - 1:17               template_directive_start `%{`
+1:17 - 1:21               "else"
+1:21 - 1:22               template_directive_end `}`
+1:22 - 1:23             else_body: template_literal ` `
+1:23 - 1:31             end: template_if_end
+1:23 - 1:25               template_directive_start `%{`
+1:25 - 1:30               "endif"
+1:30 - 1:31               template_directive_end `}`
+1:31 - 1:32           quoted_template_end `\"`
 
 ================================================================================
 template empty for statement
+:cst
 ================================================================================
 
 foo = "%{for a in b} %{endfor}"
 
 --------------------------------------------------------------------------------
 
-(config_file
-  (body
-    (attribute
-      (identifier)
-      (expression
-        (template_expr
-          (quoted_template
-            (quoted_template_start)
-            (template_directive
-              (template_for
-                (template_for_start
-                  (template_directive_start)
-                  (identifier)
-                  (expression
-                    (variable_expr
-                      (identifier)))
-                  (template_directive_end))
-                (template_for_end
-                  (template_directive_start)
-                  (template_directive_end))))
-            (quoted_template_end)))))))
+0:0  - 2:0    config_file
+1:0  - 1:31     body: body
+1:0  - 1:31       attributes: attribute
+1:0  - 1:3          name: identifier `foo`
+1:4  - 1:5          "="
+1:6  - 1:31         value: quoted_template
+1:6  - 1:7            quoted_template_start `\"`
+1:7  - 1:30           body: template_for
+1:7  - 1:20             intro: template_for_intro
+1:7  - 1:9                template_directive_start `%{`
+1:9  - 1:12               "for"
+1:13 - 1:14               value: identifier `a`
+1:15 - 1:17               "in"
+1:18 - 1:19               collection: identifier `b`
+1:19 - 1:20               template_directive_end `}`
+1:20 - 1:21             body: template_literal ` `
+1:21 - 1:30             end: template_for_end
+1:21 - 1:23               template_directive_start `%{`
+1:23 - 1:29               "endfor"
+1:29 - 1:30               template_directive_end `}`
+1:30 - 1:31           quoted_template_end `\"`
 
 ================================================================================
 template parenthesis in heredoc for directive with nested if 1
+:cst
 ================================================================================
 
 tpl6 = <<-EOF
@@ -650,61 +682,69 @@ EOF
 
 --------------------------------------------------------------------------------
 
-(config_file
-  (body
-    (attribute
-      (identifier)
-      (expression
-        (template_expr
-          (heredoc_template
-            (heredoc_start)
-            (heredoc_identifier)
-            (template_directive
-              (template_for
-                (template_for_start
-                  (template_directive_start)
-                  (identifier)
-                  (expression
-                    (function_call
-                      (identifier)
-                      (function_arguments
-                        (expression
-                          (variable_expr
-                            (identifier))))))
-                  (strip_marker)
-                  (template_directive_end))
-                (template_literal)
-                (template_directive
-                  (template_if
-                    (template_if_intro
-                      (template_directive_start)
-                      (strip_marker)
-                      (expression
-                        (variable_expr
-                          (identifier)))
-                      (strip_marker)
-                      (template_directive_end))
-                    (template_literal)
-                    (template_else_intro
-                      (template_directive_start)
-                      (strip_marker)
-                      (strip_marker)
-                      (template_directive_end))
-                    (template_literal)
-                    (template_if_end
-                      (template_directive_start)
-                      (strip_marker)
-                      (strip_marker)
-                      (template_directive_end))))
-                (template_literal)
-                (template_for_end
-                  (template_directive_start)
-                  (strip_marker)
-                  (template_directive_end))))
-            (heredoc_identifier)))))))
+0:0  - 6:0    config_file
+1:0  - 5:3      body: body
+1:0  - 5:3        attributes: attribute
+1:0  - 1:4          name: identifier `tpl6`
+1:5  - 1:6          "="
+1:7  - 5:3          value: heredoc_template
+1:7  - 1:10           marker: heredoc_start
+1:7  - 1:10             "<<-"
+1:10 - 1:13           start_identifier: heredoc_identifier `EOF`
+2:0  - 2:2            body: template_literal `  `
+2:2  - 4:14           body: template_for
+2:2  - 2:21             intro: template_for_intro
+2:2  - 2:4                template_directive_start `%{`
+2:5  - 2:8                "for"
+2:9  - 2:10               value: identifier `a`
+2:11 - 2:13               "in"
+2:14 - 2:18               collection: function_call
+2:14 - 2:15                 function: identifier `f`
+2:15 - 2:16                 "("
+2:16 - 2:17                 arguments: identifier `b`
+2:17 - 2:18                 ")"
+2:19 - 2:20               strip_marker_end: strip_marker `~`
+2:20 - 2:21               template_directive_end `}`
+2:21 - 3:6              body: template_literal
+2:21 - 2:22               `\n`
+3:21 - 3:6                `    ( `
+3:6  - 3:51             body: template_if
+3:6  - 3:15               if_intro: template_if_intro
+3:6  - 3:8                  template_directive_start `%{`
+3:8  - 3:9                  strip_marker_start: strip_marker `~`
+3:9  - 3:11                 "if"
+3:12 - 3:13                 condition: identifier `a`
+3:13 - 3:14                 strip_marker_end: strip_marker `~`
+3:14 - 3:15                 template_directive_end `}`
+3:15 - 3:23               if_body: template_literal ` \"true\" `
+3:23 - 3:32               else_intro: template_else_intro
+3:23 - 3:25                 template_directive_start `%{`
+3:25 - 3:26                 strip_marker_start: strip_marker `~`
+3:26 - 3:30                 "else"
+3:30 - 3:31                 strip_marker_end: strip_marker `~`
+3:31 - 3:32                 template_directive_end `}`
+3:32 - 3:41               else_body: template_literal ` \"false\" `
+3:41 - 3:51               end: template_if_end
+3:41 - 3:43                 template_directive_start `%{`
+3:43 - 3:44                 strip_marker_start: strip_marker `~`
+3:44 - 3:49                 "endif"
+3:49 - 3:50                 strip_marker_end: strip_marker `~`
+3:50 - 3:51                 template_directive_end `}`
+3:51 - 4:2              body: template_literal
+3:51 - 3:54               ` )\n`
+4:51 - 4:2                `  `
+4:2  - 4:14             end: template_for_end
+4:2  - 4:4                template_directive_start `%{`
+4:5  - 4:11               "endfor"
+4:12 - 4:13               strip_marker_end: strip_marker `~`
+4:13 - 4:14               template_directive_end `}`
+4:14 - 5:0            body: template_literal
+4:14 - 4:15             `\n`
+5:0  - 5:3            end_identifier: heredoc_identifier `EOF`
 
 ================================================================================
 template parenthesis in heredoc for directive with nested if 2
+:cst
 ================================================================================
 
 tpl6 = <<-EOF
@@ -716,54 +756,114 @@ EOF
 
 --------------------------------------------------------------------------------
 
-(config_file
-  (body
-    (attribute
-      (identifier)
-      (expression
-        (template_expr
-          (heredoc_template
-            (heredoc_start)
-            (heredoc_identifier)
-            (template_directive
-              (template_for
-                (template_for_start
-                  (template_directive_start)
-                  (identifier)
-                  (expression
-                    (function_call
-                      (identifier)
-                      (function_arguments
-                        (expression
-                          (variable_expr
-                            (identifier))))))
-                  (strip_marker)
-                  (template_directive_end))
-                (template_literal)
-                (template_directive
-                  (template_if
-                    (template_if_intro
-                      (template_directive_start)
-                      (strip_marker)
-                      (expression
-                        (variable_expr
-                          (identifier)))
-                      (strip_marker)
-                      (template_directive_end))
-                    (template_literal)
-                    (template_else_intro
-                      (template_directive_start)
-                      (strip_marker)
-                      (strip_marker)
-                      (template_directive_end))
-                    (template_literal)
-                    (template_if_end
-                      (template_directive_start)
-                      (strip_marker)
-                      (strip_marker)
-                      (template_directive_end))))
-                (template_for_end
-                  (template_directive_start)
-                  (strip_marker)
-                  (template_directive_end))))
-            (heredoc_identifier)))))))
+0:0  - 7:0    config_file
+1:0  - 6:3      body: body
+1:0  - 6:3        attributes: attribute
+1:0  - 1:4          name: identifier `tpl6`
+1:5  - 1:6          "="
+1:7  - 6:3          value: heredoc_template
+1:7  - 1:10           marker: heredoc_start
+1:7  - 1:10             "<<-"
+1:10 - 1:13           start_identifier: heredoc_identifier `EOF`
+2:0  - 2:2            body: template_literal `  `
+2:2  - 5:14           body: template_for
+2:2  - 2:21             intro: template_for_intro
+2:2  - 2:4                template_directive_start `%{`
+2:5  - 2:8                "for"
+2:9  - 2:10               value: identifier `a`
+2:11 - 2:13               "in"
+2:14 - 2:18               collection: function_call
+2:14 - 2:15                 function: identifier `f`
+2:15 - 2:16                 "("
+2:16 - 2:17                 arguments: identifier `b`
+2:17 - 2:18                 ")"
+2:19 - 2:20               strip_marker_end: strip_marker `~`
+2:20 - 2:21               template_directive_end `}`
+2:21 - 4:4              body: template_literal
+2:21 - 2:22               `\n`
+3:21 - 3:12               `    (\"foo\")\n`
+4:21 - 4:4                `    `
+4:4  - 4:49             body: template_if
+4:4  - 4:13               if_intro: template_if_intro
+4:4  - 4:6                  template_directive_start `%{`
+4:6  - 4:7                  strip_marker_start: strip_marker `~`
+4:7  - 4:9                  "if"
+4:10 - 4:11                 condition: identifier `a`
+4:11 - 4:12                 strip_marker_end: strip_marker `~`
+4:12 - 4:13                 template_directive_end `}`
+4:13 - 4:21               if_body: template_literal ` \"true\" `
+4:21 - 4:30               else_intro: template_else_intro
+4:21 - 4:23                 template_directive_start `%{`
+4:23 - 4:24                 strip_marker_start: strip_marker `~`
+4:24 - 4:28                 "else"
+4:28 - 4:29                 strip_marker_end: strip_marker `~`
+4:29 - 4:30                 template_directive_end `}`
+4:30 - 4:39               else_body: template_literal ` \"false\" `
+4:39 - 4:49               end: template_if_end
+4:39 - 4:41                 template_directive_start `%{`
+4:41 - 4:42                 strip_marker_start: strip_marker `~`
+4:42 - 4:47                 "endif"
+4:47 - 4:48                 strip_marker_end: strip_marker `~`
+4:48 - 4:49                 template_directive_end `}`
+4:49 - 5:2              body: template_literal
+4:49 - 4:50               `\n`
+5:49 - 5:2                `  `
+5:2  - 5:14             end: template_for_end
+5:2  - 5:4                template_directive_start `%{`
+5:5  - 5:11               "endfor"
+5:12 - 5:13               strip_marker_end: strip_marker `~`
+5:13 - 5:14               template_directive_end `}`
+5:14 - 6:0            body: template_literal
+5:14 - 5:15             `\n`
+6:0  - 6:3            end_identifier: heredoc_identifier `EOF`
+
+================================================================================
+heredoc with single character that matches start of heredoc identifer
+:cst
+================================================================================
+
+locals {
+
+  annotations = {
+    "description" = replace(<<EOM
+ 	E
+EOM
+    ,)
+  }
+}
+
+
+--------------------------------------------------------------------------------
+
+0:0  - 11:0   config_file
+1:0  - 9:1      body: body
+1:0  - 9:1        blocks: block
+1:0  - 1:6          type: identifier `locals`
+1:7  - 1:8          "{"
+3:2  - 8:3          body: body
+3:2  - 8:3            attributes: attribute
+3:2  - 3:13             name: identifier `annotations`
+3:14 - 3:15             "="
+3:16 - 8:3              value: object
+3:16 - 3:17               "{"
+4:4  - 7:6                elements: object_elem
+4:4  - 4:17                 key: quoted_template
+4:4  - 4:5                    quoted_template_start `\"`
+4:5  - 4:16                   body: template_literal `description`
+4:16 - 4:17                   quoted_template_end `\"`
+4:18 - 4:19                 "="
+4:20 - 7:6                  value: function_call
+4:20 - 4:27                   function: identifier `replace`
+4:27 - 4:28                   "("
+4:28 - 6:3                    arguments: heredoc_template
+4:28 - 4:30                     marker: heredoc_start
+4:28 - 4:30                       "<<"
+4:30 - 4:33                     start_identifier: heredoc_identifier `EOM`
+5:0  - 6:0                      body: template_literal
+5:0  - 5:4                        ` \tE\n`
+6:0  - 6:3                      end_identifier: heredoc_identifier `EOM`
+7:4  - 7:5                    ","
+7:5  - 7:6                    ")"
+8:2  - 8:3                "}"
+9:0  - 9:1          "}"
+
