@@ -198,7 +198,47 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_non_splat_term"
+          "name": "literal_value"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "template_expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "collection_value"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_variable_expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "function_call"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "for_expr"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "operation"
+        },
+        {
+          "type": "PREC_RIGHT",
+          "value": 8,
+          "content": {
+            "type": "SYMBOL",
+            "name": "index"
+          }
+        },
+        {
+          "type": "PREC_RIGHT",
+          "value": 8,
+          "content": {
+            "type": "SYMBOL",
+            "name": "get_attr"
+          }
         },
         {
           "type": "PREC_RIGHT",
@@ -207,10 +247,14 @@
             "type": "SYMBOL",
             "name": "splat"
           }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "parenthesized_expression"
         }
       ]
     },
-    "_non_splat_term": {
+    "attr_splat_object": {
       "type": "CHOICE",
       "members": [
         {
@@ -692,7 +736,7 @@
             "name": "object",
             "content": {
               "type": "SYMBOL",
-              "name": "_non_splat_term"
+              "name": "attr_splat_object"
             }
           },
           {
@@ -732,15 +776,16 @@
             "value": "[*]"
           },
           {
-            "type": "REPEAT",
-            "content": {
-              "type": "FIELD",
-              "name": "traversal",
-              "content": {
+            "type": "CHOICE",
+            "members": [
+              {
                 "type": "SYMBOL",
                 "name": "_full_splat_traversal"
+              },
+              {
+                "type": "BLANK"
               }
-            }
+            ]
           }
         ]
       }
@@ -780,15 +825,16 @@
             "value": "[*]"
           },
           {
-            "type": "REPEAT",
-            "content": {
-              "type": "FIELD",
-              "name": "traversal",
-              "content": {
+            "type": "CHOICE",
+            "members": [
+              {
                 "type": "SYMBOL",
                 "name": "_full_splat_traversal"
+              },
+              {
+                "type": "BLANK"
               }
-            }
+            ]
           }
         ]
       }
@@ -807,29 +853,118 @@
       ]
     },
     "_full_splat_traversal": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "get_attr_step"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "index_step"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "legacy_index_step"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "attr_splat_step"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "full_splat_step"
-        }
-      ]
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "traversal",
+                "content": {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "get_attr_step"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "index_step"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "legacy_index_step"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "full_splat_step"
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_full_splat_traversal"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "traversal",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "attr_splat_step"
+                }
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_post_attr_splat_traversal"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "_post_attr_splat_traversal": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "traversal",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "index_step"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "full_splat_step"
+                }
+              ]
+            }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_full_splat_traversal"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
     },
     "get_attr_step": {
       "type": "PREC",
@@ -2242,7 +2377,7 @@
   "conflicts": [
     [
       "expr_term",
-      "attr_splat"
+      "attr_splat_object"
     ]
   ],
   "precedences": [],
@@ -2286,6 +2421,7 @@
     "expr_term",
     "literal_value",
     "collection_value",
+    "attr_splat_object",
     "index",
     "splat",
     "for_expr",

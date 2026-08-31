@@ -372,3 +372,57 @@ foo = (a.*).*
         (parenthesized_expression
           (attr_splat
             (identifier)))))))
+
+================================================================================
+nested attr splat inside full splat is rejected
+================================================================================
+
+foo = a[*].*.*
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (full_splat
+        (identifier)
+        (attr_splat_step))))
+  (ERROR))
+
+================================================================================
+attr splat step followed by index continuation
+================================================================================
+
+foo = a[*].*[0]
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (full_splat
+        (identifier)
+        (attr_splat_step)
+        (index_step
+          (numeric_lit))))))
+
+================================================================================
+bracket resets nested attr splat
+================================================================================
+
+foo = a[*].*[0].*
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (full_splat
+        (identifier)
+        (attr_splat_step)
+        (index_step
+          (numeric_lit))
+        (attr_splat_step)))))
