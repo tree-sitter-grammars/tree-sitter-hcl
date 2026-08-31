@@ -1,51 +1,5 @@
 [
   {
-    "type": "attr_splat_object",
-    "named": true,
-    "subtypes": [
-      {
-        "type": "collection_value",
-        "named": true
-      },
-      {
-        "type": "for_expr",
-        "named": true
-      },
-      {
-        "type": "function_call",
-        "named": true
-      },
-      {
-        "type": "get_attr",
-        "named": true
-      },
-      {
-        "type": "identifier",
-        "named": true
-      },
-      {
-        "type": "index",
-        "named": true
-      },
-      {
-        "type": "literal_value",
-        "named": true
-      },
-      {
-        "type": "operation",
-        "named": true
-      },
-      {
-        "type": "parenthesized_expression",
-        "named": true
-      },
-      {
-        "type": "template_expr",
-        "named": true
-      }
-    ]
-  },
-  {
     "type": "collection_value",
     "named": true,
     "subtypes": [
@@ -234,7 +188,7 @@
         "required": true,
         "types": [
           {
-            "type": "attr_splat_object",
+            "type": "expr_term",
             "named": true
           }
         ]

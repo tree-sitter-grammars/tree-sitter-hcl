@@ -33,14 +33,11 @@ module.exports = function make_grammar(dialect) {
 
     extras: ($) => [$.comment, $._whitespace],
 
-    conflicts: ($) => [[$.expr_term, $.attr_splat_object]],
-
     supertypes: ($) => [
       $.expression,
       $.expr_term,
       $.literal_value,
       $.collection_value,
-      $.attr_splat_object,
       $.index,
       $.splat,
       $.for_expr,
@@ -95,20 +92,6 @@ module.exports = function make_grammar(dialect) {
           prec.right(PREC.expr, $.index),
           prec.right(PREC.expr, $.get_attr),
           prec.right(PREC.expr, $.splat),
-          $.parenthesized_expression,
-        ),
-
-      attr_splat_object: ($) =>
-        choice(
-          $.literal_value,
-          $.template_expr,
-          $.collection_value,
-          $._variable_expr,
-          $.function_call,
-          $.for_expr,
-          $.operation,
-          prec.right(PREC.expr, $.index),
-          prec.right(PREC.expr, $.get_attr),
           $.parenthesized_expression,
         ),
 
@@ -194,7 +177,7 @@ module.exports = function make_grammar(dialect) {
       attr_splat: ($) =>
         prec.right(
           seq(
-            field("object", $.attr_splat_object),
+            field("object", $.expr_term),
             ".*",
             repeat(field("traversal", $._attr_splat_traversal)),
           ),
@@ -202,46 +185,29 @@ module.exports = function make_grammar(dialect) {
 
       full_splat: ($) =>
         prec.right(
-          seq(field("object", $.expr_term), "[*]", optional($._full_splat_traversal)),
+          seq(
+            field("object", $.expr_term),
+            "[*]",
+            repeat(field("traversal", $._full_splat_traversal)),
+          ),
         ),
 
       attr_splat_step: ($) =>
         prec.right(seq(".*", repeat(field("traversal", $._attr_splat_traversal)))),
 
       full_splat_step: ($) =>
-        prec.right(seq("[*]", optional($._full_splat_traversal))),
+        prec.right(seq("[*]", repeat(field("traversal", $._full_splat_traversal)))),
 
       _attr_splat_traversal: ($) =>
         choice($.get_attr_step, $.legacy_index_step),
 
       _full_splat_traversal: ($) =>
-        prec.right(
-          choice(
-            seq(
-              field(
-                "traversal",
-                choice(
-                  $.get_attr_step,
-                  $.index_step,
-                  $.legacy_index_step,
-                  $.full_splat_step,
-                ),
-              ),
-              optional($._full_splat_traversal),
-            ),
-            seq(
-              field("traversal", $.attr_splat_step),
-              optional($._post_attr_splat_traversal),
-            ),
-          ),
-        ),
-
-      _post_attr_splat_traversal: ($) =>
-        prec.right(
-          seq(
-            field("traversal", choice($.index_step, $.full_splat_step)),
-            optional($._full_splat_traversal),
-          ),
+        choice(
+          $.get_attr_step,
+          $.index_step,
+          $.legacy_index_step,
+          $.attr_splat_step,
+          $.full_splat_step,
         ),
 
       get_attr_step: ($) =>

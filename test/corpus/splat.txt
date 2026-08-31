@@ -341,7 +341,7 @@ foo = a.*.b[*]
             (identifier)))))))
 
 ================================================================================
-nested attr splat is rejected
+attr splat chained onto an attr splat (invalid HCL, structurally representable)
 ================================================================================
 
 foo = a.*.*
@@ -353,8 +353,8 @@ foo = a.*.*
     (attribute
       (identifier)
       (attr_splat
-        (identifier))))
-  (ERROR))
+        (attr_splat
+          (identifier))))))
 
 ================================================================================
 parenthesized splat is a valid attr splat object
@@ -374,7 +374,7 @@ foo = (a.*).*
             (identifier)))))))
 
 ================================================================================
-nested attr splat inside full splat is rejected
+attr splat step chained onto an attr splat step (invalid HCL, structurally representable)
 ================================================================================
 
 foo = a[*].*.*
@@ -387,8 +387,8 @@ foo = a[*].*.*
       (identifier)
       (full_splat
         (identifier)
-        (attr_splat_step))))
-  (ERROR))
+        (attr_splat_step)
+        (attr_splat_step)))))
 
 ================================================================================
 attr splat step followed by index continuation
@@ -409,7 +409,7 @@ foo = a[*].*[0]
           (numeric_lit))))))
 
 ================================================================================
-bracket resets nested attr splat
+attr splat step, index step, then another attr splat step
 ================================================================================
 
 foo = a[*].*[0].*

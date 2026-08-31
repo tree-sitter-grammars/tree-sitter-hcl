@@ -254,59 +254,6 @@
         }
       ]
     },
-    "attr_splat_object": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "literal_value"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "template_expr"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "collection_value"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_variable_expr"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "function_call"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "for_expr"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "operation"
-        },
-        {
-          "type": "PREC_RIGHT",
-          "value": 8,
-          "content": {
-            "type": "SYMBOL",
-            "name": "index"
-          }
-        },
-        {
-          "type": "PREC_RIGHT",
-          "value": 8,
-          "content": {
-            "type": "SYMBOL",
-            "name": "get_attr"
-          }
-        },
-        {
-          "type": "SYMBOL",
-          "name": "parenthesized_expression"
-        }
-      ]
-    },
     "parenthesized_expression": {
       "type": "SEQ",
       "members": [
@@ -736,7 +683,7 @@
             "name": "object",
             "content": {
               "type": "SYMBOL",
-              "name": "attr_splat_object"
+              "name": "expr_term"
             }
           },
           {
@@ -776,16 +723,15 @@
             "value": "[*]"
           },
           {
-            "type": "CHOICE",
-            "members": [
-              {
+            "type": "REPEAT",
+            "content": {
+              "type": "FIELD",
+              "name": "traversal",
+              "content": {
                 "type": "SYMBOL",
                 "name": "_full_splat_traversal"
-              },
-              {
-                "type": "BLANK"
               }
-            ]
+            }
           }
         ]
       }
@@ -825,16 +771,15 @@
             "value": "[*]"
           },
           {
-            "type": "CHOICE",
-            "members": [
-              {
+            "type": "REPEAT",
+            "content": {
+              "type": "FIELD",
+              "name": "traversal",
+              "content": {
                 "type": "SYMBOL",
                 "name": "_full_splat_traversal"
-              },
-              {
-                "type": "BLANK"
               }
-            ]
+            }
           }
         ]
       }
@@ -853,118 +798,29 @@
       ]
     },
     "_full_splat_traversal": {
-      "type": "PREC_RIGHT",
-      "value": 0,
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "FIELD",
-                "name": "traversal",
-                "content": {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "get_attr_step"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "index_step"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "legacy_index_step"
-                    },
-                    {
-                      "type": "SYMBOL",
-                      "name": "full_splat_step"
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "_full_splat_traversal"
-                  },
-                  {
-                    "type": "BLANK"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "FIELD",
-                "name": "traversal",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "attr_splat_step"
-                }
-              },
-              {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "_post_attr_splat_traversal"
-                  },
-                  {
-                    "type": "BLANK"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    },
-    "_post_attr_splat_traversal": {
-      "type": "PREC_RIGHT",
-      "value": 0,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "FIELD",
-            "name": "traversal",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "index_step"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "full_splat_step"
-                }
-              ]
-            }
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_full_splat_traversal"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          }
-        ]
-      }
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "get_attr_step"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "index_step"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "legacy_index_step"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "attr_splat_step"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "full_splat_step"
+        }
+      ]
     },
     "get_attr_step": {
       "type": "PREC",
@@ -2374,12 +2230,7 @@
       "name": "_whitespace"
     }
   ],
-  "conflicts": [
-    [
-      "expr_term",
-      "attr_splat_object"
-    ]
-  ],
+  "conflicts": [],
   "precedences": [],
   "externals": [
     {
@@ -2421,7 +2272,6 @@
     "expr_term",
     "literal_value",
     "collection_value",
-    "attr_splat_object",
     "index",
     "splat",
     "for_expr",
