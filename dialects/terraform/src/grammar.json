@@ -689,6 +689,26 @@
           {
             "type": "STRING",
             "value": ".*"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "FIELD",
+              "name": "traversal",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "get_attr_step"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "legacy_index_step"
+                  }
+                ]
+              }
+            }
           }
         ]
       }
@@ -710,6 +730,102 @@
           {
             "type": "STRING",
             "value": "[*]"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "FIELD",
+              "name": "traversal",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "get_attr_step"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "index_step"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "legacy_index_step"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "get_attr_step": {
+      "type": "PREC",
+      "value": 9,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "."
+          },
+          {
+            "type": "FIELD",
+            "name": "attribute",
+            "content": {
+              "type": "SYMBOL",
+              "name": "identifier"
+            }
+          }
+        ]
+      }
+    },
+    "index_step": {
+      "type": "PREC",
+      "value": 9,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "["
+          },
+          {
+            "type": "FIELD",
+            "name": "key",
+            "content": {
+              "type": "SYMBOL",
+              "name": "expression"
+            }
+          },
+          {
+            "type": "STRING",
+            "value": "]"
+          }
+        ]
+      }
+    },
+    "legacy_index_step": {
+      "type": "PREC",
+      "value": 9,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "."
+          },
+          {
+            "type": "FIELD",
+            "name": "key",
+            "content": {
+              "type": "ALIAS",
+              "content": {
+                "type": "PATTERN",
+                "value": "[0-9]+"
+              },
+              "named": true,
+              "value": "legacy_index_key"
+            }
           }
         ]
       }

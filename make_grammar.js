@@ -175,10 +175,41 @@ module.exports = function make_grammar(dialect) {
       splat: ($) => choice($.attr_splat, $.full_splat),
 
       attr_splat: ($) =>
-        prec.right(seq(field("object", $.expr_term), ".*")),
+        prec.right(
+          seq(
+            field("object", $.expr_term),
+            ".*",
+            repeat(
+              field("traversal", choice($.get_attr_step, $.legacy_index_step)),
+            ),
+          ),
+        ),
 
       full_splat: ($) =>
-        prec.right(seq(field("object", $.expr_term), "[*]")),
+        prec.right(
+          seq(
+            field("object", $.expr_term),
+            "[*]",
+            repeat(
+              field(
+                "traversal",
+                choice($.get_attr_step, $.index_step, $.legacy_index_step),
+              ),
+            ),
+          ),
+        ),
+
+      get_attr_step: ($) =>
+        prec(PREC.get_attr, seq(".", field("attribute", $.identifier))),
+
+      index_step: ($) =>
+        prec(PREC.index, seq("[", field("key", $.expression), "]")),
+
+      legacy_index_step: ($) =>
+        prec(
+          PREC.index,
+          seq(".", field("key", alias(/[0-9]+/, $.legacy_index_key))),
+        ),
 
       for_expr: ($) => choice($.for_tuple_expr, $.for_object_expr),
 

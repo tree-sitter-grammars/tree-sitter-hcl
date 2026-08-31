@@ -192,6 +192,20 @@
             "named": true
           }
         ]
+      },
+      "traversal": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "get_attr_step",
+            "named": true
+          },
+          {
+            "type": "legacy_index_step",
+            "named": true
+          }
+        ]
       }
     }
   },
@@ -600,6 +614,24 @@
             "named": true
           }
         ]
+      },
+      "traversal": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "get_attr_step",
+            "named": true
+          },
+          {
+            "type": "index_step",
+            "named": true
+          },
+          {
+            "type": "legacy_index_step",
+            "named": true
+          }
+        ]
       }
     }
   },
@@ -666,6 +698,22 @@
     }
   },
   {
+    "type": "get_attr_step",
+    "named": true,
+    "fields": {
+      "attribute": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "heredoc_start",
     "named": true,
     "fields": {}
@@ -725,6 +773,22 @@
     }
   },
   {
+    "type": "index_step",
+    "named": true,
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "legacy_index",
     "named": true,
     "fields": {
@@ -744,6 +808,22 @@
         "types": [
           {
             "type": "expr_term",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "legacy_index_step",
+    "named": true,
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "legacy_index_key",
             "named": true
           }
         ]

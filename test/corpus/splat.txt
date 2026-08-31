@@ -42,10 +42,10 @@ foo = bar.*.foo
   (body
     (attribute
       (identifier)
-      (get_attr
-        (attr_splat
-          (identifier))
-        (identifier)))))
+      (attr_splat
+        (identifier)
+        (get_attr_step
+          (identifier))))))
 
 ================================================================================
 full splat
@@ -59,10 +59,10 @@ foo = bar[*].foo
   (body
     (attribute
       (identifier)
-      (get_attr
-        (full_splat
-          (identifier))
-        (identifier)))))
+      (full_splat
+        (identifier)
+        (get_attr_step
+          (identifier))))))
 
 ================================================================================
 full splat repeated
@@ -76,17 +76,17 @@ foo = bar[*][*].a.b.c[d]
   (body
     (attribute
       (identifier)
-      (bracket_index
-        (get_attr
-          (get_attr
-            (get_attr
-              (full_splat
-                (full_splat
-                  (identifier)))
-              (identifier))
-            (identifier))
+      (full_splat
+        (full_splat
           (identifier))
-        (identifier)))))
+        (get_attr_step
+          (identifier))
+        (get_attr_step
+          (identifier))
+        (get_attr_step
+          (identifier))
+        (index_step
+          (identifier))))))
 
 ================================================================================
 attr splat binds tighter than conditional
@@ -123,3 +123,141 @@ foo = a ? b : c[*]
         (identifier)
         (full_splat
           (identifier))))))
+
+================================================================================
+attr splat owns trailing attribute step
+================================================================================
+
+foo = a.*.bar
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (attr_splat
+        (identifier)
+        (get_attr_step
+          (identifier))))))
+
+================================================================================
+attr splat with trailing index stays outside
+================================================================================
+
+foo = a.*.bar[0]
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (bracket_index
+        (attr_splat
+          (identifier)
+          (get_attr_step
+            (identifier)))
+        (numeric_lit)))))
+
+================================================================================
+full splat owns trailing attribute step
+================================================================================
+
+foo = a[*].bar
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (full_splat
+        (identifier)
+        (get_attr_step
+          (identifier))))))
+
+================================================================================
+full splat owns trailing attribute and index steps
+================================================================================
+
+foo = a[*].bar[0].baz
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (full_splat
+        (identifier)
+        (get_attr_step
+          (identifier))
+        (index_step
+          (numeric_lit))
+        (get_attr_step
+          (identifier))))))
+
+================================================================================
+bare attr splat
+================================================================================
+
+foo = a.*
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (attr_splat
+        (identifier)))))
+
+================================================================================
+bare full splat
+================================================================================
+
+foo = a[*]
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (full_splat
+        (identifier)))))
+
+================================================================================
+attr splat owns legacy dotted index step
+================================================================================
+
+foo = a.*.0
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (attr_splat
+        (identifier)
+        (legacy_index_step
+          (legacy_index_key))))))
+
+================================================================================
+full splat owns legacy dotted index step
+================================================================================
+
+foo = a[*].0
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (full_splat
+        (identifier)
+        (legacy_index_step
+          (legacy_index_key))))))

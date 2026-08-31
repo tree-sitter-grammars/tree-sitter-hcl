@@ -351,12 +351,12 @@ private_key_pem = element(tls_private_key.server.*.private_key_pem, count.index)
       (identifier)
       (function_call
         (identifier)
-        (get_attr
-          (attr_splat
-            (get_attr
-              (identifier)
-              (identifier)))
-          (identifier))
+        (attr_splat
+          (get_attr
+            (identifier)
+            (identifier))
+          (get_attr_step
+            (identifier)))
         (get_attr
           (identifier)
           (identifier))))))
