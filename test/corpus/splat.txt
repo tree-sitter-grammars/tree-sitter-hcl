@@ -77,16 +77,16 @@ foo = bar[*][*].a.b.c[d]
     (attribute
       (identifier)
       (full_splat
-        (full_splat
-          (identifier))
-        (get_attr_step
-          (identifier))
-        (get_attr_step
-          (identifier))
-        (get_attr_step
-          (identifier))
-        (index_step
-          (identifier))))))
+        (identifier)
+        (full_splat_step
+          (get_attr_step
+            (identifier))
+          (get_attr_step
+            (identifier))
+          (get_attr_step
+            (identifier))
+          (index_step
+            (identifier)))))))
 
 ================================================================================
 attr splat binds tighter than conditional
@@ -261,3 +261,81 @@ foo = a[*].0
         (identifier)
         (legacy_index_step
           (legacy_index_key))))))
+
+================================================================================
+nested full splat owns trailing traversal
+================================================================================
+
+foo = a[*][*].b.c[d]
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (full_splat
+        (identifier)
+        (full_splat_step
+          (get_attr_step
+            (identifier))
+          (get_attr_step
+            (identifier))
+          (index_step
+            (identifier)))))))
+
+================================================================================
+full splat then attribute then nested full splat
+================================================================================
+
+foo = a[*].b[*].c
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (full_splat
+        (identifier)
+        (get_attr_step
+          (identifier))
+        (full_splat_step
+          (get_attr_step
+            (identifier)))))))
+
+================================================================================
+nested attr splat inside full splat
+================================================================================
+
+foo = a[*].*.b
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (full_splat
+        (identifier)
+        (attr_splat_step
+          (get_attr_step
+            (identifier)))))))
+
+================================================================================
+attr splat then full splat nests via object
+================================================================================
+
+foo = a.*.b[*]
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (full_splat
+        (attr_splat
+          (identifier)
+          (get_attr_step
+            (identifier)))))))

@@ -179,9 +179,7 @@ module.exports = function make_grammar(dialect) {
           seq(
             field("object", $.expr_term),
             ".*",
-            repeat(
-              field("traversal", choice($.get_attr_step, $.legacy_index_step)),
-            ),
+            repeat(field("traversal", $._attr_splat_traversal)),
           ),
         ),
 
@@ -190,13 +188,26 @@ module.exports = function make_grammar(dialect) {
           seq(
             field("object", $.expr_term),
             "[*]",
-            repeat(
-              field(
-                "traversal",
-                choice($.get_attr_step, $.index_step, $.legacy_index_step),
-              ),
-            ),
+            repeat(field("traversal", $._full_splat_traversal)),
           ),
+        ),
+
+      attr_splat_step: ($) =>
+        prec.right(seq(".*", repeat(field("traversal", $._attr_splat_traversal)))),
+
+      full_splat_step: ($) =>
+        prec.right(seq("[*]", repeat(field("traversal", $._full_splat_traversal)))),
+
+      _attr_splat_traversal: ($) =>
+        choice($.get_attr_step, $.legacy_index_step),
+
+      _full_splat_traversal: ($) =>
+        choice(
+          $.get_attr_step,
+          $.index_step,
+          $.legacy_index_step,
+          $.attr_splat_step,
+          $.full_splat_step,
         ),
 
       get_attr_step: ($) =>

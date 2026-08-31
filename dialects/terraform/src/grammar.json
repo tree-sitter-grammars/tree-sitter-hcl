@@ -696,17 +696,8 @@
               "type": "FIELD",
               "name": "traversal",
               "content": {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "get_attr_step"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "legacy_index_step"
-                  }
-                ]
+                "type": "SYMBOL",
+                "name": "_attr_splat_traversal"
               }
             }
           }
@@ -737,26 +728,99 @@
               "type": "FIELD",
               "name": "traversal",
               "content": {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "get_attr_step"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "index_step"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "legacy_index_step"
-                  }
-                ]
+                "type": "SYMBOL",
+                "name": "_full_splat_traversal"
               }
             }
           }
         ]
       }
+    },
+    "attr_splat_step": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": ".*"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "FIELD",
+              "name": "traversal",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_attr_splat_traversal"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "full_splat_step": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "[*]"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "FIELD",
+              "name": "traversal",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_full_splat_traversal"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "_attr_splat_traversal": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "get_attr_step"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "legacy_index_step"
+        }
+      ]
+    },
+    "_full_splat_traversal": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "get_attr_step"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "index_step"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "legacy_index_step"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "attr_splat_step"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "full_splat_step"
+        }
+      ]
     },
     "get_attr_step": {
       "type": "PREC",

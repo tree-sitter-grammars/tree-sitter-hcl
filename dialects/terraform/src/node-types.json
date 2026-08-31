@@ -210,6 +210,26 @@
     }
   },
   {
+    "type": "attr_splat_step",
+    "named": true,
+    "fields": {
+      "traversal": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "get_attr_step",
+            "named": true
+          },
+          {
+            "type": "legacy_index_step",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "attribute",
     "named": true,
     "fields": {
@@ -619,6 +639,46 @@
         "multiple": true,
         "required": false,
         "types": [
+          {
+            "type": "attr_splat_step",
+            "named": true
+          },
+          {
+            "type": "full_splat_step",
+            "named": true
+          },
+          {
+            "type": "get_attr_step",
+            "named": true
+          },
+          {
+            "type": "index_step",
+            "named": true
+          },
+          {
+            "type": "legacy_index_step",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "full_splat_step",
+    "named": true,
+    "fields": {
+      "traversal": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "attr_splat_step",
+            "named": true
+          },
+          {
+            "type": "full_splat_step",
+            "named": true
+          },
           {
             "type": "get_attr_step",
             "named": true
