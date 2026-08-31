@@ -33,6 +33,8 @@ module.exports = function make_grammar(dialect) {
 
     extras: ($) => [$.comment, $._whitespace],
 
+    conflicts: ($) => [[$.expr_term, $.attr_splat]],
+
     supertypes: ($) => [
       $.expression,
       $.expr_term,
@@ -81,6 +83,9 @@ module.exports = function make_grammar(dialect) {
       // contain instances of operations without parentheses. think for example:
       // x = a == "" && b != ""
       expr_term: ($) =>
+        choice($._non_splat_term, prec.right(PREC.expr, $.splat)),
+
+      _non_splat_term: ($) =>
         choice(
           $.literal_value,
           $.template_expr,
@@ -91,7 +96,6 @@ module.exports = function make_grammar(dialect) {
           $.operation,
           prec.right(PREC.expr, $.index),
           prec.right(PREC.expr, $.get_attr),
-          prec.right(PREC.expr, $.splat),
           $.parenthesized_expression,
         ),
 
@@ -177,7 +181,7 @@ module.exports = function make_grammar(dialect) {
       attr_splat: ($) =>
         prec.right(
           seq(
-            field("object", $.expr_term),
+            field("object", $._non_splat_term),
             ".*",
             repeat(field("traversal", $._attr_splat_traversal)),
           ),

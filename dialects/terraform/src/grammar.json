@@ -198,6 +198,23 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "_non_splat_term"
+        },
+        {
+          "type": "PREC_RIGHT",
+          "value": 8,
+          "content": {
+            "type": "SYMBOL",
+            "name": "splat"
+          }
+        }
+      ]
+    },
+    "_non_splat_term": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
           "name": "literal_value"
         },
         {
@@ -238,14 +255,6 @@
           "content": {
             "type": "SYMBOL",
             "name": "get_attr"
-          }
-        },
-        {
-          "type": "PREC_RIGHT",
-          "value": 8,
-          "content": {
-            "type": "SYMBOL",
-            "name": "splat"
           }
         },
         {
@@ -683,7 +692,7 @@
             "name": "object",
             "content": {
               "type": "SYMBOL",
-              "name": "expr_term"
+              "name": "_non_splat_term"
             }
           },
           {
@@ -2230,7 +2239,12 @@
       "name": "_whitespace"
     }
   ],
-  "conflicts": [],
+  "conflicts": [
+    [
+      "expr_term",
+      "attr_splat"
+    ]
+  ],
   "precedences": [],
   "externals": [
     {
