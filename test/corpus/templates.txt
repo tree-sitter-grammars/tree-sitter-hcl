@@ -767,3 +767,31 @@ EOF
                   (strip_marker)
                   (template_directive_end))))
             (heredoc_identifier)))))))
+
+================================================================================
+heredoc with long identifier
+================================================================================
+
+a = <<AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+hello = not_hcl_here
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+b = 1
+
+--------------------------------------------------------------------------------
+
+(config_file
+  (body
+    (attribute
+      (identifier)
+      (expression
+        (template_expr
+          (heredoc_template
+            (heredoc_start)
+            (heredoc_identifier)
+            (template_literal)
+            (heredoc_identifier)))))
+    (attribute
+      (identifier)
+      (expression
+        (literal_value
+          (numeric_lit))))))

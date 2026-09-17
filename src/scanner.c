@@ -1,5 +1,4 @@
 #include <assert.h>
-#include <limits.h>
 #include <stdio.h>
 #include <string.h>
 #include "tree_sitter/parser.h"
@@ -123,18 +122,11 @@ static inline void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
 static unsigned serialize(Scanner *scanner, char *buf) {
     unsigned size = 0;
 
-    if (scanner->context_stack.len > CHAR_MAX) {
-        return 0;
-    }
-
     memcpy(&buf[size], &(scanner->context_stack.len), sizeof(uint32_t));
     size += sizeof(uint32_t);
     for (uint32_t i = 0; i < scanner->context_stack.len; i++) {
         Context *context = &scanner->context_stack.data[i];
         if (size + sizeof(ContextType) + sizeof(uint32_t) + context->heredoc_identifier.len >= TREE_SITTER_SERIALIZATION_BUFFER_SIZE) {
-            return 0;
-        }
-        if (context->heredoc_identifier.len > CHAR_MAX) {
             return 0;
         }
         memcpy(&buf[size], &(context->type), sizeof(ContextType));
