@@ -126,15 +126,23 @@ static unsigned serialize(Scanner *scanner, char *buf) {
     size += sizeof(uint32_t);
     for (uint32_t i = 0; i < scanner->context_stack.len; i++) {
         Context *context = &scanner->context_stack.data[i];
-        if (size + sizeof(ContextType) + sizeof(uint32_t) + context->heredoc_identifier.len >= TREE_SITTER_SERIALIZATION_BUFFER_SIZE) {
+        // Only HEREDOC_TEMPLATE contexts carry a heredoc identifier; for all
+        // other context types the identifier is always empty and only the
+        // type byte is written.
+        unsigned context_size = 1;
+        if (context->type == HEREDOC_TEMPLATE) {
+            context_size += sizeof(uint32_t) + context->heredoc_identifier.len;
+        }
+        if (size + context_size >= TREE_SITTER_SERIALIZATION_BUFFER_SIZE) {
             return 0;
         }
-        memcpy(&buf[size], &(context->type), sizeof(ContextType));
-        size += sizeof(ContextType);
-        memcpy(&buf[size], &(context->heredoc_identifier.len), sizeof(uint32_t));
-        size += sizeof(uint32_t);
-        memcpy(&buf[size], context->heredoc_identifier.data, context->heredoc_identifier.len);
-        size += context->heredoc_identifier.len;
+        buf[size++] = (char)context->type;
+        if (context->type == HEREDOC_TEMPLATE) {
+            memcpy(&buf[size], &(context->heredoc_identifier.len), sizeof(uint32_t));
+            size += sizeof(uint32_t);
+            memcpy(&buf[size], context->heredoc_identifier.data, context->heredoc_identifier.len);
+            size += context->heredoc_identifier.len;
+        }
     }
     return size;
 }
@@ -154,17 +162,19 @@ static void deserialize(Scanner *scanner, const char *buffer, unsigned length) {
         Context ctx;
         ctx.heredoc_identifier = string_new();
 
-        memcpy(&(ctx.type), &buffer[size], sizeof(ContextType));
-        size += sizeof(ContextType);
+        ctx.type = (ContextType)buffer[size];
+        size += 1;
 
-        uint32_t heredoc_identifier_size;
-        memcpy(&heredoc_identifier_size, &buffer[size], sizeof(uint32_t));
-        size += sizeof(uint32_t);
-        if (heredoc_identifier_size > 0) {
-          STRING_GROW(ctx.heredoc_identifier, heredoc_identifier_size);
-          memcpy(ctx.heredoc_identifier.data, buffer + size, heredoc_identifier_size);
-          ctx.heredoc_identifier.len = heredoc_identifier_size;
-          size += heredoc_identifier_size;
+        if (ctx.type == HEREDOC_TEMPLATE) {
+            uint32_t heredoc_identifier_size;
+            memcpy(&heredoc_identifier_size, &buffer[size], sizeof(uint32_t));
+            size += sizeof(uint32_t);
+            if (heredoc_identifier_size > 0) {
+                STRING_GROW(ctx.heredoc_identifier, heredoc_identifier_size);
+                memcpy(ctx.heredoc_identifier.data, buffer + size, heredoc_identifier_size);
+                ctx.heredoc_identifier.len = heredoc_identifier_size;
+                size += heredoc_identifier_size;
+            }
         }
         VEC_PUSH(scanner->context_stack, ctx);
     }

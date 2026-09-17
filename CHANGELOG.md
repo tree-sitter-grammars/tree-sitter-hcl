@@ -4,6 +4,7 @@
 
 fix:
 * remove host-dependent `CHAR_MAX` bounds from scanner serialization so long heredoc identifiers parse the same on signed- and unsigned-char targets (#78)
+* compact scanner serialization: one byte per context instead of eight, so deeply nested templates retain ~8x less memory per external token and reach the serialization buffer limit much later (#77)
 
 ## 1.2.0 - 2025-06-15
 
